@@ -1,0 +1,9 @@
+Project/images_01.tar.gz
+Project/images_02.tar.gz
+Project/images_03.tar.gz
+.venv/
+__pycache__/    
+*.pyc
+.DS_Store
+.env
+.vscode/

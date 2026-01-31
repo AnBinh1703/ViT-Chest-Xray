@@ -4,28 +4,37 @@
 
 This folder contains the implementation of improvements outlined in the [IMPROVEMENT_PLAN.md](../../../IMPROVEMENT_PLAN.md). Each improvement is implemented and evaluated systematically.
 
+**Note**: The comprehensive notebook has been divided into smaller, manageable notebooks for better version control and development workflow.
+
 ---
 
 ## 📁 Structure
 
 ```
 improve/
-├── README.md                    # This file (Implementation Report)
-├── 01_transfer_learning.ipynb   # Phase 1.1: Pre-trained weights
-├── 02_class_imbalance.ipynb     # Phase 1.2: Focal Loss, Weighted BCE
-├── 03_data_augmentation.ipynb   # Phase 1.3: Advanced augmentation
-├── 04_swin_transformer.ipynb    # Phase 2.1: Modern ViT variants
-├── 05_multi_scale_vit.ipynb     # Phase 2.3: Multi-scale fusion
-├── 06_ensemble.ipynb            # Phase 3.3: Model ensemble
+├── README.md                           # This file (Implementation Report)
+├── 01_setup_and_config.ipynb          # Setup, dependencies, configuration
+├── 02_data_augmentation.ipynb         # Advanced augmentation pipeline
+├── 03_loss_functions.ipynb            # Focal Loss, Weighted BCE, Label Smoothing
+├── 04_model_architectures.ipynb       # Pre-trained models (ResNet, ViT, Swin)
+├── 05_data_loading.ipynb              # Dataset loading and DataLoaders
+├── 06_training_infrastructure.ipynb   # Training loop and evaluation
+├── 03_comprehensive_improvements.ipynb # Original large notebook (reference)
+├── 01_transfer_learning.ipynb         # Phase 1.1: Pre-trained weights
+├── 02_class_imbalance.ipynb           # Phase 1.2: Focal Loss, Weighted BCE
+├── 03_data_augmentation.ipynb         # Phase 1.3: Advanced augmentation
+├── 04_swin_transformer.ipynb          # Phase 2.1: Modern ViT variants
+├── 05_multi_scale_vit.ipynb           # Phase 2.3: Multi-scale fusion
+├── 06_ensemble.ipynb                  # Phase 3.3: Model ensemble
 ├── utils/
-│   ├── improved_models.py       # Enhanced model architectures
-│   ├── loss_functions.py        # Custom loss functions
-│   ├── data_transforms.py       # Advanced augmentations
-│   └── evaluation.py            # Evaluation utilities
+│   ├── improved_models.py             # Enhanced model architectures
+│   ├── loss_functions.py              # Custom loss functions
+│   ├── data_transforms.py             # Advanced augmentations
+│   └── evaluation.py                  # Evaluation utilities
 └── results/
-    ├── baseline_comparison.csv   # Performance comparisons
-    ├── training_logs/            # Training histories
-    └── visualizations/           # Plots and charts
+    ├── baseline_comparison.csv         # Performance comparisons
+    ├── training_logs/                  # Training histories
+    └── visualizations/                 # Plots and charts
 ```
 
 ---
@@ -46,6 +55,23 @@ improve/
 | 3.4 | Uncertainty | 🚧 In Progress | - | Monte Carlo Dropout |
 
 ---
+
+## 📋 New Modular Notebooks
+
+The comprehensive improvements have been split into focused notebooks:
+
+1. **`01_setup_and_config.ipynb`** - Project setup, dependencies, and configuration
+2. **`02_data_augmentation.ipynb`** - Advanced augmentation with Albumentations
+3. **`03_loss_functions.ipynb`** - Class imbalance handling (Focal Loss, etc.)
+4. **`04_model_architectures.ipynb`** - Pre-trained model implementations
+5. **`05_data_loading.ipynb`** - Dataset and DataLoader creation
+6. **`06_training_infrastructure.ipynb`** - Training loop and evaluation
+
+**Benefits:**
+- Smaller commits and easier code review
+- Modular development (work on one component at a time)
+- Better version control history
+- Easier debugging and testing
 
 ## 📊 Results Summary
 

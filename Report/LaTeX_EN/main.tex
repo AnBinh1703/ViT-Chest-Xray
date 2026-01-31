@@ -1,0 +1,108 @@
+% !TEX program = xelatex
+% ============================================================
+%  EXPERT ANALYSIS REPORT
+%  Paper: A Comparative Study of CNN, ResNet, and Vision Transformers 
+%         for Multi-Classification of Chest Diseases
+%  Analysis from Paper to Code Implementation
+% ============================================================
+
+\documentclass[12pt,a4paper]{report}
+
+% =========================
+% Packages
+% =========================
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}
+
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{parskip}
+\usepackage{indentfirst}
+
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs,longtable,array,multirow}
+\usepackage{graphicx,float,subcaption,caption}
+\usepackage{siunitx}
+\usepackage{algorithm,algorithmic}
+
+% TikZ for diagrams
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,decorations.pathreplacing,calc}
+
+% Symbols
+\usepackage{pifont}
+
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!70!black,
+  citecolor=green!50!black,
+  urlcolor=blue
+}
+
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\tcbuselibrary{listings,skins,breakable}
+
+% Code listing style
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{pythonstyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    language=Python
+}
+\lstset{style=pythonstyle}
+
+% Macros
+\newcommand{\paperref}[1]{\textcolor{blue!70!black}{[Paper: #1]}}
+\newcommand{\coderef}[1]{\textcolor{green!50!black}{[Code: #1]}}
+\newcommand{\important}[1]{\textbf{\textcolor{red!70!black}{#1}}}
+\newcommand{\concept}[1]{\textit{\textcolor{purple}{#1}}}
+
+% =========================
+% Document
+% =========================
+\begin{document}
+
+% Include chapters
+\input{chapters/00_titlepage}
+\input{chapters/01_abstract}
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\input{chapters/02_introduction}
+\input{chapters/03_dataset}
+\input{chapters/04_cnn}
+\input{chapters/05_resnet}
+\input{chapters/06_vit}
+\input{chapters/07_experiments}
+\input{chapters/08_implementation}
+\input{chapters/09_conclusion}
+\input{chapters/10_references}
+
+\end{document}

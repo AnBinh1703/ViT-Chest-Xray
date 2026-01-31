@@ -1,0 +1,314 @@
+% ============================================================
+% CHAPTER 9: CONCLUSION
+% Summary and Future Directions
+% ============================================================
+\chapter{Conclusion}
+
+\section{Summary of Findings}
+
+\subsection{Paper Contributions}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Paper Main Contributions]
+The paper ``A Comparative Study of CNN, ResNet, and Vision Transformers for Multi-Classification of Chest Diseases'' (arXiv:2406.00237) presents:
+
+\begin{enumerate}
+    \item \textbf{Comprehensive comparison} of three deep learning architectures:
+    \begin{itemize}
+        \item Basic CNN (baseline)
+        \item ResNet-34 (skip connections)
+        \item Vision Transformer and variants
+    \end{itemize}
+    
+    \item \textbf{Multi-label classification} framework for 15 chest diseases
+    
+    \item \textbf{Evaluation on NIH Chest X-ray}, one of the largest public medical imaging datasets
+    
+    \item \textbf{Analysis of architectural tradeoffs} between CNNs and Transformers
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Key Results}
+
+\begin{table}[H]
+\centering
+\caption{Final Results Summary}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model} & \textbf{Train Acc} & \textbf{Test AUC} & \textbf{Parameters} & \textbf{Ranking} \\
+\midrule
+CNN & 91.0\% & 0.82 & 102M & 5th \\
+ResNet-34 & 93.0\% & \textbf{0.86} & 21M & 1st (AUC) \\
+ViT-v1/32 & 92.63\% & 0.86 & ~3M & 2nd \\
+ViT-v2/32 & 92.83\% & 0.84 & ~3M & 4th \\
+ViT-ResNet/16 & \textbf{93.9\%} & 0.85 & ~15M & 1st (Acc) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Key Insights}
+
+\subsection{Architectural Insights}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Lesson 1: Skip Connections are Essential]
+\textbf{Finding:} ResNet-34 (21M params) outperforms CNN (102M params)
+
+\textbf{Reason:}
+\begin{itemize}
+    \item Skip connections enable gradient flow in deep networks
+    \item Prevent vanishing gradients
+    \item Allow learning identity mappings
+\end{itemize}
+
+\textbf{Implication:} Network depth without skip connections leads to optimization difficulties, not performance gains.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Lesson 2: Hybrid Models Excel]
+\textbf{Finding:} ViT-ResNet achieves highest accuracy (93.9\%)
+
+\textbf{Reason:}
+\begin{itemize}
+    \item CNN backbone captures local features (edges, textures)
+    \item Transformer captures global relationships
+    \item Combination leverages both inductive biases
+\end{itemize}
+
+\textbf{Implication:} For medical imaging with limited data, hybrid approaches outperform pure Transformers.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Lesson 3: Model Size ≠ Performance]
+\textbf{Finding:} 
+\begin{itemize}
+    \item CNN: 102M params → AUC 0.82
+    \item ViT-v1: 3M params → AUC 0.86
+\end{itemize}
+
+\textbf{Reason:}
+\begin{itemize}
+    \item Architecture design matters more than capacity
+    \item Proper regularization (dropout, weight decay) crucial
+    \item Smaller models can generalize better
+\end{itemize}
+
+\textbf{Implication:} Focus on architectural innovations, not just scaling parameters.
+\end{tcolorbox}
+
+\subsection{Practical Insights}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Practical Recommendations]
+\textbf{For Resource-Constrained Deployment:}
+\begin{itemize}
+    \item Use ViT-v1/32 (3M params, AUC 0.86)
+    \item Fast inference, low memory
+    \item Suitable for edge devices
+\end{itemize}
+
+\textbf{For Maximum Performance:}
+\begin{itemize}
+    \item Use ViT-ResNet/16 (15M params, 93.9\% accuracy)
+    \item Best for server-side processing
+    \item Requires more compute resources
+\end{itemize}
+
+\textbf{For Balanced Production:}
+\begin{itemize}
+    \item Use ResNet-34 (21M params, AUC 0.86)
+    \item Well-established, easy to deploy
+    \item Good interpretability tools available
+\end{itemize}
+\end{tcolorbox}
+
+\section{Limitations}
+
+\subsection{Dataset Limitations}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Dataset Limitations]
+\begin{enumerate}
+    \item \textbf{Label Quality:}
+    \begin{itemize}
+        \item Labels extracted from radiology reports via NLP
+        \item No expert verification at image level
+        \item Potential for label noise
+    \end{itemize}
+    
+    \item \textbf{Class Imbalance:}
+    \begin{itemize}
+        \item ``No Finding'' dominates (53.84\%)
+        \item ``Hernia'' very rare (0.20\%)
+        \item May bias models toward common classes
+    \end{itemize}
+    
+    \item \textbf{Single Institution:}
+    \begin{itemize}
+        \item All images from NIH Clinical Center
+        \item May not generalize to other imaging equipment
+        \item No external validation
+    \end{itemize}
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Methodological Limitations}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Methodological Limitations]
+\begin{enumerate}
+    \item \textbf{No Pre-training:}
+    \begin{itemize}
+        \item All models trained from scratch
+        \item ViT typically benefits from large-scale pre-training
+        \item ImageNet pre-training could improve results
+    \end{itemize}
+    
+    \item \textbf{Limited Hyperparameter Search:}
+    \begin{itemize}
+        \item Manual hyperparameter selection
+        \item No systematic grid/random search
+        \item Potentially suboptimal configurations
+    \end{itemize}
+    
+    \item \textbf{No Ensemble Methods:}
+    \begin{itemize}
+        \item Single model evaluation only
+        \item Ensemble could boost performance
+        \item Common in competition-winning solutions
+    \end{itemize}
+\end{enumerate}
+\end{tcolorbox}
+
+\section{Future Directions}
+
+\subsection{Short-term Improvements}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Immediate Extensions]
+\begin{enumerate}
+    \item \textbf{Transfer Learning:}
+    \begin{lstlisting}[style=plain]
+# Use ImageNet pre-trained weights
+model = torchvision.models.resnet34(pretrained=True)
+model.fc = nn.Linear(512, 15)  # Replace classifier
+    \end{lstlisting}
+    
+    \item \textbf{Class Imbalance Handling:}
+    \begin{lstlisting}[style=plain]
+# Weighted loss based on class frequency
+class_weights = compute_class_weight(train_labels)
+criterion = nn.BCEWithLogitsLoss(pos_weight=class_weights)
+    \end{lstlisting}
+    
+    \item \textbf{Data Augmentation:}
+    \begin{itemize}
+        \item MixUp, CutMix
+        \item Medical-specific augmentations (brightness, contrast)
+        \item Elastic deformations
+    \end{itemize}
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Long-term Research Directions}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Research Opportunities]
+\begin{enumerate}
+    \item \textbf{Self-Supervised Pre-training:}
+    \begin{itemize}
+        \item Contrastive learning (SimCLR, MoCo)
+        \item Masked image modeling (MAE, BEiT)
+        \item Leverage unlabeled X-ray images
+    \end{itemize}
+    
+    \item \textbf{Multi-Modal Learning:}
+    \begin{itemize}
+        \item Combine images with radiology reports
+        \item Vision-language models (CLIP-style)
+        \item Better clinical context understanding
+    \end{itemize}
+    
+    \item \textbf{Explainability:}
+    \begin{itemize}
+        \item Attention map visualization
+        \item GradCAM for CNN interpretation
+        \item Clinical validation of explanations
+    \end{itemize}
+    
+    \item \textbf{Federated Learning:}
+    \begin{itemize}
+        \item Train across multiple hospitals
+        \item Privacy-preserving
+        \item Address data heterogeneity
+    \end{itemize}
+\end{enumerate}
+\end{tcolorbox}
+
+\section{Implementation Contributions}
+
+\subsection{This Report's Contributions}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Report Contributions]
+\begin{enumerate}
+    \item \textbf{Complete PyTorch Migration:}
+    \begin{itemize}
+        \item All 5 models converted from TensorFlow
+        \item Modern PyTorch 2.x best practices
+        \item Well-documented code
+    \end{itemize}
+    
+    \item \textbf{Bug Fixes:}
+    \begin{itemize}
+        \item AUC NaN issue resolved
+        \item Memory optimization
+        \item Reproducibility improvements
+    \end{itemize}
+    
+    \item \textbf{Expert Analysis:}
+    \begin{itemize}
+        \item Deep dive into paper methodology
+        \item Mathematical formulations explained
+        \item Paper-to-code mapping provided
+    \end{itemize}
+    
+    \item \textbf{Documentation:}
+    \begin{itemize}
+        \item Bilingual (Vietnamese + English) reports
+        \item Complete architecture explanations
+        \item Comprehensive code comments
+    \end{itemize}
+\end{enumerate}
+\end{tcolorbox}
+
+\section{Final Thoughts}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Concluding Remarks]
+This paper demonstrates that for medical image classification:
+
+\begin{enumerate}
+    \item \textbf{Architecture matters more than scale}
+    \begin{itemize}
+        \item Well-designed small models outperform naive large models
+        \item Skip connections are essential for deep networks
+    \end{itemize}
+    
+    \item \textbf{Hybrid approaches show promise}
+    \begin{itemize}
+        \item Combining CNN and Transformer strengths
+        \item Best of both worlds: locality + globality
+    \end{itemize}
+    
+    \item \textbf{Evaluation metrics must match clinical needs}
+    \begin{itemize}
+        \item AUC more informative than accuracy
+        \item Per-class analysis reveals model weaknesses
+    \end{itemize}
+    
+    \item \textbf{Deep learning for medical imaging is progressing rapidly}
+    \begin{itemize}
+        \item ViT brings new possibilities
+        \item Still room for improvement
+        \item Clinical deployment requires careful validation
+    \end{itemize}
+\end{enumerate}
+
+The field continues to evolve, with new architectures and training paradigms emerging regularly. This comparative study provides valuable insights for practitioners choosing models for chest X-ray analysis and similar medical imaging tasks.
+\end{tcolorbox}
+
+\vspace{1cm}
+
+\begin{center}
+\textit{``The development of AI for medical imaging is not just about achieving high accuracy, but about building trustworthy systems that can assist clinicians in improving patient care.''}
+\end{center}

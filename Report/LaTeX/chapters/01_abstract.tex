@@ -1,0 +1,59 @@
+% ============================================================
+% ABSTRACT & KEYWORDS
+% ============================================================
+\chapter*{Tóm tắt nghiên cứu}
+\addcontentsline{toc}{chapter}{Tóm tắt nghiên cứu}
+
+\section*{Tổng quan Paper}
+
+Bài báo \textit{``A Comparative Study of CNN, ResNet, and Vision Transformers for Multi-Classification of Chest Diseases''} (arXiv:2406.00237) thực hiện so sánh ba kiến trúc học sâu chính trong bài toán phân loại đa nhãn bệnh lý trên ảnh X-quang ngực:
+
+\begin{enumerate}
+    \item \textbf{Convolutional Neural Networks (CNN):} Mô hình baseline với kiến trúc đơn giản
+    \item \textbf{Residual Networks (ResNet):} Mạng CNN sâu với skip connections
+    \item \textbf{Vision Transformers (ViT):} Kiến trúc Transformer áp dụng cho thị giác máy tính
+\end{enumerate}
+
+\section*{Đóng góp chính của Paper}
+
+\begin{itemize}
+    \item So sánh hiệu năng giữa CNN, ResNet và ViT trên tập dữ liệu NIH Chest X-ray
+    \item Đề xuất hai biến thể ViT: ViT-v1 (from scratch) và ViT-v2 (with regularization)
+    \item Giới thiệu mô hình hybrid ViT-ResNet với pre-training trên ImageNet-21k
+    \item Phân tích attention maps để diễn giải quyết định của mô hình
+\end{itemize}
+
+\section*{Kết quả chính}
+
+\begin{table}[H]
+\centering
+\caption{Tổng hợp kết quả từ Paper}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model} & \textbf{Test Acc (\%)} & \textbf{Val Acc (\%)} & \textbf{AUC} & \textbf{Ghi chú} \\
+\midrule
+CNN & 91.00 & 92.68 & 0.82 & Baseline \\
+ResNet & 93.00 & 93.34 & 0.86 & Strong baseline \\
+ViT-v1 & 92.63 & 92.89 & 0.86 & From scratch \\
+ViT-v2 & 92.83 & 92.95 & 0.84 & With regularization \\
+ViT-ResNet & \textbf{93.90} & \textbf{94.07} & 0.85 & Pre-trained hybrid \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{Phạm vi báo cáo này}
+
+Báo cáo phân tích chuyên sâu này bao gồm:
+
+\begin{enumerate}
+    \item \textbf{Phân tích lý thuyết:} Giải thích chi tiết từng kiến trúc (CNN, ResNet, ViT) về mặt toán học và trực giác
+    \item \textbf{Mapping Paper $\rightarrow$ Code:} Liên kết từng phần trong paper với implementation cụ thể
+    \item \textbf{Tái lập và cải tiến:} Chi tiết quá trình chuyển từ TensorFlow sang PyTorch
+    \item \textbf{Phân tích phê bình:} Đánh giá ưu/nhược điểm và đề xuất cải tiến
+\end{enumerate}
+
+\section*{Từ khóa}
+
+\textbf{Keywords:} Chest X-ray, Multi-label Classification, Convolutional Neural Networks, Residual Networks, Vision Transformer, Self-Attention, Transfer Learning, Medical Image Analysis, ROC-AUC, PyTorch, Deep Learning.
+
+\newpage

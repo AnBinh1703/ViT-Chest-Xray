@@ -1,0 +1,51 @@
+% ============================================================
+% ABSTRACT
+% ============================================================
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+\section*{Paper Summary}
+
+This report provides an expert-level analysis of the paper \textit{``A Comparative Study of CNN, ResNet, and Vision Transformers for Multi-Classification of Chest Diseases''} (arXiv:2406.00237).
+
+The paper compares 5 deep learning architectures for classifying 15 types of chest diseases from X-ray images:
+\begin{enumerate}
+    \item \textbf{CNN:} Baseline Convolutional Neural Network
+    \item \textbf{ResNet-34:} Residual Network with 34 layers
+    \item \textbf{ViT-v1/32:} Vision Transformer with 32×32 patch size (config 1)
+    \item \textbf{ViT-v2/32:} Vision Transformer with 32×32 patch size (config 2)
+    \item \textbf{ViT-ResNet/16:} Hybrid Vision Transformer with ResNet backbone
+\end{enumerate}
+
+\section*{Main Results}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Model} & \textbf{Train Accuracy} & \textbf{Val AUC} & \textbf{Test AUC} \\
+\midrule
+CNN & 91\% & 0.82 & 0.82 \\
+ResNet-34 & 93\% & 0.86 & 0.86 \\
+ViT-v1/32 & 92.63\% & 0.86 & 0.86 \\
+ViT-v2/32 & 92.83\% & 0.84 & 0.84 \\
+\textbf{ViT-ResNet/16} & \textbf{93.9\%} & 0.85 & \textbf{0.85} \\
+\bottomrule
+\end{tabular}
+\caption{Performance comparison of 5 models}
+\end{table}
+
+\section*{Report Scope}
+
+This report provides:
+\begin{itemize}
+    \item \textbf{Deep theoretical analysis:} Mathematical foundations for each architecture
+    \item \textbf{Paper-to-code mapping:} Mapping paper descriptions to specific code implementations
+    \item \textbf{PyTorch implementation:} Complete migration from TensorFlow/Keras
+    \item \textbf{Critical evaluation:} Analyzing strengths and limitations
+\end{itemize}
+
+\section*{Keywords}
+
+Vision Transformer, CNN, ResNet, Chest X-ray, Medical Imaging, Multi-label Classification, Deep Learning, PyTorch

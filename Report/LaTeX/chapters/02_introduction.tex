@@ -1,0 +1,136 @@
+% ============================================================
+% CHAPTER 2: INTRODUCTION - PHÂN TÍCH BỐI CẢNH VÀ ĐỘNG LỰC
+% ============================================================
+\chapter{Giới thiệu và Bối cảnh Nghiên cứu}
+
+\section{Bối cảnh lâm sàng}
+
+\subsection{Vai trò của X-quang ngực trong chẩn đoán}
+
+\paperref{Section 1 - Introduction}
+
+X-quang ngực (Chest X-ray) là một trong những phương pháp chẩn đoán hình ảnh phổ biến nhất trong y tế:
+
+\begin{itemize}
+    \item \textbf{Chi phí thấp:} So với CT, MRI, X-quang có chi phí thấp hơn đáng kể
+    \item \textbf{Thời gian nhanh:} Kết quả có thể có trong vài phút
+    \item \textbf{Sàng lọc ban đầu:} Thường là xét nghiệm đầu tiên khi nghi ngờ bệnh phổi
+    \item \textbf{Khả năng phát hiện:} Có thể phát hiện nhiều bệnh lý: viêm phổi, xẹp phổi, tràn dịch, tim to, v.v.
+\end{itemize}
+
+\subsection{Thách thức trong chẩn đoán}
+
+Paper nhấn mạnh các thách thức chính:
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Trích dẫn từ Paper (Section 1)]
+\textit{``Although chest X-ray imaging is a relatively low cost tool for diagnosis, radiologists are needed to analyze these images. However the limited access to radiologists in many areas, and the variability between radiologists can be a problem.''}
+\end{tcolorbox}
+
+\begin{enumerate}
+    \item \textbf{Thiếu bác sĩ X-quang:} Đặc biệt ở vùng sâu, vùng xa
+    \item \textbf{Biến thiên giữa người đọc:} Inter-observer variability - hai bác sĩ có thể đưa ra chẩn đoán khác nhau
+    \item \textbf{Khối lượng dữ liệu lớn:} Một bác sĩ có thể phải đọc hàng trăm ảnh mỗi ngày
+    \item \textbf{Dấu hiệu tinh vi:} Một số bệnh có dấu hiệu rất khó nhận biết
+\end{enumerate}
+
+\section{Động lực nghiên cứu AI trong chẩn đoán hình ảnh}
+
+\subsection{Lợi ích của Machine Learning}
+
+\paperref{Section 1 - Introduction}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Lợi ích của ML trong Medical Imaging]
+\begin{enumerate}
+    \item \textbf{Tăng độ chính xác:} Models có thể học các patterns phức tạp từ dữ liệu lớn
+    \item \textbf{Mở rộng khả năng tiếp cận:} Giúp vùng thiếu bác sĩ có công cụ hỗ trợ chẩn đoán
+    \item \textbf{Nhất quán:} Không bị ảnh hưởng bởi mệt mỏi hay bias cá nhân
+    \item \textbf{Phát hiện chi tiết:} Có thể phát hiện các dấu hiệu mà mắt người bỏ qua
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Tiến hóa của Deep Learning trong Medical Imaging}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=2cm, auto]
+% This is a conceptual representation
+\end{tikzpicture}
+\caption{Timeline phát triển của Deep Learning trong Medical Imaging}
+\end{figure}
+
+\begin{enumerate}
+    \item \textbf{2012 - AlexNet:} CNN đầu tiên thắng ImageNet, mở ra kỷ nguyên Deep Learning
+    \item \textbf{2015 - ResNet:} Giải quyết vanishing gradient, cho phép train mạng rất sâu
+    \item \textbf{2017 - Attention mechanisms:} Transformer ra đời cho NLP
+    \item \textbf{2020 - Vision Transformer (ViT):} Áp dụng Transformer cho Computer Vision
+    \item \textbf{2021+:} ViT và variants trở thành state-of-the-art trong nhiều tasks
+\end{enumerate}
+
+\section{Câu hỏi nghiên cứu của Paper}
+
+\paperref{Section 1 - Introduction}
+
+Paper đặt ra các câu hỏi nghiên cứu cốt lõi:
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Research Questions]
+\begin{enumerate}
+    \item[\textbf{RQ1:}] CNN, ResNet và ViT khác nhau như thế nào về hiệu năng trong phân loại bệnh X-quang ngực?
+    \item[\textbf{RQ2:}] ViT trained from scratch có thể cạnh tranh với ResNet không?
+    \item[\textbf{RQ3:}] Pre-training trên ImageNet có giúp ViT cải thiện đáng kể không?
+    \item[\textbf{RQ4:}] Attention maps có thể cung cấp insights hữu ích cho việc diễn giải không?
+\end{enumerate}
+\end{tcolorbox}
+
+\section{Đóng góp của Paper}
+
+\subsection{Đóng góp kỹ thuật}
+
+\begin{enumerate}
+    \item \textbf{So sánh toàn diện:} Đánh giá 5 models (CNN, ResNet, ViT-v1, ViT-v2, ViT-ResNet) trên cùng một dataset
+    \item \textbf{Implementation chi tiết:} Cung cấp code và hướng dẫn tái lập
+    \item \textbf{Hyperparameter tuning:} Thử nghiệm nhiều cấu hình khác nhau
+    \item \textbf{Interpretability:} Trích xuất và phân tích attention maps
+\end{enumerate}
+
+\subsection{Đóng góp thực tiễn}
+
+\begin{enumerate}
+    \item \textbf{Guidance cho practitioners:} Khi nào nên dùng CNN, ResNet, hay ViT
+    \item \textbf{Insights về pre-training:} Tầm quan trọng của transfer learning trong medical imaging
+    \item \textbf{Open-source code:} Repository công khai để cộng đồng sử dụng
+\end{enumerate}
+
+\section{Cấu trúc Paper và Báo cáo}
+
+\subsection{Cấu trúc Paper gốc}
+
+\begin{table}[H]
+\centering
+\caption{Cấu trúc Paper và nội dung tương ứng}
+\begin{tabular}{clp{8cm}}
+\toprule
+\textbf{Section} & \textbf{Tên} & \textbf{Nội dung chính} \\
+\midrule
+1 & Introduction & Bối cảnh, động lực, đóng góp \\
+2 & Related Work & Các nghiên cứu liên quan \\
+3 & Approach & Mô tả kiến trúc CNN, ResNet, ViT \\
+4 & Experiment & Dataset, training, evaluation \\
+5 & Discussion & Phân tích kết quả, attention maps \\
+6 & Conclusion & Kết luận và hướng phát triển \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Mapping với báo cáo này}
+
+Báo cáo này mở rộng và phân tích sâu hơn:
+
+\begin{itemize}
+    \item \textbf{Chapter 3:} Dataset - Phân tích chi tiết NIH Chest X-ray
+    \item \textbf{Chapter 4:} CNN - Lý thuyết + Code mapping
+    \item \textbf{Chapter 5:} ResNet - Lý thuyết + Code mapping
+    \item \textbf{Chapter 6:} ViT - Lý thuyết + Code mapping (trọng tâm)
+    \item \textbf{Chapter 7:} Experiments - Kết quả và phân tích
+    \item \textbf{Chapter 8:} Implementation - Quá trình tái lập và cải tiến
+    \item \textbf{Chapter 9:} Conclusion - Kết luận và đề xuất
+\end{itemize}

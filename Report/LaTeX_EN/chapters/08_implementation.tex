@@ -1,0 +1,608 @@
+% ============================================================
+% CHAPTER 8: PYTORCH IMPLEMENTATION
+% Migration Details and Bug Fixes
+% ============================================================
+\chapter{PyTorch Implementation}
+
+\section{Migration from TensorFlow to PyTorch}
+
+\subsection{Motivation for Migration}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Why Migrate to PyTorch?]
+\begin{enumerate}
+    \item \textbf{Research Standard:}
+    \begin{itemize}
+        \item PyTorch dominates in research publications
+        \item More flexible for experimental modifications
+        \item Better debugging with eager execution
+    \end{itemize}
+    
+    \item \textbf{Code Clarity:}
+    \begin{itemize}
+        \item Explicit tensor operations
+        \item Pythonic API design
+        \item Easier to understand and modify
+    \end{itemize}
+    
+    \item \textbf{Community Support:}
+    \begin{itemize}
+        \item Active development ecosystem
+        \item Rich pretrained model hub
+        \item Extensive documentation
+    \end{itemize}
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{API Mapping: TensorFlow → PyTorch}
+
+\begin{table}[H]
+\centering
+\caption{Framework API Mapping}
+\begin{tabular}{ll}
+\toprule
+\textbf{TensorFlow/Keras} & \textbf{PyTorch} \\
+\midrule
+\texttt{tf.keras.Model} & \texttt{nn.Module} \\
+\texttt{tf.keras.layers.Dense} & \texttt{nn.Linear} \\
+\texttt{tf.keras.layers.Conv2D} & \texttt{nn.Conv2d} \\
+\texttt{tf.keras.layers.BatchNormalization} & \texttt{nn.BatchNorm2d} \\
+\texttt{tf.keras.layers.Dropout} & \texttt{nn.Dropout} \\
+\texttt{tf.keras.layers.Flatten} & \texttt{nn.Flatten} / \texttt{.flatten()} \\
+\texttt{tf.keras.layers.GlobalAveragePooling2D} & \texttt{nn.AdaptiveAvgPool2d(1)} \\
+\texttt{tf.keras.layers.LayerNormalization} & \texttt{nn.LayerNorm} \\
+\texttt{model.fit()} & Manual training loop \\
+\texttt{model.compile()} & Define optimizer, criterion \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Data Pipeline}
+
+\subsection{Original TensorFlow Pipeline}
+
+\begin{lstlisting}[caption={TensorFlow Data Pipeline (Original)}]
+# TensorFlow/Keras approach
+train_datagen = ImageDataGenerator(
+    rescale=1./255,
+    rotation_range=20,
+    horizontal_flip=True
+)
+
+train_generator = train_datagen.flow_from_dataframe(
+    dataframe=train_df,
+    directory='images/',
+    x_col='Image Index',
+    y_col=disease_columns,
+    target_size=(224, 224),
+    batch_size=32,
+    class_mode='raw'
+)
+\end{lstlisting}
+
+\subsection{PyTorch Pipeline}
+
+\begin{lstlisting}[caption={PyTorch Data Pipeline (Migrated)}]
+import torch
+from torch.utils.data import Dataset, DataLoader
+from torchvision import transforms
+from PIL import Image
+import pandas as pd
+
+class ChestXrayDataset(Dataset):
+    """
+    Custom Dataset for Chest X-ray images.
+    
+    Implements:
+        - __len__: Number of samples
+        - __getitem__: Get single sample (image, labels)
+    """
+    def __init__(self, dataframe, img_dir, transform=None):
+        """
+        Args:
+            dataframe: DataFrame with image paths and labels
+            img_dir: Directory containing images
+            transform: torchvision transforms
+        """
+        self.dataframe = dataframe
+        self.img_dir = img_dir
+        self.transform = transform
+        
+        # Disease columns (15 classes)
+        self.disease_columns = [
+            'Atelectasis', 'Cardiomegaly', 'Effusion', 
+            'Infiltration', 'Mass', 'Nodule', 'Pneumonia',
+            'Pneumothorax', 'Consolidation', 'Edema',
+            'Emphysema', 'Fibrosis', 'Pleural_Thickening',
+            'Hernia', 'No Finding'
+        ]
+        
+    def __len__(self):
+        return len(self.dataframe)
+    
+    def __getitem__(self, idx):
+        # Get image path
+        img_name = self.dataframe.iloc[idx]['Image Index']
+        img_path = os.path.join(self.img_dir, img_name)
+        
+        # Load and convert to RGB
+        image = Image.open(img_path).convert('RGB')
+        
+        # Apply transforms
+        if self.transform:
+            image = self.transform(image)
+        
+        # Get labels (multi-hot encoding)
+        labels = self.dataframe.iloc[idx][self.disease_columns].values
+        labels = torch.tensor(labels, dtype=torch.float32)
+        
+        return image, labels
+\end{lstlisting}
+
+\subsection{Data Transforms}
+
+\begin{lstlisting}[caption={Data Augmentation Transforms}]
+# Training transforms (with augmentation)
+train_transform = transforms.Compose([
+    transforms.Resize((256, 256)),
+    transforms.RandomCrop(224),
+    transforms.RandomHorizontalFlip(p=0.5),
+    transforms.RandomRotation(degrees=15),
+    transforms.ColorJitter(
+        brightness=0.1,
+        contrast=0.1
+    ),
+    transforms.ToTensor(),
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],  # ImageNet stats
+        std=[0.229, 0.224, 0.225]
+    )
+])
+
+# Validation/Test transforms (no augmentation)
+val_transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225]
+    )
+])
+
+# Create DataLoaders
+train_dataset = ChestXrayDataset(train_df, img_dir, train_transform)
+val_dataset = ChestXrayDataset(val_df, img_dir, val_transform)
+
+train_loader = DataLoader(
+    train_dataset,
+    batch_size=32,
+    shuffle=True,
+    num_workers=4,
+    pin_memory=True  # Faster GPU transfer
+)
+
+val_loader = DataLoader(
+    val_dataset,
+    batch_size=32,
+    shuffle=False,
+    num_workers=4,
+    pin_memory=True
+)
+\end{lstlisting}
+
+\section{Training Loop}
+
+\subsection{Complete Training Pipeline}
+
+\begin{lstlisting}[caption={PyTorch Training Loop}]
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from sklearn.metrics import roc_auc_score
+import numpy as np
+
+def train_model(model, train_loader, val_loader, epochs=30, lr=0.001):
+    """
+    Complete training pipeline.
+    
+    Args:
+        model: PyTorch model
+        train_loader: Training DataLoader
+        val_loader: Validation DataLoader
+        epochs: Number of training epochs
+        lr: Learning rate
+    
+    Returns:
+        Trained model, history dictionary
+    """
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model = model.to(device)
+    
+    # ===== Loss Function =====
+    # BCEWithLogitsLoss = Sigmoid + BCE (numerically stable)
+    criterion = nn.BCEWithLogitsLoss()
+    
+    # ===== Optimizer =====
+    optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=1e-4)
+    
+    # ===== Learning Rate Scheduler =====
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer, mode='min', factor=0.5, patience=3
+    )
+    
+    history = {
+        'train_loss': [], 'val_loss': [],
+        'train_auc': [], 'val_auc': []
+    }
+    
+    best_val_auc = 0.0
+    
+    for epoch in range(epochs):
+        # ========== Training Phase ==========
+        model.train()
+        train_loss = 0.0
+        train_preds, train_labels = [], []
+        
+        for batch_idx, (images, labels) in enumerate(train_loader):
+            images = images.to(device)
+            labels = labels.to(device)
+            
+            # Forward pass
+            optimizer.zero_grad()
+            outputs = model(images)
+            loss = criterion(outputs, labels)
+            
+            # Backward pass
+            loss.backward()
+            optimizer.step()
+            
+            train_loss += loss.item()
+            
+            # Store predictions for AUC
+            train_preds.append(torch.sigmoid(outputs).detach().cpu().numpy())
+            train_labels.append(labels.cpu().numpy())
+        
+        # Calculate training metrics
+        train_loss /= len(train_loader)
+        train_preds = np.concatenate(train_preds)
+        train_labels = np.concatenate(train_labels)
+        train_auc = calculate_auc(train_labels, train_preds)
+        
+        # ========== Validation Phase ==========
+        model.eval()
+        val_loss = 0.0
+        val_preds, val_labels_list = [], []
+        
+        with torch.no_grad():
+            for images, labels in val_loader:
+                images = images.to(device)
+                labels = labels.to(device)
+                
+                outputs = model(images)
+                loss = criterion(outputs, labels)
+                
+                val_loss += loss.item()
+                val_preds.append(torch.sigmoid(outputs).cpu().numpy())
+                val_labels_list.append(labels.cpu().numpy())
+        
+        # Calculate validation metrics
+        val_loss /= len(val_loader)
+        val_preds = np.concatenate(val_preds)
+        val_labels_arr = np.concatenate(val_labels_list)
+        val_auc = calculate_auc(val_labels_arr, val_preds)
+        
+        # Update scheduler
+        scheduler.step(val_loss)
+        
+        # Save best model
+        if val_auc > best_val_auc:
+            best_val_auc = val_auc
+            torch.save(model.state_dict(), 'best_model.pth')
+        
+        # Record history
+        history['train_loss'].append(train_loss)
+        history['val_loss'].append(val_loss)
+        history['train_auc'].append(train_auc)
+        history['val_auc'].append(val_auc)
+        
+        print(f'Epoch {epoch+1}/{epochs}')
+        print(f'  Train Loss: {train_loss:.4f}, Train AUC: {train_auc:.4f}')
+        print(f'  Val Loss: {val_loss:.4f}, Val AUC: {val_auc:.4f}')
+    
+    return model, history
+\end{lstlisting}
+
+\section{Critical Bug Fix: AUC NaN Issue}
+
+\subsection{Problem Description}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=AUC NaN Bug]
+\textbf{Symptom:} AUC returns NaN during training/validation
+
+\textbf{Root Cause:} Some classes have no positive samples in batch
+
+\textbf{Example:}
+\begin{lstlisting}[style=plain]
+# Class "Hernia" has only 227 samples (0.2%)
+# In a batch of 32 images:
+# Probability of no Hernia samples ~ (1-0.002)^32 ≈ 93.8%
+# AUC undefined for single-class batch → NaN
+\end{lstlisting}
+\end{tcolorbox}
+
+\subsection{Solution: Robust AUC Calculation}
+
+\begin{lstlisting}[caption={Robust AUC Calculation Function}]
+def calculate_auc(y_true, y_pred):
+    """
+    Calculate AUC handling edge cases.
+    
+    Handles:
+        - Classes with only one label (all 0 or all 1)
+        - NaN values in predictions
+        - Empty arrays
+    
+    Args:
+        y_true: Ground truth labels (N, C)
+        y_pred: Predicted probabilities (N, C)
+    
+    Returns:
+        Macro-averaged AUC (float)
+    """
+    aucs = []
+    num_classes = y_true.shape[1]
+    
+    for i in range(num_classes):
+        # Get labels and predictions for this class
+        y_true_class = y_true[:, i]
+        y_pred_class = y_pred[:, i]
+        
+        # Check for valid AUC computation
+        unique_labels = np.unique(y_true_class)
+        
+        # ===== Critical Check =====
+        # AUC requires both positive and negative samples
+        if len(unique_labels) < 2:
+            # Skip this class - cannot compute AUC
+            continue
+        
+        # Check for NaN in predictions
+        if np.any(np.isnan(y_pred_class)):
+            continue
+        
+        try:
+            auc = roc_auc_score(y_true_class, y_pred_class)
+            aucs.append(auc)
+        except ValueError:
+            # Handle any other edge cases
+            continue
+    
+    # Return mean of valid AUCs
+    if len(aucs) == 0:
+        return 0.0  # Fallback if no valid AUC
+    
+    return np.mean(aucs)
+\end{lstlisting}
+
+\subsection{Alternative: Per-Epoch AUC}
+
+\begin{lstlisting}[caption={Compute AUC After Full Epoch}]
+def evaluate_epoch(model, data_loader, device):
+    """
+    Evaluate model on entire dataset.
+    
+    Collects all predictions, then computes AUC.
+    Avoids batch-level AUC issues.
+    """
+    model.eval()
+    all_preds = []
+    all_labels = []
+    
+    with torch.no_grad():
+        for images, labels in data_loader:
+            images = images.to(device)
+            outputs = model(images)
+            probs = torch.sigmoid(outputs)
+            
+            all_preds.append(probs.cpu().numpy())
+            all_labels.append(labels.numpy())
+    
+    # Concatenate all batches
+    all_preds = np.concatenate(all_preds, axis=0)
+    all_labels = np.concatenate(all_labels, axis=0)
+    
+    # Now compute AUC on full dataset
+    # All classes should have both positives and negatives
+    auc = roc_auc_score(all_labels, all_preds, average='macro')
+    
+    return auc
+\end{lstlisting}
+
+\section{Key Differences: TensorFlow vs PyTorch}
+
+\subsection{Model Definition}
+
+\begin{lstlisting}[caption={Model Definition Comparison}]
+# ===== TensorFlow/Keras (Original) =====
+class CNNModel(tf.keras.Model):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = tf.keras.layers.Conv2D(32, (3,3), activation='relu')
+        # Automatic input shape inference
+        
+    def call(self, x, training=False):
+        return self.conv1(x)
+
+# ===== PyTorch (Migrated) =====
+class CNNModel(nn.Module):
+    def __init__(self):
+        super().__init__()
+        # Must specify in_channels explicitly
+        self.conv1 = nn.Conv2d(
+            in_channels=3,    # Required!
+            out_channels=32,
+            kernel_size=3
+        )
+        self.relu = nn.ReLU()
+        
+    def forward(self, x):
+        return self.relu(self.conv1(x))
+\end{lstlisting}
+
+\subsection{Channel Ordering}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Channel Ordering Difference]
+\textbf{TensorFlow (NHWC):}
+\begin{itemize}
+    \item Shape: (Batch, Height, Width, Channels)
+    \item Example: (32, 224, 224, 3)
+    \item Default for CPU operations
+\end{itemize}
+
+\textbf{PyTorch (NCHW):}
+\begin{itemize}
+    \item Shape: (Batch, Channels, Height, Width)
+    \item Example: (32, 3, 224, 224)
+    \item Optimized for GPU (cuDNN)
+\end{itemize}
+
+\textbf{Migration Note:}
+\begin{lstlisting}[style=plain]
+# TensorFlow input: (B, H, W, C)
+# PyTorch input: (B, C, H, W)
+
+# Convert if needed:
+x_pytorch = x_tensorflow.permute(0, 3, 1, 2)
+\end{lstlisting}
+\end{tcolorbox}
+
+\subsection{Gradient Computation}
+
+\begin{lstlisting}[caption={Gradient Computation Comparison}]
+# ===== TensorFlow (GradientTape) =====
+with tf.GradientTape() as tape:
+    predictions = model(images, training=True)
+    loss = loss_fn(labels, predictions)
+gradients = tape.gradient(loss, model.trainable_variables)
+optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+
+# ===== PyTorch (Autograd) =====
+optimizer.zero_grad()         # Reset gradients
+predictions = model(images)   # Forward
+loss = loss_fn(predictions, labels)  # Note: order different!
+loss.backward()               # Backward
+optimizer.step()              # Update
+\end{lstlisting}
+
+\subsection{Evaluation Mode}
+
+\begin{lstlisting}[caption={Evaluation Mode Comparison}]
+# ===== TensorFlow =====
+# Automatically handles via 'training' argument
+predictions = model(images, training=False)
+
+# ===== PyTorch =====
+# Must explicitly switch modes
+model.train()  # Training mode (dropout, batchnorm active)
+# ... training code ...
+
+model.eval()   # Evaluation mode (dropout disabled, batchnorm frozen)
+with torch.no_grad():  # Disable gradient computation
+    predictions = model(images)
+\end{lstlisting}
+
+\section{Mixed Precision Training}
+
+\begin{lstlisting}[caption={Mixed Precision Training (Optional Optimization)}]
+from torch.cuda.amp import autocast, GradScaler
+
+def train_with_mixed_precision(model, train_loader, optimizer, criterion):
+    """
+    Training with Automatic Mixed Precision (AMP).
+    
+    Benefits:
+        - Faster training (FP16 operations)
+        - Lower memory usage
+        - Maintains FP32 accuracy
+    """
+    scaler = GradScaler()
+    
+    model.train()
+    for images, labels in train_loader:
+        images = images.cuda()
+        labels = labels.cuda()
+        
+        optimizer.zero_grad()
+        
+        # Forward pass with autocast
+        with autocast():
+            outputs = model(images)
+            loss = criterion(outputs, labels)
+        
+        # Backward pass with scaling
+        scaler.scale(loss).backward()
+        scaler.step(optimizer)
+        scaler.update()
+\end{lstlisting}
+
+\section{Model Checkpointing}
+
+\begin{lstlisting}[caption={Model Saving and Loading}]
+# ===== Save Checkpoint =====
+def save_checkpoint(model, optimizer, epoch, val_auc, path):
+    """Save complete training state."""
+    checkpoint = {
+        'epoch': epoch,
+        'model_state_dict': model.state_dict(),
+        'optimizer_state_dict': optimizer.state_dict(),
+        'val_auc': val_auc,
+    }
+    torch.save(checkpoint, path)
+    print(f'Checkpoint saved: {path}')
+
+# ===== Load Checkpoint =====
+def load_checkpoint(model, optimizer, path):
+    """Load training state."""
+    checkpoint = torch.load(path)
+    model.load_state_dict(checkpoint['model_state_dict'])
+    optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+    epoch = checkpoint['epoch']
+    val_auc = checkpoint['val_auc']
+    print(f'Loaded checkpoint from epoch {epoch}, AUC: {val_auc:.4f}')
+    return epoch, val_auc
+
+# ===== Save Model Only (for inference) =====
+torch.save(model.state_dict(), 'model_weights.pth')
+
+# ===== Load Model for Inference =====
+model = CNNClassifier(num_classes=15)
+model.load_state_dict(torch.load('model_weights.pth'))
+model.eval()
+\end{lstlisting}
+
+\section{Summary}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=PyTorch Migration Summary]
+\textbf{Key Migration Points:}
+\begin{enumerate}
+    \item \textbf{Channel order:} NHWC → NCHW
+    \item \textbf{Model definition:} Explicit input dimensions
+    \item \textbf{Training loop:} Manual (no \texttt{model.fit()})
+    \item \textbf{Evaluation:} Explicit \texttt{model.eval()} + \texttt{torch.no\_grad()}
+    \item \textbf{Loss order:} (predictions, targets) vs (targets, predictions)
+\end{enumerate}
+
+\textbf{Critical Bug Fixes:}
+\begin{enumerate}
+    \item \textbf{AUC NaN:} Handle single-class batches
+    \item \textbf{Memory:} Use \texttt{torch.no\_grad()} during evaluation
+    \item \textbf{Reproducibility:} Set random seeds
+\end{enumerate}
+
+\textbf{Benefits:}
+\begin{enumerate}
+    \item Clearer code structure
+    \item Better debugging capability
+    \item Research community standard
+    \item Flexible experimentation
+\end{enumerate}
+\end{tcolorbox}

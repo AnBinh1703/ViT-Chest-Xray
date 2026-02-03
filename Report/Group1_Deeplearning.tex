@@ -574,29 +574,49 @@ if len(valid_classes) > 0:
 
 \subsection{Results Comparison}
 
+\textbf{Original Paper Results (Jain et al., 2024):}
 \begin{table}[H]
 \centering
-\caption{Performance Comparison: Original vs. Replication}
-\label{tab:results_comparison}
+\caption{Results Reported in Original Paper}
+\label{tab:original_results}
 \begin{tabular}{lcccc}
 \toprule
-\textbf{Model} & \multicolumn{2}{c}{\textbf{Original Paper}} & \multicolumn{2}{c}{\textbf{Our Replication}} \\
-\cmidrule(lr){2-3} \cmidrule(lr){4-5}
- & Val AUC & Test AUC & Val AUC & Test AUC \\
+\textbf{Model} & \textbf{Test Acc (\%)} & \textbf{Train Acc (\%)} & \textbf{Val Acc (\%)} & \textbf{AUC} \\
 \midrule
-CNN Baseline & $\sim$0.70 & - & $\sim$0.68 & $\sim$0.65 \\
-ResNet-34 & $\sim$0.75 & - & $\sim$0.70 & $\sim$0.72 \\
-ViT (Scratch) & $\sim$0.72 & - & $\sim$0.68 & $\sim$0.70 \\
-ViT (Pre-trained) & $\sim$0.80 & - & $\sim$0.76 & $\sim$0.78 \\
+CNN & 91 & 92.62 & 92.68 & 0.82 \\
+ResNet & 93 & 93.38 & 93.34 & 0.86 \\
+ViT-v1/32 & 92.63 & 92.70 & 92.89 & 0.86 \\
+ViT-v2/32 & 92.83 & 92.94 & 92.95 & 0.84 \\
+ViT-ResNet/16 & \textbf{93.9} & 93.02 & \textbf{94.07} & 0.85 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\textbf{Note:} Our results show slightly lower performance, which is expected due to:
+\textbf{Our Replication Results (Verified from Notebook Outputs):}
+\begin{table}[H]
+\centering
+\caption{Our Implementation Results}
+\label{tab:our_results}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Model} & \textbf{Params} & \textbf{Test Loss} & \textbf{Test Acc (\%)} & \textbf{Test AUC} & \textbf{Best Val AUC} \\
+\midrule
+CNN Baseline & $\sim$95M & N/A & N/A & $\sim$0.58$^*$ & 0.5998 \\
+ResNet-34 & $\sim$21M & N/A & N/A & $\sim$0.53$^*$ & 0.5293 \\
+ViT-v1 (scratch) & 9.0M & 0.2534 & 91.33 & 0.5854 & 0.6431 \\
+ViT-v2 (scratch) & 9.0M & 0.2749 & 89.67 & 0.6303 & 0.5947 \\
+\textbf{ViT-Pretrained} & $\sim$86M & 0.3768 & 87.00 & \textbf{0.6694} & N/A \\
+\bottomrule
+\multicolumn{6}{l}{\small $^*$Validation AUC used as proxy (no separate test evaluation in these notebooks)}
+\end{tabular}
+\end{table}
+
+\textbf{Analysis of Performance Gap:} Our results show significantly lower AUC values than the original paper. This is expected due to:
 \begin{enumerate}[noitemsep]
-    \item Proper patient-level splitting (no data leakage)
-    \item Different random seed and initialization
-    \item Framework differences (PyTorch vs TensorFlow)
+    \item \textbf{Patient-level splitting:} Prevents data leakage that may inflate metrics in image-level splits
+    \item \textbf{Sample size:} Our experiments used 3,000 sample images vs. 85,000 in the original
+    \item \textbf{Patch size difference:} We used 16$\times$16 patches vs. 32$\times$32 in the original ViT variants
+    \item \textbf{Framework differences:} PyTorch vs TensorFlow/Keras implementations
 \end{enumerate}
 
 % ============================================================================
@@ -618,39 +638,92 @@ All experiments were conducted on:
 
 \begin{table}[H]
 \centering
-\caption{Final Model Performance Comparison}
+\caption{Final Model Performance Comparison (Verified from Notebook Outputs)}
 \label{tab:final_results}
 \begin{tabular}{lccccc}
 \toprule
-\textbf{Model} & \textbf{Params} & \textbf{Train AUC} & \textbf{Val AUC} & \textbf{Test AUC} & \textbf{Time/Epoch} \\
+\textbf{Model} & \textbf{Params} & \textbf{Best Val AUC} & \textbf{Best Epoch} & \textbf{Test AUC} & \textbf{Train/Val Gap} \\
 \midrule
-CNN & $\sim$95M & 0.82 & 0.70 & 0.65 & $\sim$2 min \\
-ResNet-34 & $\sim$21M & 0.80 & 0.74 & 0.72 & $\sim$5 min \\
-ViT (v1) & $\sim$3M & 0.75 & 0.68 & 0.68 & $\sim$4 min \\
-ViT (v2) & $\sim$3M & 0.76 & 0.70 & 0.70 & $\sim$4 min \\
-ViT (Pre-trained) & $\sim$86M & 0.85 & 0.78 & 0.78 & $\sim$8 min \\
+CNN & $\sim$95M & 0.5998 & 1 & $\sim$0.58 & 0.32 (severe) \\
+ResNet-34 & $\sim$21M & 0.5293 & 6 & $\sim$0.53 & 0.25 \\
+ViT (v1) & 9.0M & 0.6431 & 4 & 0.5854 & 0.06 \\
+ViT (v2) & 9.0M & 0.5947 & 9 & 0.6303 & -0.04 \\
+\textbf{ViT (Pre-trained)} & $\sim$86M & N/A & N/A & \textbf{0.6694} & N/A \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \subsection{Per-Class AUC Analysis}
-The pre-trained ViT shows strong performance across most disease categories, with notable differences in rare diseases:
 
+The per-class AUC analysis reveals significant variability across disease categories:
+
+\textbf{ViT-v2 Per-Class AUC (Test Set):}
+\begin{table}[H]
+\centering
+\caption{Per-Class AUC from ViT-v2 Model}
+\label{tab:perclass_vitv2}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Disease} & \textbf{AUC} & \textbf{Assessment} \\
+\midrule
+Cardiomegaly & 1.00 & Excellent \\
+Emphysema & 0.84 & Good \\
+No Finding & 0.76 & Moderate \\
+Effusion & 0.73 & Moderate \\
+Pneumothorax & 0.69 & Moderate \\
+Pleural Thickening & 0.68 & Moderate \\
+Infiltration & 0.52 & Poor \\
+Edema & 0.42 & Poor \\
+Consolidation & 0.33 & Poor \\
+Atelectasis & 0.32 & Poor \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{ViT-v1 Per-Class AUC (Test Set):}
+\begin{table}[H]
+\centering
+\caption{Per-Class AUC from ViT-v1 Model}
+\label{tab:perclass_vitv1}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Disease} & \textbf{AUC} & \textbf{Assessment} \\
+\midrule
+Infiltration & 0.89 & Excellent \\
+Pneumothorax & 0.84 & Good \\
+Cardiomegaly & 0.79 & Good \\
+Nodule & 0.68 & Moderate \\
+Consolidation & 0.61 & Moderate \\
+No Finding & 0.53 & Poor \\
+Effusion & 0.51 & Poor \\
+Atelectasis & 0.47 & Poor \\
+Pleural Thickening & 0.42 & Poor \\
+Mass & 0.11 & Very Poor \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Key Observations:}
 \begin{itemize}[noitemsep]
-    \item \textbf{High AUC ($>$0.8)}: Cardiomegaly, Emphysema, Pneumothorax
-    \item \textbf{Medium AUC (0.6-0.8)}: Effusion, Atelectasis, Mass, Nodule
-    \item \textbf{Low AUC ($<$0.6)}: Hernia (very rare, $\sim$0.2\% prevalence)
+    \item \textbf{High AUC ($>$0.8)}: Cardiomegaly (1.00 in ViT-v2), Emphysema (0.84), Infiltration (0.89 in ViT-v1)
+    \item \textbf{Medium AUC (0.5-0.8)}: Effusion, Pneumothorax, Pleural Thickening
+    \item \textbf{Low AUC ($<$0.5)}: Edema (0.42), Consolidation (0.33), Atelectasis (0.32), Mass (0.11 in ViT-v1)
+    \item \textbf{Complementary Performance}: ViT-v1 and ViT-v2 excel at different diseases, suggesting ensemble potential
 \end{itemize}
 
 \subsection{Key Findings}
 \begin{enumerate}
-    \item \textbf{Pre-trained ViT achieves the best performance}, confirming the original paper's conclusion that transfer learning from ImageNet is beneficial for medical imaging.
+    \item \textbf{Pre-trained ViT achieves the best performance} (Test AUC: 0.6694), confirming the original paper's conclusion that transfer learning from ImageNet is beneficial for medical imaging.
     
-    \item \textbf{ViT from scratch underperforms ResNet}, suggesting that transformers require large amounts of data or pre-training to outperform CNNs.
+    \item \textbf{ViT from scratch underperforms expected levels} (Test AUC: 0.58-0.63), suggesting that transformers require large amounts of data or pre-training to outperform CNNs.
     
-    \item \textbf{Patient-level splitting reduces metrics by $\sim$3-5\% AUC}, indicating the extent of potential data leakage in image-level splitting.
+    \item \textbf{CNN shows severe overfitting}: Train AUC of 0.90 vs Val AUC of 0.58 indicates the model memorizes training data without generalizing. Best validation occurs at epoch 1.
     
-    \item \textbf{Class imbalance significantly affects rare disease detection}, with Hernia and Pneumonia showing the lowest AUC scores.
+    \item \textbf{High accuracy does not guarantee good AUC}: Models achieve 89-91\% accuracy but only 0.53-0.67 AUC, demonstrating that accuracy is misleading for imbalanced multi-label data.
+    
+    \item \textbf{Class imbalance significantly affects rare disease detection}: Diseases with $<$3\% prevalence (Edema, Consolidation, Hernia) show AUC near or below 0.50 (random chance).
+    
+    \item \textbf{ViT-v1 and ViT-v2 show complementary strengths}: Different diseases perform best on different models, suggesting potential for ensemble methods.
 \end{enumerate}
 
 % ============================================================================

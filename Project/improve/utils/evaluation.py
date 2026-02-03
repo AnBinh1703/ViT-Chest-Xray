@@ -23,6 +23,10 @@ import seaborn as sns
 from typing import Dict, List, Optional, Tuple, Union
 import pandas as pd
 import warnings
+import cv2
+import albumentations as A
+from albumentations.pytorch import ToTensorV2
+
 warnings.filterwarnings('ignore')
 
 
@@ -351,3 +355,114 @@ def bootstrap_auc_confidence_interval(y_true: np.ndarray, y_pred: np.ndarray,
     upper_ci = np.percentile(auc_scores, upper_percentile)
 
     return mean_auc, (lower_ci, upper_ci)
+
+
+def get_train_transforms(img_size=224):
+    """
+    Advanced augmentation pipeline cho training data
+    
+    Thiết kế dựa trên:
+    1. Medical imaging best practices
+    2. Empirical studies on chest X-ray augmentation
+    3. ImageNet normalization cho transfer learning
+    """
+    return A.Compose([
+        # Resize & crop
+        A.Resize(int(img_size * 1.15), int(img_size * 1.15)),
+        A.RandomCrop(img_size, img_size),
+        
+        # Geometric transformations
+        A.HorizontalFlip(p=0.5),  # X-ray có thể flip horizontally
+        A.ShiftScaleRotate(
+            shift_limit=0.1,      # Shift 10% - mô phỏng positioning
+            scale_limit=0.15,     # Scale ±15% - mô phỏng khoảng cách chụp
+            rotate_limit=15,      # Rotate ±15° - mô phỏng góc chụp
+            border_mode=cv2.BORDER_CONSTANT,
+            value=0,
+            p=0.5
+        ),
+        
+        # Noise & blur - mô phỏng chất lượng thiết bị
+        A.OneOf([
+            A.GaussNoise(var_limit=(10, 50), p=1.0),
+            A.GaussianBlur(blur_limit=(3, 5), p=1.0),
+            A.MotionBlur(blur_limit=5, p=1.0),
+        ], p=0.3),
+        
+        # Contrast & brightness - critical for X-ray
+        A.RandomBrightnessContrast(
+            brightness_limit=0.2,
+            contrast_limit=0.2,
+            p=0.5
+        ),
+        
+        # CLAHE - Medical imaging specific
+        # Cải thiện contrast cục bộ, quan trọng cho phát hiện bệnh lý
+        A.CLAHE(
+            clip_limit=4.0,
+            tile_grid_size=(8, 8),
+            p=0.5
+        ),
+        
+        # Optional: Grid distortion (mô phỏng deformation)
+        A.GridDistortion(
+            num_steps=5,
+            distort_limit=0.05,
+            p=0.2
+        ),
+        
+        # Normalization - ImageNet stats cho transfer learning
+        A.Normalize(
+            mean=[0.485, 0.456, 0.406],  # ImageNet mean
+            std=[0.229, 0.224, 0.225],   # ImageNet std
+        ),
+        ToTensorV2(),
+    ])
+
+
+def get_valid_transforms(img_size=224):
+    """
+    Validation transforms - NO augmentation
+    Chỉ resize và normalize
+    """
+    return A.Compose([
+        A.Resize(img_size, img_size),
+        A.Normalize(
+            mean=[0.485, 0.456, 0.406],
+            std=[0.229, 0.224, 0.225],
+        ),
+        ToTensorV2(),
+    ])
+
+
+def compute_sample_weights(df, disease_columns):
+    """
+    Compute sample weights for WeightedRandomSampler
+    
+    Strategy: Weight samples by inverse class frequency
+    Rare diseases get higher weights to balance training
+    """
+    # Calculate class frequencies
+    class_freqs = df[disease_columns].sum(axis=0)
+    total_samples = len(df)
+    
+    # Calculate class weights (inverse frequency)
+    class_weights = total_samples / (len(disease_columns) * class_freqs)
+    
+    # For each sample, weight = sum of weights for its positive classes
+    sample_weights = []
+    for _, row in df.iterrows():
+        weight = 0
+        for disease in disease_columns:
+            if row[disease] == 1:
+                weight += class_weights[disease]
+        # If no diseases (normal), give minimum weight
+        if weight == 0:
+            weight = class_weights.min()
+        sample_weights.append(weight)
+    
+    # Normalize weights
+    sample_weights = np.array(sample_weights)
+    sample_weights = sample_weights / sample_weights.sum() * len(sample_weights)
+    
+    return sample_weights

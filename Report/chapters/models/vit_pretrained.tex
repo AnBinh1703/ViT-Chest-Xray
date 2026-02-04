@@ -1,0 +1,171 @@
+% ============================================================================
+% MÔ HÌNH ViT TIỀN HUẤN LUYỆN (Pretrained ViT)
+% ============================================================================
+\section{Mô hình ViT tiền huấn luyện (Pretrained ViT)}
+\label{sec:vit_pretrained}
+
+\subsection{Kiến trúc mô hình}
+
+Mô hình ViT tiền huấn luyện sử dụng thư viện \texttt{timm} (PyTorch Image Models) để tải trọng số đã được huấn luyện trên ImageNet. Đây là phương pháp \textbf{transfer learning}, tận dụng kiến thức đã học từ tập dữ liệu lớn để giải quyết bài toán y khoa với ít dữ liệu hơn.
+
+\textbf{Model được sử dụng:} \texttt{vit\_base\_patch16\_224}
+
+\begin{table}[H]
+\centering
+\caption{Cấu hình kiến trúc ViT-Base/16}
+\label{tab:vit_pretrained_config}
+\begin{tabular}{ll}
+\toprule
+\textbf{Tham số} & \textbf{Giá trị} \\
+\midrule
+Model Name & vit\_base\_patch16\_224 \\
+Pretrained Dataset & ImageNet-21K \\
+Image Size & $224 \times 224$ \\
+Patch Size & $16 \times 16$ \\
+Số Patches & $(224/16)^2 = 196$ \\
+Embedding Dimension & 768 \\
+Number of Heads & 12 \\
+Transformer Layers & 12 \\
+MLP Ratio & 4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Tổng số tham số:} $\sim$86 triệu tham số
+
+\textbf{Thay đổi classification head:}
+\begin{itemize}[noitemsep]
+    \item Head gốc: Linear $768 \rightarrow 1000$ (ImageNet classes)
+    \item Head mới: Linear $768 \rightarrow 15$ (15 bệnh phổi)
+\end{itemize}
+
+\textbf{So sánh với ViT từ đầu:}
+\begin{table}[H]
+\centering
+\caption{So sánh ViT Pretrained và ViT from Scratch}
+\label{tab:vit_compare}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Thuộc tính} & \textbf{ViT Scratch} & \textbf{ViT Pretrained} \\
+\midrule
+Patch Size & 32 & 16 \\
+Số Patches & 49 & 196 \\
+Embedding Dim & 64 & 768 \\
+Transformer Layers & 8 & 12 \\
+Số tham số & 9M & 86M \\
+Pretrained & Không & ImageNet-21K \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Cấu hình huấn luyện}
+
+\begin{table}[H]
+\centering
+\caption{Cấu hình huấn luyện ViT Pretrained}
+\label{tab:vit_pretrained_training}
+\begin{tabular}{ll}
+\toprule
+\textbf{Tham số} & \textbf{Giá trị} \\
+\midrule
+Batch Size & 16 \\
+Learning Rate & $1 \times 10^{-4}$ \\
+Optimizer & AdamW \\
+Loss Function & BCEWithLogitsLoss \\
+Số Epoch & 10 \\
+Fine-tuning & Toàn bộ mô hình \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Lưu ý về Batch Size:} Batch size giảm từ 32 xuống 16 do mô hình lớn hơn đáng kể (86M params vs 9M params), đòi hỏi nhiều GPU memory hơn.
+
+\subsection{Kết quả thực nghiệm}
+
+\begin{table}[H]
+\centering
+\caption{Kết quả huấn luyện ViT Pretrained}
+\label{tab:vit_pretrained_results}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Chỉ số} & \textbf{Train} & \textbf{Validation} & \textbf{Test} \\
+\midrule
+Loss (epoch cuối) & 0.2425 & 0.3232 & 0.3768 \\
+Accuracy & 90.22\% & 86.67\% & 87.00\% \\
+AUC (epoch cuối) & 0.8820 & 0.6673 & \textbf{0.6694} \\
+Best Val AUC & -- & 0.6836 (epoch 4) & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{So sánh tổng hợp tất cả các mô hình:}
+
+\begin{table}[H]
+\centering
+\caption{So sánh hiệu suất tất cả các mô hình}
+\label{tab:all_models_compare}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Mô hình} & \textbf{Params} & \textbf{Best Val AUC} & \textbf{Test AUC} & \textbf{Test Acc} & \textbf{Xếp hạng} \\
+\midrule
+CNN Baseline & 95M & 0.5998 & $\sim$0.58 & $\sim$89\% & 4 \\
+ResNet-34 & 21M & 0.5293 & $\sim$0.53 & $\sim$91\% & 5 \\
+ViT-v1 & 9M & 0.6431 & 0.5854 & 91.33\% & 3 \\
+ViT-v2 & 9M & 0.5947 & 0.6303 & 89.67\% & 2 \\
+\textbf{ViT Pretrained} & 86M & \textbf{0.6836} & \textbf{0.6694} & 87.00\% & \textbf{1} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Nhận xét chính:}
+\begin{enumerate}
+    \item \textbf{ViT Pretrained đạt AUC cao nhất} (0.6694), xác nhận hiệu quả của transfer learning trong y khoa.
+    \item \textbf{Khoảng cách giữa pretrained và scratch}: Test AUC tăng từ 0.58--0.63 (scratch) lên 0.67 (pretrained), cải thiện khoảng 7-15\%.
+    \item \textbf{Trade-off giữa tham số và hiệu suất}: ViT-v1/v2 chỉ có 9M tham số nhưng đạt AUC gần bằng pretrained (86M params).
+    \item \textbf{Accuracy không phản ánh đúng chất lượng mô hình}: CNN đạt accuracy cao (89\%) nhưng AUC thấp (0.58), cho thấy mô hình chủ yếu dự đoán "No Finding" (chiếm 53.8\% dữ liệu).
+\end{enumerate}
+
+\subsection{Đoạn mã minh họa}
+
+\begin{lstlisting}[language=Python, caption=Tạo mô hình ViT Pretrained với timm]
+import timm
+import torch.nn as nn
+
+# Tao mo hinh ViT pretrained tu thu vien timm
+model = timm.create_model('vit_base_patch16_224', pretrained=True)
+
+# Thay the classification head cho bai toan 15 lop benh
+num_classes = 15
+model.head = nn.Linear(model.head.in_features, num_classes)
+
+# Chuyen model len GPU
+model = model.to(device)
+
+# In thong tin mo hinh
+total_params = sum(p.numel() for p in model.parameters())
+trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+print(f"Total parameters: {total_params:,}")       # ~86M
+print(f"Trainable parameters: {trainable_params:,}")
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption=Hàm tính AUC với xử lý trường hợp đặc biệt]
+def compute_auc_safe(targets, outputs, num_classes):
+    """Tinh AUC an toan, xu ly truong hop chi co 1 label value"""
+    # Tim cac class co ca mau positive va negative
+    valid_classes = []
+    for i in range(num_classes):
+        unique_labels = np.unique(targets[:, i])
+        if len(unique_labels) > 1:  # Can ca 0 va 1
+            valid_classes.append(i)
+    
+    if len(valid_classes) == 0:
+        return 0.0
+    
+    # Tinh macro AUC chi tren cac class hop le
+    auc = roc_auc_score(
+        targets[:, valid_classes],
+        outputs[:, valid_classes],
+        average='macro'
+    )
+    return auc
+\end{lstlisting}

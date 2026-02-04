@@ -1,8 +1,22 @@
-# Cấu trúc thư mục LaTeX Report
+# 📝 Report Folder - LaTeX Documentation
 
-Thư mục này chứa tài liệu LaTeX cho đồ án Deep Learning về phân loại bệnh từ X-quang ngực.
+Thư mục này chứa toàn bộ tài liệu LaTeX và báo cáo nghiên cứu cho đồ án Deep Learning về phân loại bệnh từ X-quang ngực sử dụng Vision Transformer.
 
-## Cấu trúc thư mục
+---
+
+## 📊 Tổng quan (Overview)
+
+| Metric | Value |
+|--------|-------|
+| **Tổng số file LaTeX** | 15+ files |
+| **Ngôn ngữ** | Tiếng Việt (VN) & English (EN) |
+| **Cấu trúc** | Modular (chapter-based) |
+| **Mô hình đã tài liệu hóa** | 5 models (CNN, ResNet, ViT×3) |
+| **Trạng thái** | ✅ Ready to compile |
+
+---
+
+## 🗂️ Cấu trúc thư mục chi tiết (Detailed Structure)
 
 ```
 Report/

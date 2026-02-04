@@ -257,7 +257,7 @@ Các đóng góp nổi bật của bài báo bao gồm:
 
 \begin{table}[H]
 \centering
-\caption{Tổng hợp kết quả thực nghiệm từ bài báo gốc}
+\caption[Kết quả thực nghiệm từ bài báo gốc]{Tổng hợp kết quả thực nghiệm từ bài báo gốc}
 \label{tab:paper_results_main}
 \begin{tabular}{lcccc}
 \toprule
@@ -447,7 +447,7 @@ Phần còn lại của báo cáo được tổ chức như sau:
 
 \begin{table}[H]
 \centering
-\caption{15 Classes trong NIH Chest X-ray Dataset}
+\caption[15 Classes trong NIH Chest X-ray Dataset]{15 Classes trong NIH Chest X-ray Dataset}
 \begin{tabular}{clcp{6cm}}
 \toprule
 \textbf{ID} & \textbf{Tên bệnh} & \textbf{Tỷ lệ (\%)} & \textbf{Mô tả} \\
@@ -496,7 +496,7 @@ NIH ChestX-ray14 là bài toán \textbf{multi-label classification}, trong đó 
 
 \begin{table}[H]
 \centering
-\caption{So sánh Multi-class và Multi-label Classification}
+\caption[So sánh Multi-class và Multi-label]{So sánh Multi-class và Multi-label Classification}
 \begin{tabular}{lp{5cm}p{5cm}}
 \toprule
 \textbf{Aspect} & \textbf{Multi-class} & \textbf{Multi-label} \\
@@ -764,7 +764,7 @@ class CNNClassifier(nn.Module):
 
 \begin{table}[H]
 \centering
-\caption{Số lượng tham số của CNN baseline}
+\caption[Tham số của CNN baseline]{Số lượng tham số của CNN baseline}
 \label{tab:cnn_params}
 \begin{tabular}{lcc}
 \toprule
@@ -929,7 +929,7 @@ title=Paper Quote -- ResNet Architecture]
 
 \begin{table}[H]
 \centering
-\caption{Kiến trúc ResNet-34}
+\caption[Kiến trúc ResNet-34]{Kiến trúc ResNet-34}
 \label{tab:resnet34_arch}
 \begin{tabular}{lcccc}
 \toprule
@@ -983,7 +983,7 @@ class BasicBlock(nn.Module):
 
 \begin{table}[H]
 \centering
-\caption{Cấu hình huấn luyện ResNet-34}
+\caption[Cấu hình huấn luyện ResNet-34]{Cấu hình huấn luyện ResNet-34}
 \label{tab:resnet_config}
 \begin{tabular}{ll}
 \toprule
@@ -1016,7 +1016,7 @@ Initialization & Kaiming Normal \\
 
 \begin{table}[H]
 \centering
-\caption{Kết quả huấn luyện ResNet-34}
+\caption[Kết quả huấn luyện ResNet-34]{Kết quả huấn luyện ResNet-34}
 \label{tab:resnet_results}
 \begin{tabular}{lccc}
 \toprule
@@ -1104,7 +1104,7 @@ ViT thì ``ít bias'' hơn và để mô hình tự học cấu trúc ảnh thô
 
 \begin{table}[H]
 \centering
-\caption{Inductive Biases: CNN vs ViT}
+\caption[Inductive Biases: CNN vs ViT]{Inductive Biases: CNN vs ViT}
 \begin{tabular}{lcc}
 \toprule
 \textbf{Inductive Bias} & \textbf{CNN} & \textbf{ViT} \\
@@ -1156,7 +1156,7 @@ Vision Transformer chuyển bài toán ảnh thành bài toán chuỗi:
     \draw[->] (trans) -- (mlp);
     \draw[->] (mlp) -- (out);
 \end{tikzpicture}
-\caption{Vision Transformer Architecture Overview}
+\caption[Vision Transformer Architecture Overview]{Vision Transformer Architecture Overview}
 \end{figure}
 
 % ============================================================
@@ -1401,7 +1401,7 @@ còn $N=196$ (patch 16) $\Rightarrow$ $N^2=38416$ (lớn hơn 16 lần).
 
 \begin{table}[H]
 \centering
-\caption{So sánh các biến thể ViT}
+\caption[So sánh các biến thể ViT]{So sánh các biến thể ViT}
 \begin{tabular}{lccc}
 \toprule
 \textbf{Thuộc tính} & \textbf{ViT-v1} & \textbf{ViT-v2} & \textbf{ViT Pretrained} \\
@@ -1495,7 +1495,7 @@ Chiến lược này nghiêm ngặt hơn so với bài báo gốc và phản án
 
 \begin{table}[H]
 \centering
-\caption{Training hyperparameters (theo bài báo và triển khai lại)}
+\caption[Training hyperparameters theo bài báo và triển khai lại]{Training hyperparameters (theo bài báo và triển khai lại)}
 \label{tab:training_config}
 \begin{tabular}{lccccc}
 \toprule
@@ -1552,7 +1552,7 @@ Chỉ số chính được sử dụng là \textbf{Area Under the ROC Curve (AUC
 
 \begin{table}[H]
 \centering
-\caption{Performance comparison – kết quả báo cáo trong bài báo gốc}
+\caption[Performance comparison kết quả bài báo gốc]{Performance comparison – kết quả báo cáo trong bài báo gốc}
 \label{tab:paper_results}
 \begin{tabular}{lcccccc}
 \toprule
@@ -1592,7 +1592,7 @@ Khác với bài báo gốc, dự án này:
 
 \begin{table}[H]
 \centering
-\caption{Final metrics sau khi rà soát và chuẩn hoá pipeline}
+\caption[Final metrics sau khi rà soát và chuẩn hoá]{Final metrics sau khi rà soát và chuẩn hoá pipeline}
 \label{tab:final_results}
 \begin{tabular}{lccccc}
 \toprule
@@ -1850,7 +1850,7 @@ Phần này tổng hợp các hình ảnh minh họa kết quả huấn luyện 
 
 \begin{table}[H]
 \centering
-\caption{Danh sách hình ảnh kết quả thực nghiệm}
+\caption[Danh sách hình ảnh kết quả thực nghiệm]{Danh sách hình ảnh kết quả thực nghiệm}
 \label{tab:figure_summary}
 \begin{tabular}{clll}
 \toprule
@@ -2016,7 +2016,7 @@ Chương này trình bày chi tiết các cải tiến đã được thực hi�
 
 \begin{table}[h!]
 \centering
-\caption{So sánh hiệu suất giữa mô hình gốc và các mô hình đã cải tiến}
+\caption[So sánh hiệu suất giữa mô hình gốc và các mô hình cải tiến]{So sánh hiệu suất giữa mô hình gốc và các mô hình đã cải tiến}
 \label{tab:improve_summary}
 \begin{tabular}{lcccp{4cm}}
 \toprule
@@ -2100,7 +2100,7 @@ optimizer = torch.optim.AdamW(param_groups)
 
 \begin{table}[h!]
 \centering
-\caption{Hiệu quả của Transfer Learning}
+\caption[Hiệu quả của Transfer Learning]{Hiệu quả của Transfer Learning}
 \label{tab:transfer_efficiency}
 \begin{tabular}{lcccc}
 \toprule
@@ -2276,7 +2276,7 @@ criterion = AsymmetricLoss(gamma_neg=4, gamma_pos=1, clip=0.05)
 
 \begin{table}[h!]
 \centering
-\caption{So sánh các chiến lược xử lý mất cân bằng lớp}
+\caption[So sánh các chiến lược xử lý mất cân bằng lớp]{So sánh các chiến lược xử lý mất cân bằng lớp}
 \label{tab:loss_comparison}
 \begin{tabular}{lccccc}
 \toprule
@@ -2382,7 +2382,7 @@ val_transform = A.Compose([
 
 \begin{table}[h!]
 \centering
-\caption{Ablation study: tác động của các mức độ tăng cường dữ liệu}
+\caption[Ablation study: tác động của các mức độ tăng cường dữ liệu]{Ablation study: tác động của các mức độ tăng cường dữ liệu}
 \label{tab:augmentation_ablation}
 \begin{tabular}{lcc}
 \toprule

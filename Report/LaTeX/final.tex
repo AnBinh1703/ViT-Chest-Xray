@@ -448,6 +448,7 @@ Phần còn lại của báo cáo được tổ chức như sau:
 \begin{table}[H]
 \centering
 \caption[15 Classes trong NIH Chest X-ray Dataset]{15 Classes trong NIH Chest X-ray Dataset}
+\label{tab:15_classes}
 \begin{tabular}{clcp{6cm}}
 \toprule
 \textbf{ID} & \textbf{Tên bệnh} & \textbf{Tỷ lệ (\%)} & \textbf{Mô tả} \\
@@ -497,6 +498,7 @@ NIH ChestX-ray14 là bài toán \textbf{multi-label classification}, trong đó 
 \begin{table}[H]
 \centering
 \caption[So sánh Multi-class và Multi-label]{So sánh Multi-class và Multi-label Classification}
+\label{tab:multiclass_vs_multilabel}
 \begin{tabular}{lp{5cm}p{5cm}}
 \toprule
 \textbf{Aspect} & \textbf{Multi-class} & \textbf{Multi-label} \\
@@ -1105,6 +1107,7 @@ ViT thì ``ít bias'' hơn và để mô hình tự học cấu trúc ảnh thô
 \begin{table}[H]
 \centering
 \caption[Inductive Biases: CNN vs ViT]{Inductive Biases: CNN vs ViT}
+\label{tab:inductive_biases}
 \begin{tabular}{lcc}
 \toprule
 \textbf{Inductive Bias} & \textbf{CNN} & \textbf{ViT} \\
@@ -1156,7 +1159,8 @@ Vision Transformer chuyển bài toán ảnh thành bài toán chuỗi:
     \draw[->] (trans) -- (mlp);
     \draw[->] (mlp) -- (out);
 \end{tikzpicture}
-\caption[Vision Transformer Architecture Overview]{Vision Transformer Architecture Overview}
+\caption[Kiến trúc Vision Transformer tổng quan]{Vision Transformer Architecture Overview: Ảnh đầu vào được chia thành các patches, sau đó được linear projection và kết hợp với position embedding. Token [CLS] được thêm vào để tổng hợp thông tin. Toàn bộ chuỗi tokens đi qua L Transformer Encoder blocks, cuối cùng MLP Head dự đoán 15 lớp bệnh lý.}
+\label{fig:vit_architecture}
 \end{figure}
 
 % ============================================================
@@ -1402,6 +1406,7 @@ còn $N=196$ (patch 16) $\Rightarrow$ $N^2=38416$ (lớn hơn 16 lần).
 \begin{table}[H]
 \centering
 \caption[So sánh các biến thể ViT]{So sánh các biến thể ViT}
+\label{tab:vit_variants}
 \begin{tabular}{lccc}
 \toprule
 \textbf{Thuộc tính} & \textbf{ViT-v1} & \textbf{ViT-v2} & \textbf{ViT Pretrained} \\
@@ -2461,7 +2466,7 @@ scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
 
 \begin{table}[h!]
 \centering
-\caption{So sánh Swin Transformer với ViT gốc}
+\caption[So sánh Swin Transformer với ViT gốc]{So sánh Swin Transformer với ViT gốc}
 \label{tab:swin_vs_vit}
 \begin{tabular}{lccccc}
 \toprule
@@ -2559,7 +2564,7 @@ optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5)
 
 \begin{table}[h!]
 \centering
-\caption{Ảnh hưởng của multi-scale lên các loại bệnh khác nhau}
+\caption[Ảnh hưởng của multi-scale lên các loại bệnh]{Ảnh hưởng của multi-scale lên các loại bệnh khác nhau}
 \label{tab:multiscale_perdisease}
 \begin{tabular}{lcccc}
 \toprule
@@ -2647,7 +2652,7 @@ with torch.no_grad():
 
 \begin{table}[h!]
 \centering
-\caption{Hiệu suất của các cấu hình ensemble}
+\caption[Hiệu suất của các cấu hình ensemble]{Hiệu suất của các cấu hình ensemble}
 \label{tab:ensemble_results}
 \begin{tabular}{lccc}
 \toprule

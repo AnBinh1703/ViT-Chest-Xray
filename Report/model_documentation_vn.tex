@@ -1,0 +1,684 @@
+% ============================================================================
+% TÀI LIỆU MÔ TẢ CHI TIẾT CÁC MÔ HÌNH DEEP LEARNING
+% Phân loại bệnh phổi từ ảnh X-quang ngực sử dụng CNN, ResNet, và ViT
+% Ngôn ngữ: Tiếng Việt
+% ============================================================================
+
+% ============================================================================
+% SECTION 1: MÔ HÌNH CNN CƠ SỞ
+% ============================================================================
+\section{Mô hình CNN cơ sở}
+\label{sec:cnn_model}
+
+\subsection{Kiến trúc mô hình}
+
+Mô hình CNN cơ sở (\texttt{CNNClassifier}) được thiết kế như một baseline đơn giản để so sánh với các kiến trúc phức tạp hơn. Kiến trúc này bao gồm hai khối tích chập (convolutional block) và một bộ phân loại fully-connected.
+
+\textbf{Chi tiết kiến trúc:}
+\begin{itemize}[noitemsep]
+    \item \textbf{Đầu vào}: Ảnh RGB kích thước $3 \times 224 \times 224$
+    \item \textbf{Khối tích chập 1}: 
+    \begin{itemize}
+        \item Conv2d: 3 channels $\rightarrow$ 32 channels, kernel $3 \times 3$, không padding
+        \item Activation: ReLU
+        \item MaxPool2d: kernel $2 \times 2$
+        \item Kích thước sau khối: $32 \times 111 \times 111$
+    \end{itemize}
+    \item \textbf{Khối tích chập 2}:
+    \begin{itemize}
+        \item Conv2d: 32 channels $\rightarrow$ 64 channels, kernel $3 \times 3$, không padding
+        \item Activation: ReLU
+        \item MaxPool2d: kernel $2 \times 2$
+        \item Kích thước sau khối: $64 \times 54 \times 54$
+    \end{itemize}
+    \item \textbf{Bộ phân loại (Classifier)}:
+    \begin{itemize}
+        \item Flatten: $64 \times 54 \times 54 = 186,624$ features
+        \item Linear: $186,624 \rightarrow 512$
+        \item ReLU
+        \item Linear: $512 \rightarrow 15$ (số lớp bệnh)
+    \end{itemize}
+\end{itemize}
+
+\textbf{Tổng số tham số:} $\sim$95 triệu tham số
+
+\textbf{Vấn đề kiến trúc:} Việc sử dụng Flatten trực tiếp sau các lớp tích chập dẫn đến lớp fully-connected đầu tiên có số tham số rất lớn ($186,624 \times 512 \approx 95.5$M). Đây là một thiết kế không hiệu quả, nên được thay thế bằng Global Average Pooling để giảm đáng kể số tham số.
+
+\subsection{Cấu hình huấn luyện}
+
+\begin{table}[H]
+\centering
+\caption{Cấu hình huấn luyện mô hình CNN}
+\label{tab:cnn_config}
+\begin{tabular}{ll}
+\toprule
+\textbf{Tham số} & \textbf{Giá trị} \\
+\midrule
+Kích thước ảnh (Image Size) & $224 \times 224$ \\
+Batch Size & 32 \\
+Learning Rate & $1 \times 10^{-4}$ \\
+Weight Decay & $1 \times 10^{-6}$ \\
+Số Epoch & 10 \\
+Optimizer & AdamW \\
+Loss Function & BCEWithLogitsLoss \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Data Augmentation} áp dụng trong quá trình huấn luyện:
+\begin{itemize}[noitemsep]
+    \item Horizontal Flip với xác suất $p=0.5$
+    \item Random Rotation trong phạm vi $\pm 5°$
+    \item Color Jitter: brightness=0.1, contrast=0.1
+    \item Normalization sử dụng mean và std của ImageNet: $\mu = [0.485, 0.456, 0.406]$, $\sigma = [0.229, 0.224, 0.225]$
+\end{itemize}
+
+\subsection{Kết quả thực nghiệm}
+
+\begin{table}[H]
+\centering
+\caption{Kết quả huấn luyện mô hình CNN (10 epoch)}
+\label{tab:cnn_results}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Chỉ số} & \textbf{Train} & \textbf{Validation} & \textbf{Test} \\
+\midrule
+Loss (epoch cuối) & 0.2121 & 0.4208 & -- \\
+AUC (epoch cuối) & 0.8961 & 0.5847 & $\sim$0.58 \\
+Best Val AUC & -- & 0.5998 (epoch 1) & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Nhận xét:}
+\begin{itemize}[noitemsep]
+    \item \textbf{Overfitting nghiêm trọng}: Train AUC tăng từ 0.53 lên 0.90 trong khi Val AUC gần như không cải thiện (dao động quanh 0.56--0.60).
+    \item \textbf{Best epoch là epoch 1}: Mô hình đạt Best Val AUC = 0.5998 ngay từ epoch đầu tiên, sau đó validation performance giảm dần.
+    \item \textbf{Khoảng cách Train-Val gap}: Rất lớn ($\sim$0.32), cho thấy mô hình học thuộc dữ liệu huấn luyện thay vì tổng quát hóa.
+\end{itemize}
+
+\subsection{Đoạn mã minh họa}
+
+\begin{lstlisting}[language=Python, caption=Định nghĩa lớp CNNClassifier]
+class CNNClassifier(nn.Module):
+    def __init__(self, num_classes=15):
+        super(CNNClassifier, self).__init__()
+        # Input: 3 x 224 x 224
+        self.features = nn.Sequential(
+            # Conv Block 1
+            nn.Conv2d(3, 32, kernel_size=3, padding=0), 
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2),
+            # Conv Block 2
+            nn.Conv2d(32, 64, kernel_size=3, padding=0), 
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2)
+        )
+        # 224 -> 222 -> 111 -> 109 -> 54
+        self.flatten_size = 64 * 54 * 54  # = 186,624
+        
+        self.classifier = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(self.flatten_size, 512),
+            nn.ReLU(),
+            nn.Linear(512, num_classes)
+        )
+
+    def forward(self, x):
+        x = self.features(x)
+        x = self.classifier(x)
+        return x
+\end{lstlisting}
+
+% ============================================================================
+% SECTION 2: MÔ HÌNH RESNET-34
+% ============================================================================
+\section{Mô hình ResNet-34}
+\label{sec:resnet_model}
+
+\subsection{Kiến trúc mô hình}
+
+Mô hình ResNet-34 được xây dựng từ đầu (from scratch) theo kiến trúc gốc của He et al. (2016). Đặc điểm quan trọng nhất của ResNet là \textbf{skip connections} (residual connections), cho phép gradient lan truyền trực tiếp qua nhiều lớp, giải quyết vấn đề vanishing gradient trong các mạng sâu.
+
+\textbf{Cấu trúc BasicBlock:}
+\begin{itemize}[noitemsep]
+    \item Conv2d ($3 \times 3$) $\rightarrow$ BatchNorm2d $\rightarrow$ ReLU
+    \item Conv2d ($3 \times 3$) $\rightarrow$ BatchNorm2d
+    \item Skip connection: $output = F(x) + x$
+    \item ReLU activation cuối cùng
+\end{itemize}
+
+\textbf{Cấu hình ResNet-34:}
+\begin{table}[H]
+\centering
+\caption{Cấu hình các layer trong ResNet-34}
+\label{tab:resnet_layers}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Layer} & \textbf{Channels} & \textbf{Blocks} & \textbf{Stride} & \textbf{Output Size} \\
+\midrule
+Conv1 (7$\times$7) & 64 & -- & 2 & $112 \times 112$ \\
+MaxPool & 64 & -- & 2 & $56 \times 56$ \\
+Layer1 & 64 & 3 & 1 & $56 \times 56$ \\
+Layer2 & 128 & 4 & 2 & $28 \times 28$ \\
+Layer3 & 256 & 6 & 2 & $14 \times 14$ \\
+Layer4 & 512 & 3 & 2 & $7 \times 7$ \\
+AvgPool & 512 & -- & -- & $1 \times 1$ \\
+FC & 15 & -- & -- & 15 classes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Tổng số tham số:} $\sim$21 triệu tham số
+
+\textbf{Ưu điểm so với CNN baseline:}
+\begin{itemize}[noitemsep]
+    \item Sử dụng \textbf{Global Average Pooling} thay vì Flatten $\Rightarrow$ giảm đáng kể số tham số
+    \item \textbf{Batch Normalization} ổn định quá trình huấn luyện
+    \item \textbf{Skip connections} giúp huấn luyện mạng sâu hiệu quả hơn
+    \item \textbf{Kaiming initialization} cho các lớp tích chập
+\end{itemize}
+
+\subsection{Cấu hình huấn luyện}
+
+\begin{table}[H]
+\centering
+\caption{Cấu hình huấn luyện mô hình ResNet-34}
+\label{tab:resnet_config}
+\begin{tabular}{ll}
+\toprule
+\textbf{Tham số} & \textbf{Giá trị} \\
+\midrule
+Kích thước ảnh & $224 \times 224$ \\
+Batch Size & 32 \\
+Learning Rate & $1 \times 10^{-4}$ \\
+Weight Decay & $1 \times 10^{-6}$ \\
+Số Epoch & 10 \\
+Optimizer & AdamW \\
+Loss Function & BCEWithLogitsLoss \\
+Weight Initialization & Kaiming Normal \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Kết quả thực nghiệm}
+
+\begin{table}[H]
+\centering
+\caption{Kết quả huấn luyện mô hình ResNet-34 (10 epoch)}
+\label{tab:resnet_results}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Chỉ số} & \textbf{Train} & \textbf{Validation} & \textbf{Test} \\
+\midrule
+Loss (epoch cuối) & 0.2786 & 0.3742 & -- \\
+AUC (epoch cuối) & 0.7768 & 0.5235 & $\sim$0.53 \\
+Best Val AUC & -- & 0.5293 (epoch 6) & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Nhận xét:}
+\begin{itemize}[noitemsep]
+    \item \textbf{Hiệu suất thấp hơn kỳ vọng}: Val AUC chỉ đạt 0.53, thấp hơn CNN baseline (0.60).
+    \item \textbf{Vẫn có overfitting}: Train AUC (0.78) cao hơn nhiều so với Val AUC (0.52).
+    \item \textbf{Nguyên nhân có thể}: 
+    \begin{itemize}
+        \item Mô hình huấn luyện từ đầu cần nhiều dữ liệu hơn
+        \item Không sử dụng pretrained weights từ ImageNet
+        \item Số mẫu huấn luyện nhỏ (100 ảnh sample)
+    \end{itemize}
+\end{itemize}
+
+\textbf{So sánh với CNN:}
+\begin{itemize}[noitemsep]
+    \item ResNet-34 có ít tham số hơn nhiều (21M vs 95M)
+    \item Tuy nhiên, với lượng dữ liệu nhỏ, mô hình đơn giản như CNN lại cho kết quả tốt hơn
+    \item Điều này gợi ý rằng cần sử dụng transfer learning cho các mô hình sâu
+\end{itemize}
+
+\subsection{Đoạn mã minh họa}
+
+\begin{lstlisting}[language=Python, caption=Định nghĩa BasicBlock và hàm \_make\_layer]
+class BasicBlock(nn.Module):
+    expansion = 1
+    
+    def __init__(self, in_channels, out_channels, stride=1, downsample=None):
+        super(BasicBlock, self).__init__()
+        self.conv1 = nn.Conv2d(in_channels, out_channels, 
+                               kernel_size=3, stride=stride, padding=1, bias=False)
+        self.bn1 = nn.BatchNorm2d(out_channels)
+        self.relu = nn.ReLU(inplace=True)
+        self.conv2 = nn.Conv2d(out_channels, out_channels, 
+                               kernel_size=3, stride=1, padding=1, bias=False)
+        self.bn2 = nn.BatchNorm2d(out_channels)
+        self.downsample = downsample
+        
+    def forward(self, x):
+        identity = x
+        
+        out = self.conv1(x)
+        out = self.bn1(out)
+        out = self.relu(out)
+        out = self.conv2(out)
+        out = self.bn2(out)
+        
+        if self.downsample is not None:
+            identity = self.downsample(x)
+        
+        out += identity  # Skip connection
+        out = self.relu(out)
+        return out
+
+def create_resnet34(num_classes=15):
+    """Tao mo hinh ResNet-34 voi cau hinh [3,4,6,3] blocks"""
+    return ResNet(BasicBlock, [3, 4, 6, 3], num_classes=num_classes)
+\end{lstlisting}
+
+% ============================================================================
+% SECTION 3: MÔ HÌNH VISION TRANSFORMER (ViT-v1 và ViT-v2)
+% ============================================================================
+\section{Mô hình Vision Transformer (ViT-v1 và ViT-v2)}
+\label{sec:vit_scratch}
+
+Vision Transformer (ViT) là kiến trúc áp dụng cơ chế self-attention của Transformer (Vaswani et al., 2017) vào bài toán thị giác máy tính. Thay vì sử dụng các lớp tích chập, ViT chia ảnh thành các patch và xử lý chúng như một chuỗi (sequence) các token.
+
+\subsection{Kiến trúc ViT-v1}
+
+\textbf{Cấu hình mô hình:}
+\begin{table}[H]
+\centering
+\caption{Cấu hình kiến trúc ViT-v1 và ViT-v2}
+\label{tab:vit_config}
+\begin{tabular}{ll}
+\toprule
+\textbf{Tham số} & \textbf{Giá trị} \\
+\midrule
+Image Size & $224 \times 224$ \\
+Patch Size & $32 \times 32$ \\
+Số Patches & $(224/32)^2 = 49$ \\
+Embedding Dimension & 64 \\
+Number of Heads & 4 \\
+Transformer Layers (Depth) & 8 \\
+MLP Ratio & 2 \\
+Dropout & 0.1 \\
+MLP Head Units & [2048, 1024] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Tổng số tham số:} $\sim$9.0 triệu tham số
+
+\textbf{Các thành phần chính:}
+\begin{enumerate}[noitemsep]
+    \item \textbf{Patch Embedding}: Sử dụng Conv2d với kernel = patch\_size để chiếu các patch thành embedding vectors.
+    \item \textbf{Positional Embedding}: Learnable positional embedding được cộng vào patch embeddings.
+    \item \textbf{Transformer Encoder}: 8 layers, mỗi layer gồm:
+    \begin{itemize}
+        \item Layer Normalization (Pre-LN)
+        \item Multi-Head Self-Attention (4 heads)
+        \item Residual Connection
+        \item Layer Normalization
+        \item MLP (GELU activation)
+        \item Residual Connection
+    \end{itemize}
+    \item \textbf{Classification Head}: Flatten tất cả patches $\rightarrow$ MLP [2048, 1024, 15]
+\end{enumerate}
+
+\textbf{Lưu ý quan trọng:} Mô hình này \textbf{không sử dụng CLS token} như trong kiến trúc ViT gốc. Thay vào đó, tất cả patch embeddings sau Transformer được flatten và đưa vào MLP classifier.
+
+\subsection{Kiến trúc ViT-v2 và khác biệt so với v1}
+
+ViT-v2 có \textbf{cùng kiến trúc} với ViT-v1, nhưng khác biệt ở \textbf{cấu hình huấn luyện}:
+
+\begin{table}[H]
+\centering
+\caption{So sánh cấu hình huấn luyện ViT-v1 và ViT-v2}
+\label{tab:vit_v1_v2_compare}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Tham số} & \textbf{ViT-v1} & \textbf{ViT-v2} \\
+\midrule
+Optimizer & AdamW & SGD (Nesterov) \\
+Learning Rate & $1 \times 10^{-4}$ & 0.01 \\
+Weight Decay & $1 \times 10^{-6}$ & $1 \times 10^{-5}$ \\
+LR Scheduler & Không & ReduceLROnPlateau \\
+Early Stopping & Không & Có (patience=3) \\
+Momentum & -- & 0.9 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Các cải tiến trong ViT-v2:}
+\begin{itemize}[noitemsep]
+    \item \textbf{Optimizer SGD với Nesterov momentum}: Learning rate cao hơn (0.01) kết hợp với momentum=0.9 giúp hội tụ nhanh hơn.
+    \item \textbf{Weight decay mạnh hơn} ($10^{-5}$ thay vì $10^{-6}$): Tăng regularization để giảm overfitting.
+    \item \textbf{Learning rate scheduler}: ReduceLROnPlateau giảm LR khi validation loss không cải thiện.
+    \item \textbf{Early stopping}: Dừng huấn luyện sớm nếu không cải thiện sau 3 epoch liên tiếp.
+\end{itemize}
+
+\subsection{Cấu hình huấn luyện}
+
+\begin{table}[H]
+\centering
+\caption{Cấu hình huấn luyện chi tiết}
+\label{tab:vit_training_config}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Tham số} & \textbf{ViT-v1} & \textbf{ViT-v2} \\
+\midrule
+Batch Size & 32 & 32 \\
+Số Epoch tối đa & 10 & 10 \\
+Loss Function & BCEWithLogitsLoss & BCEWithLogitsLoss \\
+Số epoch thực chạy & 10 & 9 (early stop) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Kết quả thực nghiệm}
+
+\begin{table}[H]
+\centering
+\caption{So sánh kết quả ViT-v1 và ViT-v2}
+\label{tab:vit_results}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Mô hình} & \textbf{Best Val AUC} & \textbf{Best Epoch} & \textbf{Test AUC} & \textbf{Test Acc} \\
+\midrule
+ViT-v1 & 0.6431 & 4 & 0.5854 & 91.33\% \\
+ViT-v2 & 0.5947 & 9 & 0.6303 & 89.67\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Kết quả AUC theo từng bệnh (Per-class AUC):}
+
+\begin{table}[H]
+\centering
+\caption{Per-class AUC của ViT-v1 và ViT-v2 trên tập Test}
+\label{tab:vit_perclass}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Bệnh} & \textbf{ViT-v1 AUC} & \textbf{ViT-v2 AUC} \\
+\midrule
+Cardiomegaly & 0.79 & \textbf{1.00} \\
+Emphysema & -- & \textbf{0.84} \\
+Effusion & 0.51 & \textbf{0.73} \\
+Nodule & \textbf{0.68} & -- \\
+Pneumothorax & \textbf{0.84} & 0.69 \\
+Atelectasis & \textbf{0.47} & 0.32 \\
+Pleural\_Thickening & 0.42 & \textbf{0.68} \\
+Mass & 0.11 & -- \\
+Edema & -- & 0.42 \\
+Consolidation & \textbf{0.61} & 0.33 \\
+Infiltration & \textbf{0.89} & 0.52 \\
+No Finding & 0.53 & \textbf{0.76} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Nhận xét quan trọng:}
+\begin{itemize}[noitemsep]
+    \item \textbf{ViT-v1 và ViT-v2 có điểm mạnh bổ sung cho nhau}: ViT-v1 tốt hơn ở Infiltration (0.89), Pneumothorax (0.84), trong khi ViT-v2 tốt hơn ở Cardiomegaly (1.00), Emphysema (0.84), và No Finding (0.76).
+    \item \textbf{Tiềm năng ensemble}: Kết hợp hai mô hình có thể cải thiện hiệu suất tổng thể.
+    \item \textbf{Các bệnh khó phát hiện}: Mass (AUC=0.11 ở ViT-v1), Consolidation (0.33 ở ViT-v2), Atelectasis (0.32 ở ViT-v2) có AUC rất thấp, cho thấy cần cải thiện đáng kể.
+\end{itemize}
+
+\subsection{Đoạn mã minh họa}
+
+\begin{lstlisting}[language=Python, caption=Định nghĩa PatchEmbedding và TransformerEncoderBlock]
+class PatchEmbedding(nn.Module):
+    def __init__(self, img_size=224, patch_size=32, in_channels=3, embed_dim=64):
+        super().__init__()
+        self.num_patches = (img_size // patch_size) ** 2
+        # Su dung Conv2d de chieu patch thanh embedding
+        self.proj = nn.Conv2d(in_channels, embed_dim, 
+                              kernel_size=patch_size, stride=patch_size)
+        
+    def forward(self, x):
+        x = self.proj(x)          # (B, embed_dim, H/P, W/P)
+        x = x.flatten(2)          # (B, embed_dim, num_patches)
+        x = x.transpose(1, 2)     # (B, num_patches, embed_dim)
+        return x
+
+class TransformerEncoderBlock(nn.Module):
+    def __init__(self, embed_dim, num_heads, mlp_ratio=4, dropout=0.1):
+        super().__init__()
+        self.ln1 = nn.LayerNorm(embed_dim, eps=1e-6)
+        self.attn = nn.MultiheadAttention(embed_dim, num_heads, 
+                                          dropout=dropout, batch_first=True)
+        self.ln2 = nn.LayerNorm(embed_dim, eps=1e-6)
+        self.mlp = MLP(embed_dim, int(embed_dim * mlp_ratio), embed_dim, dropout)
+        
+    def forward(self, x):
+        # Pre-LN + Self-Attention + Residual
+        x_norm = self.ln1(x)
+        attn_out, _ = self.attn(x_norm, x_norm, x_norm)
+        x = x + attn_out
+        # Pre-LN + MLP + Residual
+        x = x + self.mlp(self.ln2(x))
+        return x
+\end{lstlisting}
+
+% ============================================================================
+% SECTION 4: MÔ HÌNH ViT TIỀN HUẤN LUYỆN (Pretrained ViT)
+% ============================================================================
+\section{Mô hình ViT tiền huấn luyện (Pretrained ViT)}
+\label{sec:vit_pretrained}
+
+\subsection{Kiến trúc mô hình}
+
+Mô hình ViT tiền huấn luyện sử dụng thư viện \texttt{timm} (PyTorch Image Models) để tải trọng số đã được huấn luyện trên ImageNet. Đây là phương pháp \textbf{transfer learning}, tận dụng kiến thức đã học từ tập dữ liệu lớn để giải quyết bài toán y khoa với ít dữ liệu hơn.
+
+\textbf{Model được sử dụng:} \texttt{vit\_base\_patch16\_224}
+
+\begin{table}[H]
+\centering
+\caption{Cấu hình kiến trúc ViT-Base/16}
+\label{tab:vit_pretrained_config}
+\begin{tabular}{ll}
+\toprule
+\textbf{Tham số} & \textbf{Giá trị} \\
+\midrule
+Model Name & vit\_base\_patch16\_224 \\
+Pretrained Dataset & ImageNet-21K \\
+Image Size & $224 \times 224$ \\
+Patch Size & $16 \times 16$ \\
+Số Patches & $(224/16)^2 = 196$ \\
+Embedding Dimension & 768 \\
+Number of Heads & 12 \\
+Transformer Layers & 12 \\
+MLP Ratio & 4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Tổng số tham số:} $\sim$86 triệu tham số
+
+\textbf{Thay đổi classification head:}
+\begin{itemize}[noitemsep]
+    \item Head gốc: Linear $768 \rightarrow 1000$ (ImageNet classes)
+    \item Head mới: Linear $768 \rightarrow 15$ (15 bệnh phổi)
+\end{itemize}
+
+\textbf{So sánh với ViT từ đầu:}
+\begin{table}[H]
+\centering
+\caption{So sánh ViT Pretrained và ViT from Scratch}
+\label{tab:vit_compare}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Thuộc tính} & \textbf{ViT Scratch} & \textbf{ViT Pretrained} \\
+\midrule
+Patch Size & 32 & 16 \\
+Số Patches & 49 & 196 \\
+Embedding Dim & 64 & 768 \\
+Transformer Layers & 8 & 12 \\
+Số tham số & 9M & 86M \\
+Pretrained & Không & ImageNet-21K \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Cấu hình huấn luyện}
+
+\begin{table}[H]
+\centering
+\caption{Cấu hình huấn luyện ViT Pretrained}
+\label{tab:vit_pretrained_training}
+\begin{tabular}{ll}
+\toprule
+\textbf{Tham số} & \textbf{Giá trị} \\
+\midrule
+Batch Size & 16 \\
+Learning Rate & $1 \times 10^{-4}$ \\
+Optimizer & AdamW \\
+Loss Function & BCEWithLogitsLoss \\
+Số Epoch & 10 \\
+Fine-tuning & Toàn bộ mô hình \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Lưu ý về Batch Size:} Batch size giảm từ 32 xuống 16 do mô hình lớn hơn đáng kể (86M params vs 9M params), đòi hỏi nhiều GPU memory hơn.
+
+\subsection{Kết quả thực nghiệm}
+
+\begin{table}[H]
+\centering
+\caption{Kết quả huấn luyện ViT Pretrained}
+\label{tab:vit_pretrained_results}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Chỉ số} & \textbf{Train} & \textbf{Validation} & \textbf{Test} \\
+\midrule
+Loss (epoch cuối) & 0.2425 & 0.3232 & 0.3768 \\
+Accuracy & 90.22\% & 86.67\% & 87.00\% \\
+AUC (epoch cuối) & 0.8820 & 0.6673 & \textbf{0.6694} \\
+Best Val AUC & -- & 0.6836 (epoch 4) & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{So sánh tổng hợp tất cả các mô hình:}
+
+\begin{table}[H]
+\centering
+\caption{So sánh hiệu suất tất cả các mô hình}
+\label{tab:all_models_compare}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Mô hình} & \textbf{Params} & \textbf{Best Val AUC} & \textbf{Test AUC} & \textbf{Test Acc} & \textbf{Xếp hạng} \\
+\midrule
+CNN Baseline & 95M & 0.5998 & $\sim$0.58 & $\sim$89\% & 4 \\
+ResNet-34 & 21M & 0.5293 & $\sim$0.53 & $\sim$91\% & 5 \\
+ViT-v1 & 9M & 0.6431 & 0.5854 & 91.33\% & 3 \\
+ViT-v2 & 9M & 0.5947 & 0.6303 & 89.67\% & 2 \\
+\textbf{ViT Pretrained} & 86M & \textbf{0.6836} & \textbf{0.6694} & 87.00\% & \textbf{1} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Nhận xét chính:}
+\begin{enumerate}
+    \item \textbf{ViT Pretrained đạt AUC cao nhất} (0.6694), xác nhận hiệu quả của transfer learning trong y khoa.
+    \item \textbf{Khoảng cách giữa pretrained và scratch}: Test AUC tăng từ 0.58--0.63 (scratch) lên 0.67 (pretrained), cải thiện khoảng 7-15\%.
+    \item \textbf{Trade-off giữa tham số và hiệu suất}: ViT-v1/v2 chỉ có 9M tham số nhưng đạt AUC gần bằng pretrained (86M params).
+    \item \textbf{Accuracy không phản ánh đúng chất lượng mô hình}: CNN đạt accuracy cao (89\%) nhưng AUC thấp (0.58), cho thấy mô hình chủ yếu dự đoán "No Finding" (chiếm 53.8\% dữ liệu).
+\end{enumerate}
+
+\subsection{Đoạn mã minh họa}
+
+\begin{lstlisting}[language=Python, caption=Tạo mô hình ViT Pretrained với timm]
+import timm
+import torch.nn as nn
+
+# Tao mo hinh ViT pretrained tu thu vien timm
+model = timm.create_model('vit_base_patch16_224', pretrained=True)
+
+# Thay the classification head cho bai toan 15 lop benh
+num_classes = 15
+model.head = nn.Linear(model.head.in_features, num_classes)
+
+# Chuyen model len GPU
+model = model.to(device)
+
+# In thong tin mo hinh
+total_params = sum(p.numel() for p in model.parameters())
+trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+print(f"Total parameters: {total_params:,}")       # ~86M
+print(f"Trainable parameters: {trainable_params:,}")
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption=Hàm tính AUC với xử lý trường hợp đặc biệt]
+def compute_auc_safe(targets, outputs, num_classes):
+    """Tinh AUC an toan, xu ly truong hop chi co 1 label value"""
+    # Tim cac class co ca mau positive va negative
+    valid_classes = []
+    for i in range(num_classes):
+        unique_labels = np.unique(targets[:, i])
+        if len(unique_labels) > 1:  # Can ca 0 va 1
+            valid_classes.append(i)
+    
+    if len(valid_classes) == 0:
+        return 0.0
+    
+    # Tinh macro AUC chi tren cac class hop le
+    auc = roc_auc_score(
+        targets[:, valid_classes],
+        outputs[:, valid_classes],
+        average='macro'
+    )
+    return auc
+\end{lstlisting}
+
+% ============================================================================
+% SECTION 5: TỔNG KẾT VÀ KHUYẾN NGHỊ
+% ============================================================================
+\section{Tổng kết và khuyến nghị}
+\label{sec:summary}
+
+\subsection{Tổng kết kết quả}
+
+Qua quá trình thực nghiệm với 5 mô hình khác nhau trên bộ dữ liệu NIH Chest X-ray 14, chúng tôi rút ra các kết luận sau:
+
+\begin{enumerate}
+    \item \textbf{Transfer learning là cần thiết}: Mô hình ViT pretrained cho kết quả tốt nhất (AUC = 0.67), cao hơn đáng kể so với các mô hình huấn luyện từ đầu.
+    
+    \item \textbf{Kiến trúc đơn giản có thể hiệu quả với dữ liệu nhỏ}: CNN baseline (95M params) đạt AUC tương đương ViT scratch (9M params) trên tập dữ liệu sample nhỏ.
+    
+    \item \textbf{AUC là metric quan trọng hơn accuracy}: Accuracy cao (89-91\%) không phản ánh chính xác khả năng phân loại bệnh do class imbalance nghiêm trọng.
+    
+    \item \textbf{Các bệnh hiếm cần được chú ý đặc biệt}: Mass, Hernia, Pneumonia có prevalence $< 2\%$ và AUC thường thấp hơn 0.5.
+\end{enumerate}
+
+\subsection{Khuyến nghị cải tiến}
+
+\textbf{Về kiến trúc mô hình:}
+\begin{itemize}[noitemsep]
+    \item Sử dụng Global Average Pooling thay vì Flatten trong CNN
+    \item Áp dụng pretrained ResNet hoặc EfficientNet cho so sánh công bằng hơn
+    \item Thử nghiệm ViT-Small hoặc DeiT để cân bằng giữa hiệu suất và chi phí tính toán
+\end{itemize}
+
+\textbf{Về huấn luyện:}
+\begin{itemize}[noitemsep]
+    \item Sử dụng Focal Loss hoặc Weighted BCE để xử lý class imbalance
+    \item Áp dụng Cosine Annealing LR scheduler
+    \item Tăng số epoch và sử dụng early stopping với patience lớn hơn
+    \item Huấn luyện trên toàn bộ dataset (112,120 ảnh) thay vì sample
+\end{itemize}
+
+\textbf{Về dữ liệu:}
+\begin{itemize}[noitemsep]
+    \item Sử dụng patient-level split để tránh data leakage
+    \item Giảm horizontal flip probability (0.3 thay vì 0.5) do đặc thù ảnh y khoa
+    \item Áp dụng thêm augmentation: MixUp, CutMix, AutoAugment
+\end{itemize}
+
+\textbf{Về đánh giá:}
+\begin{itemize}[noitemsep]
+    \item Báo cáo per-class AUC cho tất cả 15 bệnh
+    \item Sử dụng bootstrap để tính confidence interval
+    \item Thực hiện cross-validation để đánh giá robustness
+\end{itemize}

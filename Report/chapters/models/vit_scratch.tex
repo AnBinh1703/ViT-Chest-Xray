@@ -1,0 +1,166 @@
+% ============================================================================
+% MÔ HÌNH VISION TRANSFORMER (ViT-v1 và ViT-v2)
+% ============================================================================
+\section{Mô hình Vision Transformer (ViT-v1 và ViT-v2)}
+\label{sec:vit_scratch}
+
+Vision Transformer (ViT) là kiến trúc áp dụng cơ chế self-attention của Transformer (Vaswani et al., 2017) vào bài toán thị giác máy tính. Thay vì sử dụng các lớp tích chập, ViT chia ảnh thành các patch và xử lý chúng như một chuỗi (sequence) các token.
+
+\subsection{Kiến trúc ViT-v1}
+
+\textbf{Cấu hình mô hình:}
+\begin{table}[H]
+\centering
+\caption{Cấu hình kiến trúc ViT-v1 và ViT-v2}
+\label{tab:vit_config}
+\begin{tabular}{ll}
+\toprule
+\textbf{Tham số} & \textbf{Giá trị} \\
+\midrule
+Image Size & $224 \times 224$ \\
+Patch Size & $32 \times 32$ \\
+Số Patches & $(224/32)^2 = 49$ \\
+Embedding Dimension & 64 \\
+Number of Heads & 4 \\
+Transformer Layers (Depth) & 8 \\
+MLP Ratio & 2 \\
+Dropout & 0.1 \\
+MLP Head Units & [2048, 1024] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Tổng số tham số:} $\sim$9.0 triệu tham số
+
+\textbf{Các thành phần chính:}
+\begin{enumerate}[noitemsep]
+    \item \textbf{Patch Embedding}: Sử dụng Conv2d với kernel = patch\_size để chiếu các patch thành embedding vectors.
+    \item \textbf{Positional Embedding}: Learnable positional embedding được cộng vào patch embeddings.
+    \item \textbf{Transformer Encoder}: 8 layers, mỗi layer gồm:
+    \begin{itemize}
+        \item Layer Normalization (Pre-LN)
+        \item Multi-Head Self-Attention (4 heads)
+        \item Residual Connection
+        \item Layer Normalization
+        \item MLP (GELU activation)
+        \item Residual Connection
+    \end{itemize}
+    \item \textbf{Classification Head}: Flatten tất cả patches $\rightarrow$ MLP [2048, 1024, 15]
+\end{enumerate}
+
+\textbf{Lưu ý quan trọng:} Mô hình này \textbf{không sử dụng CLS token} như trong kiến trúc ViT gốc. Thay vào đó, tất cả patch embeddings sau Transformer được flatten và đưa vào MLP classifier.
+
+\subsection{Kiến trúc ViT-v2 và khác biệt so với v1}
+
+ViT-v2 có \textbf{cùng kiến trúc} với ViT-v1, nhưng khác biệt ở \textbf{cấu hình huấn luyện}:
+
+\begin{table}[H]
+\centering
+\caption{So sánh cấu hình huấn luyện ViT-v1 và ViT-v2}
+\label{tab:vit_v1_v2_compare}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Tham số} & \textbf{ViT-v1} & \textbf{ViT-v2} \\
+\midrule
+Optimizer & AdamW & SGD (Nesterov) \\
+Learning Rate & $1 \times 10^{-4}$ & 0.01 \\
+Weight Decay & $1 \times 10^{-6}$ & $1 \times 10^{-5}$ \\
+LR Scheduler & Không & ReduceLROnPlateau \\
+Early Stopping & Không & Có (patience=3) \\
+Momentum & -- & 0.9 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Các cải tiến trong ViT-v2:}
+\begin{itemize}[noitemsep]
+    \item \textbf{Optimizer SGD với Nesterov momentum}: Learning rate cao hơn (0.01) kết hợp với momentum=0.9 giúp hội tụ nhanh hơn.
+    \item \textbf{Weight decay mạnh hơn} ($10^{-5}$ thay vì $10^{-6}$): Tăng regularization để giảm overfitting.
+    \item \textbf{Learning rate scheduler}: ReduceLROnPlateau giảm LR khi validation loss không cải thiện.
+    \item \textbf{Early stopping}: Dừng huấn luyện sớm nếu không cải thiện sau 3 epoch liên tiếp.
+\end{itemize}
+
+\subsection{Kết quả thực nghiệm}
+
+\begin{table}[H]
+\centering
+\caption{So sánh kết quả ViT-v1 và ViT-v2}
+\label{tab:vit_results}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Mô hình} & \textbf{Best Val AUC} & \textbf{Best Epoch} & \textbf{Test AUC} & \textbf{Test Acc} \\
+\midrule
+ViT-v1 & 0.6431 & 4 & 0.5854 & 91.33\% \\
+ViT-v2 & 0.5947 & 9 & 0.6303 & 89.67\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Kết quả AUC theo từng bệnh (Per-class AUC):}
+
+\begin{table}[H]
+\centering
+\caption{Per-class AUC của ViT-v1 và ViT-v2 trên tập Test}
+\label{tab:vit_perclass}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Bệnh} & \textbf{ViT-v1 AUC} & \textbf{ViT-v2 AUC} \\
+\midrule
+Cardiomegaly & 0.79 & \textbf{1.00} \\
+Emphysema & -- & \textbf{0.84} \\
+Effusion & 0.51 & \textbf{0.73} \\
+Nodule & \textbf{0.68} & -- \\
+Pneumothorax & \textbf{0.84} & 0.69 \\
+Atelectasis & \textbf{0.47} & 0.32 \\
+Pleural\_Thickening & 0.42 & \textbf{0.68} \\
+Mass & 0.11 & -- \\
+Edema & -- & 0.42 \\
+Consolidation & \textbf{0.61} & 0.33 \\
+Infiltration & \textbf{0.89} & 0.52 \\
+No Finding & 0.53 & \textbf{0.76} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Nhận xét quan trọng:}
+\begin{itemize}[noitemsep]
+    \item \textbf{ViT-v1 và ViT-v2 có điểm mạnh bổ sung cho nhau}: ViT-v1 tốt hơn ở Infiltration (0.89), Pneumothorax (0.84), trong khi ViT-v2 tốt hơn ở Cardiomegaly (1.00), Emphysema (0.84), và No Finding (0.76).
+    \item \textbf{Tiềm năng ensemble}: Kết hợp hai mô hình có thể cải thiện hiệu suất tổng thể.
+    \item \textbf{Các bệnh khó phát hiện}: Mass (AUC=0.11 ở ViT-v1), Consolidation (0.33 ở ViT-v2), Atelectasis (0.32 ở ViT-v2) có AUC rất thấp, cho thấy cần cải thiện đáng kể.
+\end{itemize}
+
+\subsection{Đoạn mã minh họa}
+
+\begin{lstlisting}[language=Python, caption=Định nghĩa PatchEmbedding và TransformerEncoderBlock]
+class PatchEmbedding(nn.Module):
+    def __init__(self, img_size=224, patch_size=32, in_channels=3, embed_dim=64):
+        super().__init__()
+        self.num_patches = (img_size // patch_size) ** 2
+        # Su dung Conv2d de chieu patch thanh embedding
+        self.proj = nn.Conv2d(in_channels, embed_dim, 
+                              kernel_size=patch_size, stride=patch_size)
+        
+    def forward(self, x):
+        x = self.proj(x)          # (B, embed_dim, H/P, W/P)
+        x = x.flatten(2)          # (B, embed_dim, num_patches)
+        x = x.transpose(1, 2)     # (B, num_patches, embed_dim)
+        return x
+
+class TransformerEncoderBlock(nn.Module):
+    def __init__(self, embed_dim, num_heads, mlp_ratio=4, dropout=0.1):
+        super().__init__()
+        self.ln1 = nn.LayerNorm(embed_dim, eps=1e-6)
+        self.attn = nn.MultiheadAttention(embed_dim, num_heads, 
+                                          dropout=dropout, batch_first=True)
+        self.ln2 = nn.LayerNorm(embed_dim, eps=1e-6)
+        self.mlp = MLP(embed_dim, int(embed_dim * mlp_ratio), embed_dim, dropout)
+        
+    def forward(self, x):
+        # Pre-LN + Self-Attention + Residual
+        x_norm = self.ln1(x)
+        attn_out, _ = self.attn(x_norm, x_norm, x_norm)
+        x = x + attn_out
+        # Pre-LN + MLP + Residual
+        x = x + self.mlp(self.ln2(x))
+        return x
+\end{lstlisting}

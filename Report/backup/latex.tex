@@ -1,0 +1,1747 @@
+% !TEX program = xelatex
+% ============================================================
+%  BÁO CÁO PHÂN TÍCH CHUYÊN SÂU (1 FILE LaTeX)
+%  Paper: A Comparative Study of CNN, ResNet, and Vision Transformers 
+%         for Multi-Classification of Chest Diseases
+%  Phân tích từ Paper đến Code Implementation
+%  Biên dịch khuyến nghị: XeLaTeX
+% ============================================================
+
+\documentclass[12pt,a4paper]{report}
+
+% =========================
+% Unicode + Fonts (XeLaTeX)
+% =========================
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}
+
+% =========================
+% Page / Typography
+% =========================
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{parskip}
+\usepackage{indentfirst}
+
+% =========================
+% Math / Tables / Figures
+% =========================
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{caption}
+\usepackage{siunitx}
+\usepackage{algorithm,algorithmic}
+
+% TikZ for diagrams
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,decorations.pathreplacing,calc}
+
+% Symbols
+\usepackage{pifont}
+
+% =========================
+% Links
+% =========================
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!70!black,
+  citecolor=green!50!black,
+  urlcolor=blue
+}
+
+% =========================
+% Lists / Code
+% =========================
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=1.2cm}
+\setlist[enumerate]{leftmargin=1.2cm}
+
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\tcbuselibrary{listings,skins,breakable}
+
+% Code listing style
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{pythonstyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    language=Python
+}
+\lstset{style=pythonstyle}
+
+\lstdefinestyle{plain}{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=none,
+    backgroundcolor=\color{backcolour}
+}
+
+% =========================
+% Macros
+% =========================
+\newcommand{\paperref}[1]{\textcolor{blue!70!black}{[Paper: #1]}}
+\newcommand{\coderef}[1]{\textcolor{green!50!black}{[Code: #1]}}
+\newcommand{\important}[1]{\textbf{\textcolor{red!70!black}{#1}}}
+\newcommand{\concept}[1]{\textit{\textcolor{purple}{#1}}}
+
+\newcommand{\PaperTitle}{A Comparative Study of CNN, ResNet, and Vision Transformers for Multi-Classification of Chest Diseases}
+\newcommand{\Dataset}{NIH ChestX-ray14}
+\newcommand{\Task}{phân loại đa nhãn (multi-label classification)}
+\newcommand{\CNN}{\textsc{CNN}}
+\newcommand{\ResNet}{\textsc{ResNet}}
+\newcommand{\ViT}{\textsc{ViT}}
+\newcommand{\AUC}{\textsc{AUC}}
+\newcommand{\ROC}{\textsc{ROC}}
+\newcommand{\BCE}{\textsc{BCE}}
+
+% =========================
+% Document
+% =========================
+\begin{document}
+
+% ============================================================
+% TITLE PAGE
+% ============================================================
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+
+{\Huge\bfseries PHÂN TÍCH CHUYÊN SÂU}\\[0.5cm]
+{\LARGE\bfseries TỪ PAPER ĐẾN CODE IMPLEMENTATION}\\[1cm]
+
+\rule{\textwidth}{1.5pt}\\[0.5cm]
+{\Large\textbf{A Comparative Study of CNN, ResNet, and Vision Transformers\\
+for Multi-Classification of Chest Diseases}}\\[0.3cm]
+\rule{\textwidth}{1.5pt}\\[1cm]
+
+{\large arXiv:2406.00237}\\[0.3cm]
+{\normalsize Ananya Jain, Aviral Bhardwaj, Kaushik Murali, Isha Surani}\\
+{\normalsize University of Toronto}\\[1.5cm]
+
+\begin{tabular}{rl}
+\textbf{Repository gốc:} & \url{https://github.com/Aviral-03/ViT-Chest-Xray} \\
+\textbf{Dataset:} & NIH Chest X-ray (112,120 images) \\
+\textbf{Framework gốc:} & TensorFlow/Keras \\
+\textbf{Framework cải tiến:} & PyTorch \\
+\end{tabular}
+
+\vfill
+
+{\large\textbf{BÁO CÁO PHÂN TÍCH VÀ TÁI LẬP}}\\[0.3cm]
+{\normalsize Deep Learning - Master of Software Engineering}\\[0.5cm]
+{\large \today}
+
+\end{titlepage}
+
+% ============================================================
+% ABSTRACT & KEYWORDS
+% ============================================================
+\chapter*{Tóm tắt nghiên cứu}
+\addcontentsline{toc}{chapter}{Tóm tắt nghiên cứu}
+
+\section*{Tổng quan Paper}
+
+Bài báo \textit{``A Comparative Study of CNN, ResNet, and Vision Transformers for Multi-Classification of Chest Diseases''} (arXiv:2406.00237) thực hiện so sánh ba kiến trúc học sâu chính trong bài toán phân loại đa nhãn bệnh lý trên ảnh X-quang ngực:
+
+\begin{enumerate}
+    \item \textbf{Convolutional Neural Networks (CNN):} Mô hình baseline với kiến trúc đơn giản
+    \item \textbf{Residual Networks (ResNet):} Mạng CNN sâu với skip connections
+    \item \textbf{Vision Transformers (ViT):} Kiến trúc Transformer áp dụng cho thị giác máy tính
+\end{enumerate}
+
+\section*{Đóng góp chính của Paper}
+
+\begin{itemize}
+    \item So sánh hiệu năng giữa CNN, ResNet và ViT trên tập dữ liệu NIH Chest X-ray
+    \item Đề xuất hai biến thể ViT: ViT-v1 (from scratch) và ViT-v2 (with regularization)
+    \item Giới thiệu mô hình hybrid ViT-ResNet với pre-training trên ImageNet-21k
+    \item Phân tích attention maps để diễn giải quyết định của mô hình
+\end{itemize}
+
+\section*{Kết quả chính}
+
+\begin{table}[H]
+\centering
+\caption{Tổng hợp kết quả từ Paper}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model} & \textbf{Test Acc (\%)} & \textbf{Val Acc (\%)} & \textbf{AUC} & \textbf{Ghi chú} \\
+\midrule
+CNN & 91.00 & 92.68 & 0.82 & Baseline \\
+ResNet & 93.00 & 93.34 & 0.86 & Strong baseline \\
+ViT-v1 & 92.63 & 92.89 & 0.86 & From scratch \\
+ViT-v2 & 92.83 & 92.95 & 0.84 & With regularization \\
+ViT-ResNet & \textbf{93.90} & \textbf{94.07} & 0.85 & Pre-trained hybrid \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{Phạm vi báo cáo này}
+
+Báo cáo phân tích chuyên sâu này bao gồm:
+
+\begin{enumerate}
+    \item \textbf{Phân tích lý thuyết:} Giải thích chi tiết từng kiến trúc (CNN, ResNet, ViT) về mặt toán học và trực giác
+    \item \textbf{Mapping Paper $\rightarrow$ Code:} Liên kết từng phần trong paper với implementation cụ thể
+    \item \textbf{Tái lập và cải tiến:} Chi tiết quá trình chuyển từ TensorFlow sang PyTorch
+    \item \textbf{Phân tích phê bình:} Đánh giá ưu/nhược điểm và đề xuất cải tiến
+\end{enumerate}
+
+\section*{Từ khóa}
+
+\textbf{Keywords:} Chest X-ray, Multi-label Classification, Convolutional Neural Networks, Residual Networks, Vision Transformer, Self-Attention, Transfer Learning, Medical Image Analysis, ROC-AUC, PyTorch, Deep Learning.
+
+\newpage
+
+\pagenumbering{roman}
+\tableofcontents
+\listoffigures
+\listoftables
+
+\clearpage
+\pagenumbering{arabic}
+
+% ============================================================
+% CHAPTER 1: INTRODUCTION
+% ============================================================
+\chapter{Giới thiệu và Bối cảnh Nghiên cứu}
+
+\section{Bối cảnh lâm sàng}
+
+\subsection{Vai trò của X-quang ngực trong chẩn đoán}
+
+\paperref{Section 1 - Introduction}
+
+X-quang ngực (Chest X-ray) là một trong những phương pháp chẩn đoán hình ảnh phổ biến nhất trong y tế:
+
+\begin{itemize}
+    \item \textbf{Chi phí thấp:} So với CT, MRI, X-quang có chi phí thấp hơn đáng kể
+    \item \textbf{Thời gian nhanh:} Kết quả có thể có trong vài phút
+    \item \textbf{Sàng lọc ban đầu:} Thường là xét nghiệm đầu tiên khi nghi ngờ bệnh phổi
+    \item \textbf{Khả năng phát hiện:} Có thể phát hiện nhiều bệnh lý: viêm phổi, xẹp phổi, tràn dịch, tim to, v.v.
+\end{itemize}
+
+\subsection{Thách thức trong chẩn đoán}
+
+Paper nhấn mạnh các thách thức chính:
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Trích dẫn từ Paper (Section 1)]
+\textit{``Although chest X-ray imaging is a relatively low cost tool for diagnosis, radiologists are needed to analyze these images. However the limited access to radiologists in many areas, and the variability between radiologists can be a problem.''}
+\end{tcolorbox}
+
+\begin{enumerate}
+    \item \textbf{Thiếu bác sĩ X-quang:} Đặc biệt ở vùng sâu, vùng xa
+    \item \textbf{Biến thiên giữa người đọc:} Inter-observer variability - hai bác sĩ có thể đưa ra chẩn đoán khác nhau
+    \item \textbf{Khối lượng dữ liệu lớn:} Một bác sĩ có thể phải đọc hàng trăm ảnh mỗi ngày
+    \item \textbf{Dấu hiệu tinh vi:} Một số bệnh có dấu hiệu rất khó nhận biết
+\end{enumerate}
+
+\section{Động lực nghiên cứu AI trong chẩn đoán hình ảnh}
+
+\subsection{Lợi ích của Machine Learning}
+
+\paperref{Section 1 - Introduction}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Lợi ích của ML trong Medical Imaging]
+\begin{enumerate}
+    \item \textbf{Tăng độ chính xác:} Models có thể học các patterns phức tạp từ dữ liệu lớn
+    \item \textbf{Mở rộng khả năng tiếp cận:} Giúp vùng thiếu bác sĩ có công cụ hỗ trợ chẩn đoán
+    \item \textbf{Nhất quán:} Không bị ảnh hưởng bởi mệt mỏi hay bias cá nhân
+    \item \textbf{Phát hiện chi tiết:} Có thể phát hiện các dấu hiệu mà mắt người bỏ qua
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Tiến hóa của Deep Learning trong Medical Imaging}
+
+\begin{enumerate}
+    \item \textbf{2012 - AlexNet:} CNN đầu tiên thắng ImageNet, mở ra kỷ nguyên Deep Learning
+    \item \textbf{2015 - ResNet:} Giải quyết vanishing gradient, cho phép train mạng rất sâu
+    \item \textbf{2017 - Attention mechanisms:} Transformer ra đời cho NLP
+    \item \textbf{2020 - Vision Transformer (ViT):} Áp dụng Transformer cho Computer Vision
+    \item \textbf{2021+:} ViT và variants trở thành state-of-the-art trong nhiều tasks
+\end{enumerate}
+
+\section{Câu hỏi nghiên cứu của Paper}
+
+\paperref{Section 1 - Introduction}
+
+Paper đặt ra các câu hỏi nghiên cứu cốt lõi:
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Research Questions]
+\begin{enumerate}
+    \item[\textbf{RQ1:}] CNN, ResNet và ViT khác nhau như thế nào về hiệu năng trong phân loại bệnh X-quang ngực?
+    \item[\textbf{RQ2:}] ViT trained from scratch có thể cạnh tranh với ResNet không?
+    \item[\textbf{RQ3:}] Pre-training trên ImageNet có giúp ViT cải thiện đáng kể không?
+    \item[\textbf{RQ4:}] Attention maps có thể cung cấp insights hữu ích cho việc diễn giải không?
+\end{enumerate}
+\end{tcolorbox}
+
+\section{Đóng góp của Paper}
+
+\subsection{Đóng góp kỹ thuật}
+
+\begin{enumerate}
+    \item \textbf{So sánh toàn diện:} Đánh giá 5 models (CNN, ResNet, ViT-v1, ViT-v2, ViT-ResNet) trên cùng một dataset
+    \item \textbf{Implementation chi tiết:} Cung cấp code và hướng dẫn tái lập
+    \item \textbf{Hyperparameter tuning:} Thử nghiệm nhiều cấu hình khác nhau
+    \item \textbf{Interpretability:} Trích xuất và phân tích attention maps
+\end{enumerate}
+
+\subsection{Đóng góp thực tiễn}
+
+\begin{enumerate}
+    \item \textbf{Guidance cho practitioners:} Khi nào nên dùng CNN, ResNet, hay ViT
+    \item \textbf{Insights về pre-training:} Tầm quan trọng của transfer learning trong medical imaging
+    \item \textbf{Open-source code:} Repository công khai để cộng đồng sử dụng
+\end{enumerate}
+
+\section{Cấu trúc báo cáo}
+
+\begin{itemize}
+    \item \textbf{Chapter 2:} Dataset - Phân tích chi tiết NIH Chest X-ray
+    \item \textbf{Chapter 3:} CNN - Lý thuyết + Code mapping
+    \item \textbf{Chapter 4:} ResNet - Lý thuyết + Code mapping
+    \item \textbf{Chapter 5:} ViT - Lý thuyết + Code mapping (trọng tâm)
+    \item \textbf{Chapter 6:} Experiments - Kết quả và phân tích
+    \item \textbf{Chapter 7:} Implementation - Quá trình tái lập và cải tiến
+    \item \textbf{Chapter 8:} Conclusion - Kết luận và đề xuất
+\end{itemize}
+
+% ============================================================
+% CHAPTER 2: DATASET
+% ============================================================
+\chapter{Phân tích Dataset: NIH Chest X-ray}
+
+\section{Tổng quan Dataset}
+
+\paperref{Section 4.1 - Dataset}
+
+\subsection{Thông tin cơ bản}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=NIH Chest X-ray Dataset]
+\begin{itemize}
+    \item \textbf{Tên đầy đủ:} ChestX-ray14 (NIH Clinical Center)
+    \item \textbf{Số lượng ảnh:} 112,120 frontal-view X-ray images
+    \item \textbf{Số bệnh nhân:} 30,805 unique patients
+    \item \textbf{Số nhãn bệnh:} 14 bệnh + 1 ``No Finding'' = 15 classes
+    \item \textbf{Nguồn nhãn:} Text-mining từ radiology reports (weak labels)
+    \item \textbf{Kích thước ảnh gốc:} 1024 × 1024 pixels
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Trích dẫn từ Paper}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Paper Quote - Dataset]
+\textit{``To evaluate the performance of our model architectures, we utilized two freely available datasets: the NIH Chest X-ray dataset comprising 112,120 X-ray images with disease labels from 30,805 unique patients, and a Random Sample of the NIH Chest X-ray Dataset, containing 5,606 X-ray images. Both datasets involved multi-class classification across 15 classes, each representing different disease labels.''}
+\end{tcolorbox}
+
+\section{Danh sách 15 Classes}
+
+\subsection{Phân loại bệnh lý}
+
+\begin{table}[H]
+\centering
+\caption{15 Classes trong NIH Chest X-ray Dataset}
+\begin{tabular}{clcp{6cm}}
+\toprule
+\textbf{ID} & \textbf{Tên bệnh} & \textbf{Tỷ lệ (\%)} & \textbf{Mô tả} \\
+\midrule
+0 & Cardiomegaly & 2.48 & Tim to \\
+1 & Emphysema & 2.24 & Khí phế thũng \\
+2 & Effusion & 11.88 & Tràn dịch màng phổi \\
+3 & Hernia & 0.20 & Thoát vị \\
+4 & Nodule & 5.65 & Nốt phổi \\
+5 & Pneumothorax & 4.73 & Tràn khí màng phổi \\
+6 & Atelectasis & 10.31 & Xẹp phổi \\
+7 & Pleural\_Thickening & 3.02 & Dày màng phổi \\
+8 & Mass & 5.16 & Khối u \\
+9 & Edema & 2.05 & Phù phổi \\
+10 & Consolidation & 4.16 & Đông đặc phổi \\
+11 & Infiltration & 17.74 & Thâm nhiễm \\
+12 & Fibrosis & 1.50 & Xơ phổi \\
+13 & Pneumonia & 1.28 & Viêm phổi \\
+14 & No Finding & 53.84 & Không phát hiện bệnh \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Phân tích mất cân bằng lớp (Class Imbalance)}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Vấn đề Class Imbalance]
+\textbf{Quan sát quan trọng:}
+\begin{itemize}
+    \item ``No Finding'' chiếm \textbf{53.84\%} - hơn một nửa dataset
+    \item ``Hernia'' chỉ chiếm \textbf{0.20\%} - rất hiếm
+    \item Tỷ lệ cao nhất / thấp nhất = 53.84 / 0.20 = \textbf{269 lần}
+\end{itemize}
+
+\textbf{Hậu quả:}
+\begin{itemize}
+    \item Model có thể thiên về dự đoán ``No Finding''
+    \item Accuracy cao nhưng chưa chắc đã detect tốt bệnh hiếm
+    \item Cần metrics như AUC thay vì chỉ accuracy
+\end{itemize}
+\end{tcolorbox}
+
+\section{Bản chất Multi-label}
+
+\subsection{Multi-label vs Multi-class}
+
+\begin{table}[H]
+\centering
+\caption{So sánh Multi-class và Multi-label Classification}
+\begin{tabular}{lp{5cm}p{5cm}}
+\toprule
+\textbf{Aspect} & \textbf{Multi-class} & \textbf{Multi-label} \\
+\midrule
+Số nhãn/sample & Chính xác 1 & Có thể nhiều (0, 1, 2, ...) \\
+Output activation & Softmax & Sigmoid (independent) \\
+Loss function & Categorical CE & Binary CE \\
+Ví dụ & Cat OR Dog OR Bird & Cat AND Dog (có thể cả hai) \\
+NIH Dataset & Không phù hợp & \checkmark Phù hợp \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Ví dụ Multi-label trong NIH}
+
+Một ảnh X-quang có thể có nhiều bệnh đồng thời:
+
+\begin{lstlisting}[caption={Ví dụ multi-label trong dataset}]
+# Ảnh 00000001_000.png có thể có labels:
+labels = [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+#         ^     ^        ^
+#         |     |        |
+#         |     |        Atelectasis (index 6)
+#         |     Effusion (index 2)
+#         Cardiomegaly (index 0) - Không có
+
+# Bệnh nhân có: Effusion + Atelectasis (2 bệnh đồng thời)
+\end{lstlisting}
+
+\section{Data Pipeline trong Code}
+
+\coderef{data.ipynb}
+
+\subsection{Loading và Preprocessing}
+
+\begin{lstlisting}[caption={Data loading từ data.ipynb (PyTorch version)}]
+class ChestXrayDataset(Dataset):
+    def __init__(self, dataframe, images_path, labels, transform=None):
+        self.dataframe = dataframe.reset_index(drop=True)
+        self.images_path = images_path
+        self.labels = labels
+        self.transform = transform
+        
+    def __len__(self):
+        return len(self.dataframe)
+    
+    def __getitem__(self, idx):
+        # Load image
+        img_name = self.dataframe.iloc[idx]['Image Index']
+        img_path = os.path.join(self.images_path, img_name)
+        image = Image.open(img_path).convert('RGB')
+        
+        # Apply transforms
+        if self.transform:
+            image = self.transform(image)
+        
+        # Get labels as one-hot vector
+        label = torch.tensor(
+            self.dataframe.iloc[idx][self.labels].values.astype(float),
+            dtype=torch.float32
+        )
+        
+        return image, label
+\end{lstlisting}
+
+\subsection{Data Augmentation}
+
+\paperref{Section 4.2 - Models}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Augmentation từ Paper]
+\textit{``We also performed various data augmentations on both datasets. For the Chest X-ray dataset, we applied resizing, random horizontal flip, and random rotation.''}
+\end{tcolorbox}
+
+\begin{lstlisting}[caption={Data augmentation transforms}]
+train_transform = transforms.Compose([
+    transforms.Resize((224, 224)),        # Resize to standard size
+    transforms.RandomHorizontalFlip(p=0.5), # Random flip
+    transforms.RandomRotation(degrees=5),   # Small rotation
+    transforms.ColorJitter(brightness=0.1, contrast=0.1),
+    transforms.ToTensor(),
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],  # ImageNet stats
+        std=[0.229, 0.224, 0.225]
+    )
+])
+
+val_transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225]
+    )
+])
+\end{lstlisting}
+
+\subsection{Lưu ý về Horizontal Flip trong X-ray}
+
+\begin{tcolorbox}[colback=orange!5!white,colframe=orange!75!black,title=Cảnh báo: Horizontal Flip]
+Trong X-quang, flip ngang có thể gây vấn đề:
+\begin{itemize}
+    \item Tim thường nằm bên trái → flip làm tim nằm bên phải (Dextrocardia - bất thường)
+    \item Một số bệnh có tính ``laterality'' (bên phải/trái khác nhau)
+\end{itemize}
+
+\textbf{Khuyến nghị:} Cần làm ablation study để đánh giá ảnh hưởng của flip.
+\end{tcolorbox}
+
+\section{Data Split}
+
+\subsection{Paper Description}
+
+\paperref{Section 4.1 - Dataset}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Data Split từ Paper]
+\textit{``However, our model training was conducted on a subset of 85,000 images from this Random Sample Dataset. We observed a faster convergence to optimal outputs within this subset.''}
+\end{tcolorbox}
+
+\subsection{Implementation trong Code}
+
+\begin{lstlisting}[caption={Data split implementation}]
+from sklearn.model_selection import train_test_split
+
+# Standard split: 60% train, 20% val, 20% test
+train_df, temp_df = train_test_split(
+    full_df, 
+    test_size=0.4, 
+    random_state=42
+)
+val_df, test_df = train_test_split(
+    temp_df, 
+    test_size=0.5, 
+    random_state=42
+)
+\end{lstlisting}
+
+\subsection{Vấn đề Data Leakage}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Cảnh báo: Patient-level Split]
+\textbf{Vấn đề:} Paper không đề cập rõ về patient-level split.
+
+\textbf{Rủi ro:} Nếu split theo image (không theo patient):
+\begin{itemize}
+    \item Cùng một bệnh nhân có thể có nhiều ảnh
+    \item Ảnh của cùng bệnh nhân có thể nằm ở cả train và test
+    \item Model có thể ``nhớ'' bệnh nhân thay vì học features bệnh
+    \item Kết quả đánh giá bị inflate (cao giả tạo)
+\end{itemize}
+
+\textbf{Khuyến nghị:} Split theo Patient ID để đảm bảo generalization thực sự.
+\end{tcolorbox}
+
+% ============================================================
+% CHAPTER 3: CNN
+% ============================================================
+\chapter{Convolutional Neural Network (CNN)}
+
+\section{Lý thuyết CNN}
+
+\subsection{Kiến trúc tổng quan}
+
+CNN là kiến trúc neural network được thiết kế đặc biệt cho dữ liệu có cấu trúc grid-like (như ảnh). CNN khai thác ba ý tưởng chính:
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Ba Inductive Biases của CNN]
+\begin{enumerate}
+    \item \textbf{Locality (Local Receptive Field):} Pixel gần nhau có liên quan mật thiết hơn pixel xa nhau
+    \item \textbf{Translation Equivariance:} Một pattern ở góc trái ảnh cũng được detect ở góc phải
+    \item \textbf{Hierarchy:} Features cấp thấp (edges) → cấp cao (shapes) → cấp cao hơn (objects)
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Convolution Operation}
+
+\subsubsection{Định nghĩa toán học}
+
+Với input $X \in \mathbb{R}^{H \times W \times C_{in}}$ và kernel $K \in \mathbb{R}^{k \times k \times C_{in} \times C_{out}}$:
+
+\begin{equation}
+Y[i,j,c_{out}] = \sum_{m=0}^{k-1} \sum_{n=0}^{k-1} \sum_{c=0}^{C_{in}-1} X[i+m, j+n, c] \cdot K[m, n, c, c_{out}] + b[c_{out}]
+\end{equation}
+
+\subsubsection{Số lượng parameters}
+
+\begin{equation}
+\text{Params} = (k \times k \times C_{in} + 1) \times C_{out}
+\end{equation}
+
+\textbf{Ví dụ:} Conv2d(3, 32, kernel\_size=3):
+\begin{equation}
+\text{Params} = (3 \times 3 \times 3 + 1) \times 32 = 28 \times 32 = 896
+\end{equation}
+
+\subsection{Pooling Layer}
+
+\paperref{Section 3.1 - CNN}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Paper Quote - Max Pooling]
+\textit{``Our CNN Architecture comprises a sequential stack of convolutional layers, accompanied by max pooling layers to reduce spatial dimensions.''}
+\end{tcolorbox}
+
+\subsubsection{Max Pooling}
+
+\begin{equation}
+Y[i,j] = \max_{(m,n) \in R_{i,j}} X[m,n]
+\end{equation}
+
+\subsubsection{Lợi ích của Pooling}
+
+\begin{itemize}
+    \item \textbf{Giảm spatial dimensions} → Giảm computation
+    \item \textbf{Translation invariance} (một chút) → Robust với small shifts
+    \item \textbf{Tăng receptive field} → Mỗi neuron ``nhìn'' vùng rộng hơn
+\end{itemize}
+
+\section{Kiến trúc CNN trong Paper}
+
+\paperref{Section 3.1 - CNN}
+
+\subsection{Mô tả từ Paper}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Paper Quote - CNN Architecture]
+\textit{``Our CNN Architecture comprises a sequential stack of convolutional layers, accompanied by max pooling layers to reduce spatial dimensions. We implement dropout to mitigate overfitting. The structure includes a convolution layer with 32 3×3 filters, a max pooling layer with a pool size of 2×2, a convolution layer with 64 3×3 filters, and a max pooling layer with a pool size of 2×2. This is followed by a flatten layer, a dense layer with 512 units and ReLU activation, dropout of 0.5, and an output dense layer with 15 units and softmax activation.''}
+\end{tcolorbox}
+
+\section{Code Implementation}
+
+\coderef{cnn.ipynb}
+
+\subsection{CNN Class Implementation}
+
+\begin{lstlisting}[caption={CNNClassifier trong cnn.ipynb (PyTorch)}]
+class CNNClassifier(nn.Module):
+    def __init__(self, num_classes=15, image_size=224):
+        super(CNNClassifier, self).__init__()
+        
+        # ===== CONVOLUTIONAL LAYERS =====
+        # Paper: "convolution layer with 32 3x3 filters"
+        self.conv1 = nn.Conv2d(
+            in_channels=3,      # RGB input
+            out_channels=32,    # 32 filters (from paper)
+            kernel_size=3,      # 3x3 kernel (from paper)
+            padding=1           # Same padding
+        )
+        
+        # Paper: "max pooling layer with a pool size of 2x2"
+        self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
+        
+        # Paper: "convolution layer with 64 3x3 filters"
+        self.conv2 = nn.Conv2d(
+            in_channels=32,     # From conv1
+            out_channels=64,    # 64 filters (from paper)
+            kernel_size=3,      # 3x3 kernel (from paper)
+            padding=1
+        )
+        
+        # ===== FULLY CONNECTED LAYERS =====
+        self.flatten_size = 64 * 56 * 56  # After 2 poolings
+        
+        # Paper: "dense layer with 512 units and ReLU activation"
+        self.fc1 = nn.Linear(self.flatten_size, 512)
+        
+        # Paper: "dropout of 0.5"
+        self.dropout = nn.Dropout(p=0.5)
+        
+        # Paper: "output dense layer with 15 units"
+        self.fc2 = nn.Linear(512, num_classes)
+        
+    def forward(self, x):
+        # Conv1 + ReLU + Pool
+        x = self.pool(F.relu(self.conv1(x)))
+        
+        # Conv2 + ReLU + Pool
+        x = self.pool(F.relu(self.conv2(x)))
+        
+        # Flatten
+        x = x.view(x.size(0), -1)
+        
+        # FC1 + ReLU + Dropout
+        x = self.dropout(F.relu(self.fc1(x)))
+        
+        # FC2 (no activation - raw logits for BCEWithLogitsLoss)
+        x = self.fc2(x)
+        
+        return x
+\end{lstlisting}
+
+\subsection{Chi tiết Mapping}
+
+\begin{table}[H]
+\centering
+\caption{Mapping Paper Description → PyTorch Code}
+\begin{tabular}{p{5cm}p{5cm}p{3cm}}
+\toprule
+\textbf{Paper Description} & \textbf{PyTorch Code} & \textbf{Output Shape} \\
+\midrule
+``convolution layer with 32 3×3 filters'' & \texttt{nn.Conv2d(3, 32, 3, padding=1)} & (B, 32, 224, 224) \\
+``max pooling layer 2×2'' & \texttt{nn.MaxPool2d(2, 2)} & (B, 32, 112, 112) \\
+``convolution layer with 64 3×3 filters'' & \texttt{nn.Conv2d(32, 64, 3, padding=1)} & (B, 64, 112, 112) \\
+``max pooling layer 2×2'' & \texttt{nn.MaxPool2d(2, 2)} & (B, 64, 56, 56) \\
+``flatten layer'' & \texttt{x.view(x.size(0), -1)} & (B, 200704) \\
+``dense layer with 512 units'' & \texttt{nn.Linear(200704, 512)} & (B, 512) \\
+``dropout of 0.5'' & \texttt{nn.Dropout(0.5)} & (B, 512) \\
+``output dense layer with 15 units'' & \texttt{nn.Linear(512, 15)} & (B, 15) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Total Parameters Analysis}
+
+\begin{table}[H]
+\centering
+\caption{CNN Parameter Count}
+\begin{tabular}{lcr}
+\toprule
+\textbf{Layer} & \textbf{Formula} & \textbf{Parameters} \\
+\midrule
+Conv1 & $(3 \times 3 \times 3 + 1) \times 32$ & 896 \\
+Conv2 & $(3 \times 3 \times 32 + 1) \times 64$ & 18,496 \\
+FC1 & $200,704 \times 512 + 512$ & 102,760,960 \\
+FC2 & $512 \times 15 + 15$ & 7,695 \\
+\midrule
+\textbf{Total} & & \textbf{102,788,047} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Observation]
+\textbf{99.97\%} parameters nằm trong FC1 layer!
+
+Đây là vấn đề phổ biến của CNN truyền thống: flatten layer tạo ra rất nhiều connections.
+
+\textbf{Giải pháp:}
+\begin{itemize}
+    \item Global Average Pooling (thay vì flatten)
+    \item Thêm nhiều conv layers để giảm spatial size
+    \item Dùng architecture khác (ResNet, ViT)
+\end{itemize}
+\end{tcolorbox}
+
+\section{Loss Function: BCEWithLogitsLoss}
+
+\subsection{Tại sao không dùng CrossEntropyLoss?}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lcc}
+\toprule
+\textbf{Aspect} & \textbf{CrossEntropyLoss} & \textbf{BCEWithLogitsLoss} \\
+\midrule
+Task type & Multi-class (one-hot) & Multi-label (independent) \\
+Output activation & Softmax & Sigmoid (per class) \\
+Sums to 1? & Yes & No \\
+NIH dataset & \textcolor{red}{\ding{55}} & \textcolor{green}{\ding{51}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{BCEWithLogitsLoss Formula}
+
+\begin{equation}
+\mathcal{L} = -\frac{1}{N \times C} \sum_{i=1}^{N} \sum_{c=1}^{C} \left[ y_{i,c} \log(\sigma(z_{i,c})) + (1-y_{i,c}) \log(1-\sigma(z_{i,c})) \right]
+\end{equation}
+
+Trong đó:
+\begin{itemize}
+    \item $\sigma(z) = \frac{1}{1 + e^{-z}}$ (sigmoid function)
+    \item $y_{i,c} \in \{0, 1\}$ là ground truth
+    \item $z_{i,c}$ là raw logit từ model
+\end{itemize}
+
+\section{Results và Analysis}
+
+\paperref{Section 5 - Experiments}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Paper Results - CNN]
+\begin{itemize}
+    \item \textbf{Training Accuracy:} 91\%
+    \item \textbf{Validation AUC:} 0.82
+    \item \textbf{Test AUC:} 0.82
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Analysis: Why CNN Performs Worst?]
+\textbf{Lý do CNN có hiệu năng thấp nhất trong 5 models:}
+
+\begin{enumerate}
+    \item \textbf{Limited Receptive Field:}
+    \begin{itemize}
+        \item Chỉ có 2 conv layers
+        \item Receptive field nhỏ, khó capture global features
+        \item X-ray pathologies có thể trải rộng toàn ảnh
+    \end{itemize}
+    
+    \item \textbf{No Skip Connections:}
+    \begin{itemize}
+        \item Gradient phải flow qua tất cả layers
+        \item Có thể bị vanishing gradient
+        \item Khó train deeper variants
+    \end{itemize}
+    
+    \item \textbf{Overfitting Risk:}
+    \begin{itemize}
+        \item >100M parameters, phần lớn từ FC layer
+        \item Dataset 85K images có thể không đủ
+        \item Dù có dropout 0.5
+    \end{itemize}
+\end{enumerate}
+\end{tcolorbox}
+
+% ============================================================
+% CHAPTER 4: RESNET
+% ============================================================
+\chapter{Residual Network (ResNet)}
+
+\section{Motivation: The Degradation Problem}
+
+\subsection{Vấn đề khi training deep networks}
+
+\paperref{Section 3.2 - ResNet}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Paper Quote - Degradation Problem]
+\textit{``However, when we stack many layers to create an extremely deep network, we discover that the training accuracy begins to saturate and then drops off quickly. These observations lead to the understanding of what is commonly referred to as the degradation problem.''}
+\end{tcolorbox}
+
+\subsection{Tại sao degradation xảy ra?}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Key Insight]
+Degradation \textbf{không phải} do overfitting (training error cũng tăng).
+
+\textbf{Nguyên nhân thực sự:}
+\begin{itemize}
+    \item Optimization difficulty: Khó tìm được optimal weights
+    \item Identity mapping problem: Nếu thêm layer, ít nhất phải learn identity
+    \item Nhưng learning identity qua non-linear layers rất khó
+\end{itemize}
+
+\textbf{Paradox:} Thêm layer \textit{theo lý thuyết} không thể làm giảm performance (worst case: identity), nhưng thực tế lại giảm!
+\end{tcolorbox}
+
+\section{Residual Learning Framework}
+
+\subsection{Ý tưởng cốt lõi}
+
+\paperref{Section 3.2 - ResNet}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Paper Quote - Skip Connections]
+\textit{``To solve the degradation problem, ResNet uses an architecture with residual learning framework called skip connections. Instead of hoping each few stacked layers directly fit a desired underlying mapping, skip connections allow the model to bypass certain layers.''}
+\end{tcolorbox}
+
+\subsection{Công thức toán học}
+
+\textbf{Plain Network:}
+\begin{equation}
+y = F(x)
+\end{equation}
+
+\textbf{Residual Network:}
+\begin{equation}
+y = F(x) + x
+\end{equation}
+
+Trong đó:
+\begin{itemize}
+    \item $x$: Input của block
+    \item $F(x)$: Residual function (stacked layers)
+    \item $y$: Output = residual + identity
+\end{itemize}
+
+\subsection{Tại sao Skip Connection hoạt động?}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Benefits of Skip Connections]
+\begin{enumerate}
+    \item \textbf{Easy to learn identity:}
+    \begin{itemize}
+        \item Nếu $F(x) = 0$ → $y = x$ (identity)
+        \item Learning $F(x) = 0$ dễ hơn learning complex identity mapping
+    \end{itemize}
+    
+    \item \textbf{Better gradient flow:}
+    \begin{itemize}
+        \item Gradient có đường tắt qua skip connection
+        \item Không bị vanishing qua nhiều layers
+    \end{itemize}
+    
+    \item \textbf{Ensemble effect:}
+    \begin{itemize}
+        \item ResNet có thể được xem như ensemble của nhiều shallow networks
+        \item Skip connections tạo ra exponential paths
+    \end{itemize}
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Gradient Flow Analysis}
+
+\begin{equation}
+\frac{\partial \mathcal{L}}{\partial x} = \frac{\partial \mathcal{L}}{\partial y} \cdot \frac{\partial y}{\partial x} = \frac{\partial \mathcal{L}}{\partial y} \cdot \left(1 + \frac{\partial F(x)}{\partial x}\right)
+\end{equation}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Key Observation]
+Gradient luôn có thành phần ``1'' từ skip connection.
+
+Ngay cả khi $\frac{\partial F(x)}{\partial x}$ rất nhỏ (vanishing), gradient vẫn flow được!
+\end{tcolorbox}
+
+\section{ResNet-34 Architecture}
+
+\paperref{Section 3.2 - ResNet}
+
+\subsection{Paper Description}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Paper Quote - ResNet Architecture]
+\textit{``Similar to VGG-19, ResNet comprises multiple residual blocks, each featuring convolutional layers with 3 × 3 filters. A key difference from the VGG-19 is the presence of skip connections. There are 34 weighted layers in this network, and the input image is 224 × 224.''}
+\end{tcolorbox}
+
+\subsection{Chi tiết kiến trúc}
+
+\begin{table}[H]
+\centering
+\caption{ResNet-34 Architecture}
+\begin{tabular}{cccc}
+\toprule
+\textbf{Stage} & \textbf{Output Size} & \textbf{Layers} & \textbf{Blocks} \\
+\midrule
+conv1 & 112 × 112 & 7×7 conv, 64, stride 2 & - \\
+conv2\_x & 56 × 56 & 3×3 max pool, stride 2 & 3 \\
+conv3\_x & 28 × 28 & 3×3 conv, 128 & 4 \\
+conv4\_x & 14 × 14 & 3×3 conv, 256 & 6 \\
+conv5\_x & 7 × 7 & 3×3 conv, 512 & 3 \\
+ & 1 × 1 & Global Avg Pool, FC 15 & - \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Tổng số layers:} $1 + 2 \times (3 + 4 + 6 + 3) + 1 = 34$ weighted layers
+
+\section{Code Implementation}
+
+\coderef{resnet.ipynb}
+
+\subsection{BasicBlock Class}
+
+\begin{lstlisting}[caption={BasicBlock cho ResNet-18/34}]
+class BasicBlock(nn.Module):
+    expansion = 1
+    
+    def __init__(self, in_channels, out_channels, stride=1, downsample=None):
+        super(BasicBlock, self).__init__()
+        
+        self.conv1 = nn.Conv2d(
+            in_channels, out_channels,
+            kernel_size=3, stride=stride, padding=1, bias=False
+        )
+        self.bn1 = nn.BatchNorm2d(out_channels)
+        
+        self.conv2 = nn.Conv2d(
+            out_channels, out_channels,
+            kernel_size=3, stride=1, padding=1, bias=False
+        )
+        self.bn2 = nn.BatchNorm2d(out_channels)
+        
+        self.downsample = downsample
+        
+    def forward(self, x):
+        identity = x
+        
+        out = self.conv1(x)
+        out = self.bn1(out)
+        out = F.relu(out)
+        
+        out = self.conv2(out)
+        out = self.bn2(out)
+        
+        if self.downsample is not None:
+            identity = self.downsample(x)
+        
+        out += identity  # Skip connection
+        out = F.relu(out)
+        
+        return out
+\end{lstlisting}
+
+\section{Parameter Count Analysis}
+
+\begin{table}[H]
+\centering
+\caption{ResNet-34 Parameter Breakdown}
+\begin{tabular}{lcrr}
+\toprule
+\textbf{Stage} & \textbf{Blocks} & \textbf{Channels} & \textbf{Params} \\
+\midrule
+conv1 & 1 & 3 → 64 & 9,408 \\
+layer1 & 3 & 64 → 64 & 221,184 \\
+layer2 & 4 & 64 → 128 & 1,114,624 \\
+layer3 & 6 & 128 → 256 & 6,818,304 \\
+layer4 & 3 & 256 → 512 & 13,631,488 \\
+FC & 1 & 512 → 15 & 7,695 \\
+\midrule
+\textbf{Total} & & & \textbf{21,802,703} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{So sánh:} ResNet-34 có \textbf{21M params} vs CNN có \textbf{102M params}, nhưng sâu hơn (34 layers vs 4 layers) và hiệu quả hơn!
+
+\section{Results Analysis}
+
+\paperref{Section 5 - Experiments}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Paper Results - ResNet]
+\begin{itemize}
+    \item \textbf{Training Accuracy:} 93\%
+    \item \textbf{Validation AUC:} 0.86
+    \item \textbf{Test AUC:} 0.86
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Analysis: ResNet Advantages]
+\begin{enumerate}
+    \item \textbf{Deeper Feature Hierarchy:}
+    \begin{itemize}
+        \item 34 layers vs 4 layers
+        \item Có thể learn complex hierarchical features
+        \item X-ray patterns có nhiều levels of abstraction
+    \end{itemize}
+    
+    \item \textbf{Better Gradient Flow:}
+    \begin{itemize}
+        \item Skip connections cho phép gradient flow trực tiếp
+        \item Training stable hơn
+    \end{itemize}
+    
+    \item \textbf{Efficient Parameter Usage:}
+    \begin{itemize}
+        \item GAP thay vì flatten
+        \item Ít parameters hơn nhưng more expressive
+    \end{itemize}
+\end{enumerate}
+\end{tcolorbox}
+
+% ============================================================
+% CHAPTER 5: VISION TRANSFORMER (ViT)
+% ============================================================
+\chapter{Vision Transformer (ViT)}
+
+\section{Motivation: From NLP to Vision}
+
+\subsection{The Transformer Revolution}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Historical Context]
+\textbf{2017:} ``Attention Is All You Need'' (Vaswani et al.)
+\begin{itemize}
+    \item Transformer thay thế RNN trong NLP
+    \item Self-attention captures long-range dependencies
+    \item Parallelizable → faster training
+\end{itemize}
+
+\textbf{2020:} ``An Image is Worth 16×16 Words'' (Dosovitskiy et al.)
+\begin{itemize}
+    \item Áp dụng Transformer pure cho vision
+    \item Images = sequences of patches
+    \item State-of-the-art khi pretrained on large data
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Paper Motivation}
+
+\paperref{Section 3.3 - Vision Transformer}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Paper Quote - ViT Motivation]
+\textit{``Vision Transformer (ViT) [3] follows an approach to image classification by treating an image as a sequence of patches and processing it using a standard Transformer encoder like the ones used in NLP.''}
+\end{tcolorbox}
+
+\subsection{CNN vs Transformer Inductive Biases}
+
+\begin{table}[H]
+\centering
+\caption{Inductive Biases: CNN vs ViT}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Inductive Bias} & \textbf{CNN} & \textbf{ViT} \\
+\midrule
+Locality & \checkmark Strong & \texttimes Weak \\
+Translation Equivariance & \checkmark Built-in & \texttimes Learned \\
+2D Structure & \checkmark Preserved & \texttimes Flattened \\
+Long-range Dependencies & \texttimes Limited & \checkmark Global \\
+Data Efficiency & \checkmark Good & \texttimes Needs more data \\
+Scalability & Limited & \checkmark Scales well \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Step 1: Patch Embedding}
+
+\subsection{Concept}
+
+\paperref{Section 3.3 - Vision Transformer}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Paper Quote - Patch Embedding]
+\textit{``This involves dividing the image into fixed-size non-overlapping patches, which are then linearly embedded. In our experiments, we fix a patch size of 32 × 32 for all our Vision Transformer models.''}
+\end{tcolorbox}
+
+\subsection{Toán học}
+
+Với image $x \in \mathbb{R}^{H \times W \times C}$ và patch size $P$:
+
+\textbf{Step 1: Chia patch}
+\begin{equation}
+\text{Number of patches: } N = \frac{H \times W}{P^2} = \frac{224 \times 224}{32 \times 32} = 49
+\end{equation}
+
+\textbf{Step 2: Flatten mỗi patch}
+\begin{equation}
+x_p^i \in \mathbb{R}^{P^2 \cdot C} = \mathbb{R}^{32 \times 32 \times 3} = \mathbb{R}^{3072}
+\end{equation}
+
+\textbf{Step 3: Linear projection}
+\begin{equation}
+z_0^i = x_p^i \cdot E + b, \quad E \in \mathbb{R}^{(P^2 \cdot C) \times D}
+\end{equation}
+
+\subsection{Implementation}
+
+\begin{lstlisting}[caption={PatchEmbedding Class}]
+class PatchEmbedding(nn.Module):
+    def __init__(self, img_size=224, patch_size=32, in_channels=3, embed_dim=64):
+        super(PatchEmbedding, self).__init__()
+        self.num_patches = (img_size // patch_size) ** 2  # 49 patches
+        
+        # Linear Projection via Conv2d
+        self.projection = nn.Conv2d(
+            in_channels=in_channels,
+            out_channels=embed_dim,
+            kernel_size=patch_size,
+            stride=patch_size
+        )
+        
+    def forward(self, x):
+        x = self.projection(x)  # (B, embed_dim, 7, 7)
+        x = x.flatten(2)        # (B, embed_dim, 49)
+        x = x.transpose(1, 2)   # (B, 49, embed_dim)
+        return x
+\end{lstlisting}
+
+\section{Step 2: Positional Embedding}
+
+\subsection{Tại sao cần Position Information?}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Problem: Self-Attention is Permutation Invariant]
+Self-attention treats input as a \textbf{set}, not a \textbf{sequence}.
+
+\textbf{Trong ViT:}
+\begin{itemize}
+    \item Each patch (token) attends to all other patches
+    \item Model không biết patch nào ở đâu!
+    \item Vị trí quan trọng: lung ở giữa, heart ở trái
+\end{itemize}
+
+\textbf{Solution:} Add positional information to embeddings.
+\end{tcolorbox}
+
+\section{Step 3: [CLS] Token}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=CLS Token Concept]
+\textbf{Nguồn gốc:} BERT (NLP)
+\begin{itemize}
+    \item Special token prepended to input sequence
+    \item Learns to aggregate information from all tokens
+    \item Used for classification tasks
+\end{itemize}
+
+\textbf{Trong ViT:}
+\begin{itemize}
+    \item Prepend một learnable token trước patch embeddings
+    \item Sau Transformer: CLS token ``nhìn'' toàn bộ image
+    \item Dùng CLS token cho final classification
+\end{itemize}
+\end{tcolorbox}
+
+\section{Step 4: Transformer Encoder}
+
+\subsection{Self-Attention Mechanism}
+
+\paperref{Section 3.3 - Vision Transformer}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Paper Quote - Multi-Head Attention]
+\textit{``Our Vision Transformer implementation includes Multi-Head Self-Attention (MHSA). It also includes MLP blocks and Layer Normalization (LN) applied before every block, and residual connections applied after every block.''}
+\end{tcolorbox}
+
+\subsubsection{Single-Head Attention}
+
+\begin{equation}
+\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V
+\end{equation}
+
+Trong đó:
+\begin{itemize}
+    \item $Q = XW^Q$ (Queries): ``What am I looking for?''
+    \item $K = XW^K$ (Keys): ``What do I contain?''
+    \item $V = XW^V$ (Values): ``What information do I provide?''
+    \item $\sqrt{d_k}$: Scaling factor để ổn định gradient
+\end{itemize}
+
+\subsubsection{Multi-Head Attention}
+
+\begin{equation}
+\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h) W^O
+\end{equation}
+
+\begin{equation}
+\text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)
+\end{equation}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Why Multi-Head?]
+\begin{itemize}
+    \item Mỗi head có thể attend to different aspects
+    \item Head 1: positional relationships
+    \item Head 2: color similarities
+    \item Head 3: shape patterns
+    \item Concatenate → richer representation
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Implementation}
+
+\begin{lstlisting}[caption={TransformerEncoderBlock Implementation}]
+class TransformerEncoderBlock(nn.Module):
+    def __init__(self, embed_dim, num_heads, mlp_ratio=4.0, dropout=0.1):
+        super(TransformerEncoderBlock, self).__init__()
+        
+        self.norm1 = nn.LayerNorm(embed_dim)
+        self.norm2 = nn.LayerNorm(embed_dim)
+        
+        self.attn = nn.MultiheadAttention(
+            embed_dim=embed_dim,
+            num_heads=num_heads,
+            dropout=dropout,
+            batch_first=True
+        )
+        
+        mlp_hidden_dim = int(embed_dim * mlp_ratio)
+        self.mlp = nn.Sequential(
+            nn.Linear(embed_dim, mlp_hidden_dim),
+            nn.GELU(),
+            nn.Dropout(dropout),
+            nn.Linear(mlp_hidden_dim, embed_dim),
+            nn.Dropout(dropout)
+        )
+        
+    def forward(self, x):
+        # Attention with skip connection
+        attn_input = self.norm1(x)
+        attn_output, _ = self.attn(attn_input, attn_input, attn_input)
+        x = x + attn_output
+        
+        # MLP with skip connection
+        mlp_output = self.mlp(self.norm2(x))
+        x = x + mlp_output
+        
+        return x
+\end{lstlisting}
+
+\section{Paper Configurations: ViT-v1 vs ViT-v2}
+
+\paperref{Section 4.2 - Models}
+
+\begin{table}[H]
+\centering
+\caption{ViT-v1 vs ViT-v2 Configurations}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Hyperparameter} & \textbf{ViT-v1} & \textbf{ViT-v2} \\
+\midrule
+Patch Size & 32 × 32 & 32 × 32 \\
+Projection Dim & 64 & 64 \\
+Transformer Layers & 8 & 8 \\
+Attention Heads & 4 & 4 \\
+Learning Rate & 0.001 & 0.0001 \\
+Batch Size & 32 & 64 \\
+Epochs & 30 & 60 \\
+Dropout & 0.1 & 0.2 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{ViT-ResNet: Hybrid Architecture}
+
+\paperref{Section 3.3 - Vision Transformer}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Paper Quote - ViT-ResNet]
+\textit{``Vision Transformer ResNet (16 × 16) (ViT-ResNet/16): our implementation of Vision Transformer with patch size 16 × 16 that uses a ResNet-like architecture as its backbone to create patch embeddings and trained using (Section III-C) hyperparameters (Table III).''}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Hybrid Architecture Concept]
+\textbf{Pure ViT:}
+\begin{itemize}
+    \item Image $\xrightarrow{\text{Conv2d(P,P)}}$ Patch Embeddings
+    \item Simple linear projection
+\end{itemize}
+
+\textbf{ViT-ResNet (Hybrid):}
+\begin{itemize}
+    \item Image $\xrightarrow{\text{ResNet Backbone}}$ Feature Map $\xrightarrow{\text{Flatten}}$ Patch Embeddings
+    \item ResNet extracts local features first
+    \item Transformer captures global relationships
+    \item Best of both worlds!
+\end{itemize}
+\end{tcolorbox}
+
+\section{Results Analysis}
+
+\begin{table}[H]
+\centering
+\caption{ViT Models Performance Comparison}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model} & \textbf{Train Acc} & \textbf{Val AUC} & \textbf{Test AUC} & \textbf{Params} \\
+\midrule
+ViT-v1/32 & 92.63\% & 0.86 & 0.86 & ~3M \\
+ViT-v2/32 & 92.83\% & 0.84 & 0.84 & ~3M \\
+ViT-ResNet/16 & \textbf{93.9\%} & 0.85 & \textbf{0.85} & ~15M \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Why ViT-ResNet Performs Best?]
+\begin{enumerate}
+    \item \textbf{More tokens (196 vs 49):} 16×16 patches → finer granularity
+    \item \textbf{CNN inductive bias:} ResNet backbone provides local feature extraction
+    \item \textbf{Global reasoning:} Transformer captures long-range dependencies
+    \item \textbf{Hierarchical features:} ResNet: low-level → Transformer: high-level
+\end{enumerate}
+\end{tcolorbox}
+
+% ============================================================
+% CHAPTER 6: EXPERIMENTS AND RESULTS
+% ============================================================
+\chapter{Experiments and Results}
+
+\section{Experimental Setup}
+
+\paperref{Section 4 - Experiment}
+
+\subsection{Training Configuration}
+
+\begin{table}[H]
+\centering
+\caption{Training Hyperparameters từ Paper}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Parameter} & \textbf{CNN} & \textbf{ResNet} & \textbf{ViT-v1} & \textbf{ViT-v2} & \textbf{ViT-ResNet} \\
+\midrule
+Learning Rate & 0.001 & 0.001 & 0.001 & 0.0001 & 0.0001 \\
+Batch Size & 32 & 32 & 32 & 64 & 64 \\
+Epochs & 30 & 30 & 30 & 60 & 60 \\
+Optimizer & Adam & Adam & Adam & Adam & Adam \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Evaluation Metrics}
+
+\subsection{AUC-ROC}
+
+\begin{equation}
+\text{AUC} = \int_0^1 \text{TPR}(\text{FPR}) \, d(\text{FPR})
+\end{equation}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=AUC Interpretation]
+\begin{itemize}
+    \item \textbf{AUC = 0.5:} Random classifier (coin flip)
+    \item \textbf{AUC = 0.7-0.8:} Acceptable
+    \item \textbf{AUC = 0.8-0.9:} Good
+    \item \textbf{AUC = 0.9+:} Excellent
+\end{itemize}
+
+Paper results (0.82-0.86) indicate \textbf{good} performance.
+\end{tcolorbox}
+
+\section{Main Results}
+
+\paperref{Section 5 - Experiments}
+
+\begin{table}[H]
+\centering
+\caption{Performance Comparison - Paper Results}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Model} & \textbf{Train Acc} & \textbf{Train AUC} & \textbf{Val Acc} & \textbf{Val AUC} & \textbf{Test Acc} & \textbf{Test AUC} \\
+\midrule
+CNN & 91.0\% & 0.82 & - & 0.82 & - & 0.82 \\
+ResNet-34 & 93.0\% & 0.90 & - & 0.86 & - & 0.86 \\
+ViT-v1/32 & 92.63\% & 0.88 & - & 0.86 & - & 0.86 \\
+ViT-v2/32 & 92.83\% & 0.90 & - & 0.84 & - & 0.84 \\
+ViT-ResNet/16 & \textbf{93.9\%} & \textbf{0.92} & - & 0.85 & - & \textbf{0.85} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Key Observations}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Key Observations]
+\begin{enumerate}
+    \item \textbf{ViT-ResNet achieves best training accuracy (93.9\%):} Hybrid approach combines strengths
+    \item \textbf{ResNet achieves best validation/test AUC (0.86):} Strong inductive bias helps generalization
+    \item \textbf{CNN baseline lowest (91\% acc, 0.82 AUC):} Shallow architecture limits capacity
+    \item \textbf{ViT-v2 slightly worse than ViT-v1:} Possible overfitting with longer training
+\end{enumerate}
+\end{tcolorbox}
+
+\section{Discussion}
+
+\paperref{Section 6 - Discussion}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Paper Discussion Quote]
+\textit{``Our experiments revealed that using a deeper, more complex model architecture leads to better diagnostic accuracy. We trained 5 models: a baseline CNN, a ResNet, and 3 different versions of Vision Transformers. We observe that the best-performing model architecture is ViT-ResNet, which combines features of ResNets as well as Vision Transformers.''}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Experimental Conclusions]
+\begin{enumerate}
+    \item \textbf{Architecture matters:} Deeper architectures (ResNet, ViT) outperform simple CNN
+    \item \textbf{Hybrid is best:} ViT-ResNet combines CNN's local + Transformer's global reasoning
+    \item \textbf{Skip connections are crucial:} ResNet's improvement shows importance of residual learning
+    \item \textbf{All models viable:} Even CNN (91\%) could be useful in resource-constrained settings
+\end{enumerate}
+\end{tcolorbox}
+
+% ============================================================
+% CHAPTER 7: PYTORCH IMPLEMENTATION
+% ============================================================
+\chapter{PyTorch Implementation Details}
+
+\section{Migration Overview}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Migration Summary]
+\textbf{Original Paper:} TensorFlow/Keras implementation
+
+\textbf{Our Contribution:} Complete PyTorch reimplementation with:
+\begin{itemize}
+    \item All 5 model architectures (CNN, ResNet, ViT-v1, ViT-v2, ViT-ResNet)
+    \item Bug fixes (AUC NaN issue)
+    \item Code cleanup and documentation
+    \item Consistent coding style
+\end{itemize}
+\end{tcolorbox}
+
+\section{Critical Bug Fix: AUC NaN Issue}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Bug: AUC Returns NaN]
+\textbf{Symptom:} \texttt{Val AUC: nan}
+
+\textbf{Root Cause:}
+\begin{itemize}
+    \item sklearn's \texttt{roc\_auc\_score} requires both classes (0 and 1) present
+    \item With small batches or imbalanced data, some classes may have only 0s or only 1s
+    \item AUC undefined for single-class data → returns NaN
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Solution}
+
+\begin{lstlisting}[caption={AUC Fix Implementation}]
+def compute_auc_safe(y_true, y_pred):
+    """Compute AUC-ROC safely, handling classes with only one label."""
+    num_classes = y_true.shape[1]
+    valid_classes = []
+    
+    for c in range(num_classes):
+        unique_labels = np.unique(y_true[:, c])
+        if len(unique_labels) > 1:
+            valid_classes.append(c)
+    
+    if len(valid_classes) == 0:
+        return 0.0
+    
+    auc = roc_auc_score(
+        y_true[:, valid_classes],
+        y_pred[:, valid_classes],
+        average='macro'
+    )
+    return auc
+\end{lstlisting}
+
+\section{Complete Training Script}
+
+\begin{lstlisting}[caption={Complete training function}]
+def train_model(model, train_loader, val_loader, num_epochs=30, lr=1e-4):
+    model = model.to(device)
+    criterion = nn.BCEWithLogitsLoss()
+    optimizer = optim.Adam(model.parameters(), lr=lr)
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer, mode='min', patience=3, factor=0.1
+    )
+    
+    best_auc = 0.0
+    
+    for epoch in range(num_epochs):
+        # Training phase
+        model.train()
+        for images, labels in train_loader:
+            images, labels = images.to(device), labels.to(device)
+            
+            optimizer.zero_grad()
+            outputs = model(images)
+            loss = criterion(outputs, labels)
+            loss.backward()
+            optimizer.step()
+        
+        # Validation phase
+        model.eval()
+        all_preds, all_labels = [], []
+        with torch.no_grad():
+            for images, labels in val_loader:
+                outputs = model(images.to(device))
+                probs = torch.sigmoid(outputs)
+                all_preds.append(probs.cpu().numpy())
+                all_labels.append(labels.numpy())
+        
+        all_preds = np.concatenate(all_preds)
+        all_labels = np.concatenate(all_labels)
+        val_auc = compute_auc_safe(all_labels, all_preds)
+        
+        scheduler.step(val_loss)
+        
+        if val_auc > best_auc:
+            best_auc = val_auc
+            torch.save(model.state_dict(), 'best_model.pth')
+    
+    return model
+\end{lstlisting}
+
+\section{Repository Structure}
+
+\begin{lstlisting}[style=plain,caption={Project structure}]
+ViT-Chest-Xray/
+|-- Project/
+|   |-- cnn.ipynb           # CNN implementation
+|   |-- resnet.ipynb        # ResNet-34 implementation
+|   |-- ViT-v1.ipynb        # Vision Transformer v1
+|   |-- ViT-v2.ipynb        # Vision Transformer v2
+|   |-- ViT-ResNet.ipynb    # Hybrid ViT-ResNet
+|   |-- data.ipynb          # Data preprocessing
+|   |-- data_download.ipynb # Dataset download
+|   |-- config.py           # Configuration
+|   `-- data/               # Dataset folder
+|-- Report/
+|   `-- LaTeX/              # This documentation
+|-- requirements.txt        # Dependencies
+`-- README.md              # Project readme
+\end{lstlisting}
+
+% ============================================================
+% CHAPTER 8: CONCLUSION
+% ============================================================
+\chapter{Conclusion}
+
+\section{Summary of Findings}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Original Paper Contributions]
+\begin{enumerate}
+    \item \textbf{Comprehensive Comparison:} So sánh 5 architectures trên cùng một dataset và setup
+    \item \textbf{Hybrid Architecture:} Đề xuất ViT-ResNet kết hợp ResNet backbone với Transformer encoder
+    \item \textbf{Medical Imaging Application:} Áp dụng Vision Transformer cho bài toán phân loại bệnh phổi
+    \item \textbf{Multi-label Classification:} Xử lý bài toán multi-label với 15 classes
+\end{enumerate}
+\end{tcolorbox}
+
+\section{Key Results}
+
+\begin{table}[H]
+\centering
+\caption{Final Results Summary}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Model} & \textbf{Accuracy} & \textbf{AUC} & \textbf{Key Insight} \\
+\midrule
+CNN & 91\% & 0.82 & Baseline, limited capacity \\
+ResNet-34 & 93\% & 0.86 & Skip connections help \\
+ViT-v1/32 & 92.63\% & 0.86 & Transformers viable for medical \\
+ViT-v2/32 & 92.83\% & 0.84 & More epochs, risk of overfit \\
+\textbf{ViT-ResNet/16} & \textbf{93.9\%} & \textbf{0.85} & \textbf{Hybrid is best} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Technical Insights}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Architecture Insights]
+\textbf{CNN (Baseline):} Strong locality inductive bias, limited receptive field
+
+\textbf{ResNet:} Skip connections solve degradation problem, enables deeper networks
+
+\textbf{Vision Transformer:} Global attention captures long-range dependencies, minimal inductive bias
+
+\textbf{ViT-ResNet (Hybrid):} Combines CNN's locality with Transformer's globality - best of both worlds
+\end{tcolorbox}
+
+\section{Our Contributions}
+
+\begin{tcolorbox}[colback=purple!5!white,colframe=purple!75!black,title=Our Technical Contributions]
+\begin{enumerate}
+    \item \textbf{Complete PyTorch Migration:} All 5 models reimplemented from TensorFlow/Keras
+    \item \textbf{Bug Fixes:} AUC NaN issue, ReduceLROnPlateau verbose deprecation
+    \item \textbf{Documentation:} Comprehensive LaTeX report with code mapping
+    \item \textbf{Analysis:} Deep expert-level analysis of each architecture
+\end{enumerate}
+\end{tcolorbox}
+
+\section{Limitations and Future Work}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Limitations]
+\begin{enumerate}
+    \item \textbf{Dataset Issues:} Weak labels, severe class imbalance, no patient-level split verification
+    \item \textbf{Experimental Scope:} Single dataset, no external validation
+    \item \textbf{Clinical Applicability:} Not validated by radiologists
+\end{enumerate}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Future Work Suggestions]
+\begin{enumerate}
+    \item \textbf{Architecture:} Swin Transformer, DeiT, ConvNeXt
+    \item \textbf{Training:} Self-supervised pretraining, knowledge distillation
+    \item \textbf{Clinical:} Attention visualization, uncertainty quantification
+    \item \textbf{Dataset:} CheXpert, MIMIC-CXR for validation
+\end{enumerate}
+\end{tcolorbox}
+
+\section{Final Remarks}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Conclusion]
+Paper ``A Comparative Study of CNN, ResNet, and Vision Transformers for Multi-Classification of Chest Diseases'' đã:
+
+\begin{enumerate}
+    \item \textbf{Chứng minh} Vision Transformers có thể áp dụng hiệu quả cho medical imaging
+    \item \textbf{Cho thấy} hybrid approaches (ViT-ResNet) kết hợp ưu điểm của cả CNN và Transformer
+    \item \textbf{Cung cấp} benchmark cho 5 architectures trên NIH Chest X-ray dataset
+\end{enumerate}
+
+\textbf{Takeaway message:} Cho bài toán medical image classification, hybrid architectures kết hợp CNN và Transformer là hướng đi promising, tận dụng cả local feature extraction và global reasoning capabilities.
+\end{tcolorbox}
+
+% ============================================================
+% REFERENCES
+% ============================================================
+\begin{thebibliography}{99}
+
+% ===== Original Paper =====
+\bibitem{original_paper}
+Ananya Jain, Aviral Bhardwaj, Kaushik Murali, and Isha Surani.
+\textit{A Comparative Study of CNN, ResNet, and Vision Transformers for Multi-Classification of Chest Diseases}.
+arXiv:2406.00237, 2024.
+\url{https://arxiv.org/abs/2406.00237}
+
+% ===== Foundational Deep Learning Papers =====
+\bibitem{alexnet}
+Alex Krizhevsky, Ilya Sutskever, and Geoffrey E. Hinton.
+\textit{ImageNet Classification with Deep Convolutional Neural Networks}.
+Advances in Neural Information Processing Systems (NeurIPS), 2012.
+
+\bibitem{resnet}
+Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
+\textit{Deep Residual Learning for Image Recognition}.
+IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2016.
+
+% ===== Transformer Papers =====
+\bibitem{attention}
+Ashish Vaswani, Noam Shazeer, Niki Parmar, et al.
+\textit{Attention Is All You Need}.
+Advances in Neural Information Processing Systems (NeurIPS), 2017.
+
+\bibitem{vit}
+Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, et al.
+\textit{An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale}.
+International Conference on Learning Representations (ICLR), 2021.
+
+\bibitem{bert}
+Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova.
+\textit{BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding}.
+NAACL, 2019.
+
+% ===== Medical Imaging Papers =====
+\bibitem{chestxray14}
+Xiaosong Wang, Yifan Peng, Le Lu, et al.
+\textit{ChestX-ray8: Hospital-scale Chest X-ray Database and Benchmarks on Weakly-Supervised Classification and Localization of Common Thorax Diseases}.
+IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2017.
+
+\bibitem{chexnet}
+Pranav Rajpurkar, Jeremy Irvin, Kaylie Zhu, et al.
+\textit{CheXNet: Radiologist-Level Pneumonia Detection on Chest X-Rays with Deep Learning}.
+arXiv:1711.05225, 2017.
+
+% ===== Optimization and Training =====
+\bibitem{adam}
+Diederik P. Kingma and Jimmy Ba.
+\textit{Adam: A Method for Stochastic Optimization}.
+International Conference on Learning Representations (ICLR), 2015.
+
+\bibitem{batch_norm}
+Sergey Ioffe and Christian Szegedy.
+\textit{Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift}.
+International Conference on Machine Learning (ICML), 2015.
+
+\bibitem{dropout}
+Nitish Srivastava, Geoffrey Hinton, et al.
+\textit{Dropout: A Simple Way to Prevent Neural Networks from Overfitting}.
+Journal of Machine Learning Research (JMLR), 2014.
+
+% ===== Vision Transformer Variants =====
+\bibitem{deit}
+Hugo Touvron, Matthieu Cord, Matthijs Douze, et al.
+\textit{Training data-efficient image transformers \& distillation through attention}.
+International Conference on Machine Learning (ICML), 2021.
+
+\bibitem{swin}
+Ze Liu, Yutong Lin, Yue Cao, et al.
+\textit{Swin Transformer: Hierarchical Vision Transformer using Shifted Windows}.
+IEEE/CVF International Conference on Computer Vision (ICCV), 2021.
+
+% ===== Frameworks =====
+\bibitem{pytorch}
+Adam Paszke, Sam Gross, Francisco Massa, et al.
+\textit{PyTorch: An Imperative Style, High-Performance Deep Learning Library}.
+Advances in Neural Information Processing Systems (NeurIPS), 2019.
+
+\end{thebibliography}
+
+\end{document}

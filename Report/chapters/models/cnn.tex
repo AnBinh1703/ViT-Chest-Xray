@@ -1,0 +1,125 @@
+% ============================================================================
+% MÔ HÌNH CNN CƠ SỞ
+% ============================================================================
+\section{Mô hình CNN cơ sở}
+\label{sec:cnn_model}
+
+\subsection{Kiến trúc mô hình}
+
+Mô hình CNN cơ sở (\texttt{CNNClassifier}) được thiết kế như một baseline đơn giản để so sánh với các kiến trúc phức tạp hơn. Kiến trúc này bao gồm hai khối tích chập (convolutional block) và một bộ phân loại fully-connected.
+
+\textbf{Chi tiết kiến trúc:}
+\begin{itemize}[noitemsep]
+    \item \textbf{Đầu vào}: Ảnh RGB kích thước $3 \times 224 \times 224$
+    \item \textbf{Khối tích chập 1}: 
+    \begin{itemize}
+        \item Conv2d: 3 channels $\rightarrow$ 32 channels, kernel $3 \times 3$, không padding
+        \item Activation: ReLU
+        \item MaxPool2d: kernel $2 \times 2$
+        \item Kích thước sau khối: $32 \times 111 \times 111$
+    \end{itemize}
+    \item \textbf{Khối tích chập 2}:
+    \begin{itemize}
+        \item Conv2d: 32 channels $\rightarrow$ 64 channels, kernel $3 \times 3$, không padding
+        \item Activation: ReLU
+        \item MaxPool2d: kernel $2 \times 2$
+        \item Kích thước sau khối: $64 \times 54 \times 54$
+    \end{itemize}
+    \item \textbf{Bộ phân loại (Classifier)}:
+    \begin{itemize}
+        \item Flatten: $64 \times 54 \times 54 = 186,624$ features
+        \item Linear: $186,624 \rightarrow 512$
+        \item ReLU
+        \item Linear: $512 \rightarrow 15$ (số lớp bệnh)
+    \end{itemize}
+\end{itemize}
+
+\textbf{Tổng số tham số:} $\sim$95 triệu tham số
+
+\textbf{Vấn đề kiến trúc:} Việc sử dụng Flatten trực tiếp sau các lớp tích chập dẫn đến lớp fully-connected đầu tiên có số tham số rất lớn ($186,624 \times 512 \approx 95.5$M). Đây là một thiết kế không hiệu quả, nên được thay thế bằng Global Average Pooling để giảm đáng kể số tham số.
+
+\subsection{Cấu hình huấn luyện}
+
+\begin{table}[H]
+\centering
+\caption{Cấu hình huấn luyện mô hình CNN}
+\label{tab:cnn_config}
+\begin{tabular}{ll}
+\toprule
+\textbf{Tham số} & \textbf{Giá trị} \\
+\midrule
+Kích thước ảnh (Image Size) & $224 \times 224$ \\
+Batch Size & 32 \\
+Learning Rate & $1 \times 10^{-4}$ \\
+Weight Decay & $1 \times 10^{-6}$ \\
+Số Epoch & 10 \\
+Optimizer & AdamW \\
+Loss Function & BCEWithLogitsLoss \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Data Augmentation} áp dụng trong quá trình huấn luyện:
+\begin{itemize}[noitemsep]
+    \item Horizontal Flip với xác suất $p=0.5$
+    \item Random Rotation trong phạm vi $\pm 5°$
+    \item Color Jitter: brightness=0.1, contrast=0.1
+    \item Normalization sử dụng mean và std của ImageNet: $\mu = [0.485, 0.456, 0.406]$, $\sigma = [0.229, 0.224, 0.225]$
+\end{itemize}
+
+\subsection{Kết quả thực nghiệm}
+
+\begin{table}[H]
+\centering
+\caption{Kết quả huấn luyện mô hình CNN (10 epoch)}
+\label{tab:cnn_results}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Chỉ số} & \textbf{Train} & \textbf{Validation} & \textbf{Test} \\
+\midrule
+Loss (epoch cuối) & 0.2121 & 0.4208 & -- \\
+AUC (epoch cuối) & 0.8961 & 0.5847 & $\sim$0.58 \\
+Best Val AUC & -- & 0.5998 (epoch 1) & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Nhận xét:}
+\begin{itemize}[noitemsep]
+    \item \textbf{Overfitting nghiêm trọng}: Train AUC tăng từ 0.53 lên 0.90 trong khi Val AUC gần như không cải thiện (dao động quanh 0.56--0.60).
+    \item \textbf{Best epoch là epoch 1}: Mô hình đạt Best Val AUC = 0.5998 ngay từ epoch đầu tiên, sau đó validation performance giảm dần.
+    \item \textbf{Khoảng cách Train-Val gap}: Rất lớn ($\sim$0.32), cho thấy mô hình học thuộc dữ liệu huấn luyện thay vì tổng quát hóa.
+\end{itemize}
+
+\subsection{Đoạn mã minh họa}
+
+\begin{lstlisting}[language=Python, caption=Định nghĩa lớp CNNClassifier]
+class CNNClassifier(nn.Module):
+    def __init__(self, num_classes=15):
+        super(CNNClassifier, self).__init__()
+        # Input: 3 x 224 x 224
+        self.features = nn.Sequential(
+            # Conv Block 1
+            nn.Conv2d(3, 32, kernel_size=3, padding=0), 
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2),
+            # Conv Block 2
+            nn.Conv2d(32, 64, kernel_size=3, padding=0), 
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2)
+        )
+        # 224 -> 222 -> 111 -> 109 -> 54
+        self.flatten_size = 64 * 54 * 54  # = 186,624
+        
+        self.classifier = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(self.flatten_size, 512),
+            nn.ReLU(),
+            nn.Linear(512, num_classes)
+        )
+
+    def forward(self, x):
+        x = self.features(x)
+        x = self.classifier(x)
+        return x
+\end{lstlisting}

@@ -71,19 +71,7 @@
 \DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg}
 \graphicspath{{./}{../image/}{../../image/}{image/}{./image/}{../../}}
 
-% Include ảnh an toàn: nếu thiếu ảnh thì không làm compile fail
-\newcommand{\safeincludegraphics}[2][]{%
-  \IfFileExists{#2}{%
-    \includegraphics[#1]{#2}%
-  }{%
-    \begin{center}
-      \fbox{\parbox{0.9\linewidth}{\centering
-        \textbf{Missing image:}\\ \texttt{#2}\\
-        (Hãy kiểm tra tên file/đuôi .png/.jpg và đúng thư mục \texttt{image/})
-      }}
-    \end{center}
-  }%
-}
+% Include ảnh trực tiếp (bỏ macro vì gây lỗi LaTeX)
 
 % TikZ for diagrams
 \usepackage{tikz}

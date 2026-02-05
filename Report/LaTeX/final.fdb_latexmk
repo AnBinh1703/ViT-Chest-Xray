@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1770244306.14124 "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" "final.pdf" "final" 1770244311.2281 2
+["pdflatex"] 1770274103.74696 "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" "final.pdf" "final" 1770274109.17192 2
   "../../image/../image/output-roc-vit-v1.png" 1770234046 53893 ee14a03758310edbae7f0740210e9cdb ""
   "../../image/../image/output-roc-vit-v2.png" 1770234076 53674 6b65d65b12cfec438364609b7043caa8 ""
   "C:/Program Files/MiKTeX/fonts/tfm/adobe/symbol/psyr.tfm" 1136747054 1408 5937f58aa508ea2cea4901c07d10f5fe ""
@@ -245,12 +245,13 @@
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/vntex/t5enc.dfu" 1368738347 13949 387dd4fa58aea5f873839c93430fffed ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/xpatch/xpatch.sty" 1585221260 8510 7803f78066c4f9d008405191a4b43073 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/xstring/xstring.sty" 1693735632 123 a302f2c651a95033260db60e51527ae8 ""
-  "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" 1770244157 117900 4d20f4572edcde8af18fa0cfa6340006 ""
-  "final.aux" 1770244309 35880 2f5ec02e8ed4a5628c7ffd6fb467afbc "pdflatex"
-  "final.lof" 1770244307 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "final.lot" 1770244307 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "final.tex" 1770244157 117900 4d20f4572edcde8af18fa0cfa6340006 ""
-  "final.toc" 1770244307 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" 1770274101 117540 e566659ace0cfb6f0c1469732cad4f90 ""
+  "final.aux" 1770274107 35922 2f9fc2d8da85b7e339cfc6fb5271b0ff "pdflatex"
+  "final.lof" 1770274105 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "final.lot" 1770274105 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "final.out" 1770274107 30032 818bd4862ecdf4a73f57630631ac0975 "pdflatex"
+  "final.tex" 1770274101 117540 e566659ace0cfb6f0c1469732cad4f90 ""
+  "final.toc" 1770274105 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   (generated)
   "final.aux"
   "final.lof"

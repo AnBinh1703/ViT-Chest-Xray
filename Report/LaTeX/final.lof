@@ -2,14 +2,14 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Kết quả huấn luyện CNN Baseline}}{14}{figure.caption.16}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Kết quả huấn luyện CNN Baseline}}{14}{figure.caption.11}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Kết quả huấn luyện ResNet-34}}{19}{figure.caption.19}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Kết quả huấn luyện ResNet-34}}{18}{figure.caption.14}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Kiến trúc Vision Transformer tổng quan}}{22}{figure.caption.22}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces So sánh ROC Curve giữa ViT-v1 và ViT-v2}}{28}{figure.caption.24}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Kiến trúc Vision Transformer tổng quan}}{21}{figure.caption.17}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces So sánh ROC Curve giữa ViT-v1 và ViT-v2}}{27}{figure.caption.19}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Kết quả huấn luyện ViT-ResNet Hybrid}}{36}{figure.caption.28}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Kết quả huấn luyện ViT-ResNet Hybrid}}{34}{figure.caption.23}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

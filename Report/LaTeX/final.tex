@@ -285,11 +285,13 @@ Báo cáo phân tích chuyên sâu này không chỉ dừng lại ở việc tó
 \tableofcontents
 
 \newpage
-\addcontentsline{toc}{chapter}{\listfigurename}
+\phantomsection
+\addcontentsline{toc}{chapter}{DANH SÁCH HÌNH}
 \listoffigures
 
 \newpage
-\addcontentsline{toc}{chapter}{\listtablename}
+\phantomsection
+\addcontentsline{toc}{chapter}{DANH SÁCH BẢNG}
 \listoftables
 
 \clearpage
@@ -1127,14 +1129,14 @@ Vision Transformer chuyển bài toán ảnh thành bài toán chuỗi:
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[scale=0.7, every node/.style={font=\small}]
-    \node[draw, fill=blue!20, minimum width=2cm, minimum height=2cm] (img) at (0,0) {Image\\224×224};
-    \node[draw, fill=orange!30, minimum width=2cm, minimum height=1.5cm] (patch) at (3.5,0) {Split into\\Patches};
-    \node[draw, fill=green!30, minimum width=2cm, minimum height=1.5cm] (proj) at (7,0) {Linear\\Projection};
-    \node[draw, fill=purple!30, minimum width=2cm, minimum height=1cm] (pos) at (7,-2.5) {Position\\Embedding};
-    \node[draw, fill=red!30, minimum width=1.5cm, minimum height=1cm] (cls) at (3.5,-2.5) {[CLS]\\Token};
+    \node[draw, fill=blue!20, minimum width=2cm, minimum height=2cm, text width=1.8cm, align=center] (img) at (0,0) {Image 224×224};
+    \node[draw, fill=orange!30, minimum width=2cm, minimum height=1.5cm, text width=1.8cm, align=center] (patch) at (3.5,0) {Split into Patches};
+    \node[draw, fill=green!30, minimum width=2cm, minimum height=1.5cm, text width=1.8cm, align=center] (proj) at (7,0) {Linear Projection};
+    \node[draw, fill=purple!30, minimum width=2cm, minimum height=1cm, text width=1.8cm, align=center] (pos) at (7,-2.5) {Position Embedding};
+    \node[draw, fill=red!30, minimum width=1.5cm, minimum height=1cm, text width=1.3cm, align=center] (cls) at (3.5,-2.5) {[CLS] Token};
     \node[draw, circle, fill=yellow!30] (add) at (10.5,0) {+};
-    \node[draw, fill=cyan!30, minimum width=2.5cm, minimum height=2cm] (trans) at (14,0) {Transformer\\Encoder\\×L};
-    \node[draw, fill=orange!30, minimum width=2cm, minimum height=1.5cm] (mlp) at (17.5,0) {MLP\\Head};
+    \node[draw, fill=cyan!30, minimum width=2.5cm, minimum height=2cm, text width=2.3cm, align=center] (trans) at (14,0) {Transformer Encoder ×L};
+    \node[draw, fill=orange!30, minimum width=2cm, minimum height=1.5cm, text width=1.8cm, align=center] (mlp) at (17.5,0) {MLP Head};
     \node[draw, fill=blue!20, minimum width=2cm, minimum height=1cm] (out) at (17.5,-2.5) {15 Classes};
 
     \draw[->] (img) -- (patch);
@@ -2862,3 +2864,5 @@ Kết luận chung của nghiên cứu là:
 \end{quote}
 
 Vision Transformer không phải là ``silver bullet'', nhưng khi được kết hợp với pretraining mạnh hoặc inductive bias phù hợp, chúng mở ra những khả năng mới cho phân tích ảnh y tế. Nghiên cứu này kỳ vọng đóng góp một nền tảng vững chắc cho các công trình tiếp theo trong lĩnh vực giao thoa giữa học sâu và y học.
+
+\end{document}

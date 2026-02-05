@@ -69,7 +69,6 @@
 
 % Chỉ cho phép các định dạng ảnh mà pdfLaTeX đọc tốt
 \DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg}
-\graphicspath{{./}{../image/}{../../image/}{image/}{./image/}{../../}}
 
 % Include ảnh trực tiếp (bỏ macro vì gây lỗi LaTeX)
 
@@ -169,7 +168,7 @@
   % Logo
   \vspace*{0.5cm}
   % pdfLaTeX KHÔNG hỗ trợ .webp. Hãy đổi fsb.webp -> fsb.png (hoặc .jpg).
-  \safeincludegraphics[width=0.18\textwidth]{../image/fsb.png}
+  % \includegraphics[width=0.18\textwidth]{../../image/fsb.png}  % TEMP DISABLED
   
   \vspace{0.8cm}
 
@@ -204,7 +203,7 @@
     \end{tabular}\\[0.6cm]
 
     \textbf{Lớp:} MSA29HCM\\
-    \textbf{Môn học:} Học sâu (Deep Learning)\\
+    \textbf{Môn học:} Deep Learning\\
     \textbf{Giảng viên hướng dẫn:} Lê Việt Tuấn
   \end{flushleft}
 
@@ -807,7 +806,7 @@ CNN là mô hình có hiệu năng thấp nhất trong số các kiến trúc đ
 
 \begin{figure}[H]
   \centering
-  \safeincludegraphics[width=0.85\textwidth]{../image/output_cnn.png}
+  \includegraphics[width=0.85\textwidth]{../../image/output_cnn.png}
   \caption[Kết quả huấn luyện CNN Baseline]{Diễn biến AUC trên tập huấn luyện và validation của mô hình CNN baseline. Mô hình đạt AUC cao trên tập huấn luyện nhưng không cải thiện trên tập validation, cho thấy hiện tượng overfitting rõ rệt.}
   \label{fig:cnn_auc}
 \end{figure}
@@ -997,7 +996,7 @@ Initialization & Kaiming Normal \\
 
 \begin{figure}[H]
 \centering
-\safeincludegraphics[width=0.85\textwidth]{../image/output-resnet.png}
+\includegraphics[width=0.85\textwidth]{../../image/output-resnet.png}
 \caption[Kết quả huấn luyện ResNet-34]{Diễn biến AUC huấn luyện và validation của ResNet-34. Mô hình sử dụng skip connections giúp duy trì gradient flow và đạt hiệu năng ổn định hơn so với CNN baseline.}
 \label{fig:resnet_auc}
 \end{figure}
@@ -1421,14 +1420,14 @@ Pretrained & Không & Không & ImageNet-21K \\
     \centering
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{../image/output-roc-vit-v1.png}
+        \includegraphics[width=\textwidth]{../../image/output-roc-vit-v1.png}
         \caption{ViT-v1 (huấn luyện từ đầu)}
         \label{fig:roc_vit_v1}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{../image/output-roc-vit-v2.png}
+        \includegraphics[width=\textwidth]{../../image/output-roc-vit-v2.png}
         \caption{ViT-v2 (có regularization)}
         \label{fig:roc_vit_v2}
     \end{subfigure}
@@ -1809,7 +1808,7 @@ Fine-tune ViT pretrained cho bài toán X-quang.
 
 \begin{figure}[H]
 \centering
-\safeincludegraphics[width=0.85\textwidth]{../image/output-vit-resnet.png}
+\includegraphics[width=0.85\textwidth]{../../image/output-vit-resnet.png}
 \caption[Kết quả huấn luyện ViT-ResNet Hybrid]{Kết quả huấn luyện và đánh giá mô hình ViT-ResNet hybrid: Đường cong training loss/accuracy và ROC-AUC curve. Mô hình lai kết hợp ưu điểm của CNN (local features) và Transformer (global attention), đạt hiệu năng cao nhất trong các mô hình được thử nghiệm.}
 \label{fig:output_vit_resnet}
 \end{figure}

@@ -1,7 +1,7 @@
 \babel@toc {vietnamese}{}\relax 
 \contentsline {chapter}{Tóm tắt nghiên cứu}{1}{chapter*.1}%
-\contentsline {chapter}{DANH SÁCH HÌNH}{vi}{section*.9}%
-\contentsline {chapter}{DANH SÁCH BẢNG}{vii}{section*.11}%
+\contentsline {chapter}{DANH SÁCH HÌNH}{iii}{section*.9}%
+\contentsline {chapter}{DANH SÁCH BẢNG}{iv}{section*.11}%
 \contentsline {chapter}{\numberline {1}Giới thiệu và Bối cảnh nghiên cứu}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Bối cảnh lâm sàng}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Thách thức trong chẩn đoán X-quang ngực}{1}{section.1.2}%
@@ -160,4 +160,4 @@
 \contentsline {section}{\numberline {9.5}Clinical and Practical Implications}{59}{section.9.5}%
 \contentsline {section}{\numberline {9.6}Limitations}{59}{section.9.6}%
 \contentsline {section}{\numberline {9.7}Future Directions}{59}{section.9.7}%
-\contentsline {section}{\numberline {9.8}Final Remarks}{59}{section.9.8}%
+\contentsline {section}{\numberline {9.8}Final Remarks}{60}{section.9.8}%

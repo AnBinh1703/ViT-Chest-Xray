@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1770274916.06368 "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" "final.pdf" "final" 1770274920.94103 2
+["pdflatex"] 1770275432.10585 "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" "final.pdf" "final" 1770275437.04379 2
   "../../image/output-resnet.png" 1770234016 57005 20a8e802fa55a42f9fa5ca55be0497ce ""
   "../../image/output-roc-vit-v1.png" 1770234046 53893 ee14a03758310edbae7f0740210e9cdb ""
   "../../image/output-roc-vit-v2.png" 1770234076 53674 6b65d65b12cfec438364609b7043caa8 ""
@@ -271,9 +271,13 @@
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/vntex/t5enc.dfu" 1368738347 13949 387dd4fa58aea5f873839c93430fffed ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/xpatch/xpatch.sty" 1585221260 8510 7803f78066c4f9d008405191a4b43073 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/xstring/xstring.sty" 1693735632 123 a302f2c651a95033260db60e51527ae8 ""
-  "final.aux" 1770274920 36021 e2993b3877af4ff370b4983b016f4d2a "pdflatex"
-  "final.out" 1770274920 30157 1ccf13f8d2e9c39b3acd5072477bc33d "pdflatex"
-  "final.tex" 1770274912 117748 862d59ea646289e2364168e560918503 ""
+  "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" 1770275390 117638 7030c830091200eb453143d236ec92bf ""
+  "final.aux" 1770275435 36021 f94ffcf534dcb6bf21e50a9f13e981ef "pdflatex"
+  "final.lof" 1770275435 828 a9a3e2c699dc2634eda81f90ef018991 "pdflatex"
+  "final.lot" 1770275435 2863 32e4d1202d9ff7203d16a70d19ab9485 "pdflatex"
+  "final.out" 1770275435 30157 1ccf13f8d2e9c39b3acd5072477bc33d "pdflatex"
+  "final.tex" 1770275390 117638 7030c830091200eb453143d236ec92bf ""
+  "final.toc" 1770275435 15247 67c7c144852ee6709665c7eddfd4e768 "pdflatex"
   (generated)
   "final.aux"
   "final.lof"

@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1770279911.63666 "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" "final.pdf" "final" 1770279917.4761 2
+["pdflatex"] 1770279930.97242 "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" "final.pdf" "final" 1770279936.87291 2
   "../../image/output-resnet.png" 1770234016 57005 20a8e802fa55a42f9fa5ca55be0497ce ""
   "../../image/output-roc-vit-v1.png" 1770234046 53893 ee14a03758310edbae7f0740210e9cdb ""
   "../../image/output-roc-vit-v2.png" 1770234076 53674 6b65d65b12cfec438364609b7043caa8 ""
@@ -250,6 +250,7 @@
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/microtype/mt-ptm.cfg" 1752015111 12427 78d94d2b9d095b6021a1cc87fb6d8cd7 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/multirow/multirow.sty" 1731767677 6696 886c9f3087d0b973ed2c19aa79cb3023 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/mweights/mweights.sty" 1570501985 4953 67f29a12ea26221103fce6bae3433e60 ""
+  "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/newtx/TeXGyreTermesX.fontspec" 1736607166 294 9f9c43fb30309c6aeeed3eaf8fca6601 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/newtx/newtxtext.sty" 1736607166 30156 0a19c9edb32312a6fb89020d05f0976d ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/newtx/ot1ntxtlf.fd" 1736607166 2241 e9e29b034b8eb01c46f61e2fc5a445b2 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/newtx/ts1ntxtlf.fd" 1736607166 1219 06811c362a6c86c10e17f80577d8ceee ""
@@ -273,12 +274,12 @@
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/xpatch/xpatch.sty" 1585221260 8510 7803f78066c4f9d008405191a4b43073 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/xstring/xstring.sty" 1693735632 123 a302f2c651a95033260db60e51527ae8 ""
   "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" 1770279904 144654 77ec6ce588c1f9d3d95ce011bfb1c711 ""
-  "final.aux" 1770279915 44089 2b7d881c490714683f6ece49a6c24e61 "pdflatex"
-  "final.lof" 1770279916 848 479c7b5a182e4b181878342308114d91 "pdflatex"
-  "final.lot" 1770279916 3276 64e3a1facd5347e47acf05386ea45273 "pdflatex"
-  "final.out" 1770279915 37330 68f3cfd517474e85ea9bed5b25da14ba "pdflatex"
+  "final.aux" 1770279935 44123 dfbf6f5b10903dfb3a6ea20ded6b3958 "pdflatex"
+  "final.lof" 1770279935 848 479c7b5a182e4b181878342308114d91 "pdflatex"
+  "final.lot" 1770279935 3276 d5a52d38e263c2728a84470cd82ca659 "pdflatex"
+  "final.out" 1770279935 37330 68f3cfd517474e85ea9bed5b25da14ba "pdflatex"
   "final.tex" 1770279904 144654 77ec6ce588c1f9d3d95ce011bfb1c711 ""
-  "final.toc" 1770279916 18827 b010a2d75246c694606f73a050664b97 "pdflatex"
+  "final.toc" 1770279935 18826 e01246a6365e8088b01441ef1ab971ad "pdflatex"
   (generated)
   "final.aux"
   "final.lof"

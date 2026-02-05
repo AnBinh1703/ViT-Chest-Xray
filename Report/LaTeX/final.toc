@@ -1,7 +1,7 @@
 \babel@toc {vietnamese}{}\relax 
 \contentsline {chapter}{Tóm tắt nghiên cứu}{1}{chapter*.1}%
-\contentsline {chapter}{DANH SÁCH HÌNH}{iii}{section*.4}%
-\contentsline {chapter}{DANH SÁCH BẢNG}{iv}{section*.6}%
+\contentsline {chapter}{DANH SÁCH HÌNH}{vii}{section*.4}%
+\contentsline {chapter}{DANH SÁCH BẢNG}{viii}{section*.6}%
 \contentsline {chapter}{\numberline {1}Giới thiệu và Bối cảnh nghiên cứu}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Bối cảnh lâm sàng}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Thách thức trong chẩn đoán X-quang ngực}{1}{section.1.2}%
@@ -14,7 +14,7 @@
 \contentsline {section}{\numberline {2.1}Tổng quan}{5}{section.2.1}%
 \contentsline {section}{\numberline {2.2}Phương pháp dựa trên CNN (CNN-based Methods)}{5}{section.2.2}%
 \contentsline {subsection}{\numberline {2.2.1}ChestX-ray14 và CheXNet}{5}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}CheXpert và Uncertainty Labeling}{6}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.2}CheXpert và Uncertainty Labeling}{5}{subsection.2.2.2}%
 \contentsline {subsection}{\numberline {2.2.3}MIMIC-CXR và Vision-Language Models}{6}{subsection.2.2.3}%
 \contentsline {section}{\numberline {2.3}Kiến trúc Transformer cho Thị giác Y tế}{6}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}Vision Transformer (ViT)}{6}{subsection.2.3.1}%
@@ -33,7 +33,7 @@
 \contentsline {subsection}{\numberline {2.6.2}Bài Báo Gốc (Paper Under Analysis)}{9}{subsection.2.6.2}%
 \contentsline {section}{\numberline {2.7}Gaps và Đóng Góp của Luận Văn Này}{9}{section.2.7}%
 \contentsline {subsection}{\numberline {2.7.1}Gaps trong Literature}{9}{subsection.2.7.1}%
-\contentsline {subsection}{\numberline {2.7.2}Đóng Góp của Luận Văn}{10}{subsection.2.7.2}%
+\contentsline {subsection}{\numberline {2.7.2}Đóng Góp của Luận Văn}{9}{subsection.2.7.2}%
 \contentsline {chapter}{\numberline {3}Phân tích Dataset: NIH Chest X-ray}{11}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Tổng quan Dataset}{11}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}Thông tin cơ bản}{11}{subsection.3.1.1}%
@@ -127,18 +127,18 @@
 \contentsline {section}{\numberline {7.2}Evaluation Metrics}{39}{section.7.2}%
 \contentsline {subsection}{\numberline {7.2.1}AUC-ROC}{39}{subsection.7.2.1}%
 \contentsline {section}{\numberline {7.3}Main Results (Reported in the Original Paper)}{39}{section.7.3}%
-\contentsline {subsection}{\numberline {7.3.1}Key Observations (Paper Level)}{40}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.1}Key Observations (Paper Level)}{39}{subsection.7.3.1}%
 \contentsline {section}{\numberline {7.4}Reproduced and Audited Results}{40}{section.7.4}%
 \contentsline {subsection}{\numberline {7.4.1}Why Is AUC Lower Than the Paper?}{40}{subsection.7.4.1}%
 \contentsline {section}{\numberline {7.5}Discussion}{40}{section.7.5}%
-\contentsline {section}{\numberline {7.6}Clinical Perspective}{41}{section.7.6}%
+\contentsline {section}{\numberline {7.6}Clinical Perspective}{40}{section.7.6}%
 \contentsline {section}{\numberline {7.7}Limitations and Future Work}{41}{section.7.7}%
 \contentsline {section}{\numberline {7.8}Replication Study and Detailed Codebase Audit}{41}{section.7.8}%
 \contentsline {subsection}{\numberline {7.8.1}Evaluation Framework for File Review}{41}{subsection.7.8.1}%
-\contentsline {subsection}{\numberline {7.8.2}Configuration Management: \texttt {config.py}}{42}{subsection.7.8.2}%
+\contentsline {subsection}{\numberline {7.8.2}Configuration Management: \texttt {config.py}}{41}{subsection.7.8.2}%
 \contentsline {subsection}{\numberline {7.8.3}Data Acquisition: \texttt {data\_download.ipynb}}{42}{subsection.7.8.3}%
 \contentsline {subsection}{\numberline {7.8.4}Data Processing Pipeline: \texttt {data.ipynb}}{42}{subsection.7.8.4}%
-\contentsline {subsection}{\numberline {7.8.5}CNN Baseline: \texttt {cnn.ipynb}}{43}{subsection.7.8.5}%
+\contentsline {subsection}{\numberline {7.8.5}CNN Baseline: \texttt {cnn.ipynb}}{42}{subsection.7.8.5}%
 \contentsline {subsection}{\numberline {7.8.6}Residual Network: \texttt {resnet.ipynb}}{43}{subsection.7.8.6}%
 \contentsline {subsection}{\numberline {7.8.7}Vision Transformer from Scratch: \texttt {ViT-v1} và \texttt {ViT-v2}}{43}{subsection.7.8.7}%
 \contentsline {subsection}{\numberline {7.8.8}Hybrid and Pretrained Models: \texttt {ViT-ResNet.ipynb}}{43}{subsection.7.8.8}%
@@ -181,18 +181,18 @@
 \contentsline {subsection}{\numberline {9.4.1}Model ensemble}{63}{subsection.9.4.1}%
 \contentsline {subsubsection}{Chiến lược ensemble}{63}{subsubsection*.53}%
 \contentsline {subsubsection}{Kết quả ensemble}{64}{subsubsection*.54}%
-\contentsline {subsection}{\numberline {9.4.2}Định lượng bất định (Uncertainty quantification)}{64}{subsection.9.4.2}%
-\contentsline {subsubsection}{Monte Carlo Dropout}{64}{subsubsection*.56}%
+\contentsline {subsection}{\numberline {9.4.2}Định lượng bất định (Uncertainty quantification)}{65}{subsection.9.4.2}%
+\contentsline {subsubsection}{Monte Carlo Dropout}{65}{subsubsection*.56}%
 \contentsline {section}{\numberline {9.5}Kết luận và khuyến nghị cho các cải tiến (Conclusion)}{66}{section.9.5}%
 \contentsline {subsection}{\numberline {9.5.1}Tóm tắt các kết quả chính}{66}{subsection.9.5.1}%
 \contentsline {subsection}{\numberline {9.5.2}Best practices tổng hợp}{66}{subsection.9.5.2}%
 \contentsline {subsection}{\numberline {9.5.3}Hướng phát triển tiếp theo}{66}{subsection.9.5.3}%
-\contentsline {chapter}{\numberline {10}Conclusion}{68}{chapter.10}%
-\contentsline {section}{\numberline {10.1}Overall Summary}{68}{section.10.1}%
-\contentsline {section}{\numberline {10.2}Key Empirical Findings}{68}{section.10.2}%
-\contentsline {section}{\numberline {10.3}Architectural Insights and Theoretical Implications}{69}{section.10.3}%
-\contentsline {section}{\numberline {10.4}Methodological Contributions}{69}{section.10.4}%
-\contentsline {section}{\numberline {10.5}Clinical and Practical Implications}{70}{section.10.5}%
-\contentsline {section}{\numberline {10.6}Limitations}{70}{section.10.6}%
-\contentsline {section}{\numberline {10.7}Future Directions}{70}{section.10.7}%
-\contentsline {section}{\numberline {10.8}Final Remarks}{70}{section.10.8}%
+\contentsline {chapter}{\numberline {10}Conclusion}{67}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Overall Summary}{67}{section.10.1}%
+\contentsline {section}{\numberline {10.2}Key Empirical Findings}{67}{section.10.2}%
+\contentsline {section}{\numberline {10.3}Architectural Insights and Theoretical Implications}{68}{section.10.3}%
+\contentsline {section}{\numberline {10.4}Methodological Contributions}{68}{section.10.4}%
+\contentsline {section}{\numberline {10.5}Clinical and Practical Implications}{68}{section.10.5}%
+\contentsline {section}{\numberline {10.6}Limitations}{69}{section.10.6}%
+\contentsline {section}{\numberline {10.7}Future Directions}{69}{section.10.7}%
+\contentsline {section}{\numberline {10.8}Final Remarks}{69}{section.10.8}%

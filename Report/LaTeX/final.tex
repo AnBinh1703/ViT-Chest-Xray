@@ -51,13 +51,33 @@
 \usepackage{indentfirst}
 \usepackage{microtype}
 
-% Giảm khoảng trống trước chapter/section headings
+% Enhanced chapter/section formatting for academic presentation
 \usepackage{titlesec}
+
+% Chapter formatting - larger, more prominent
 \titleformat{\chapter}[display]
-  {\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{10pt}{\Huge}
-\titlespacing*{\chapter}{0pt}{0pt}{20pt}
-\titlespacing*{\section}{0pt}{12pt plus 4pt minus 2pt}{6pt plus 2pt minus 2pt}
-\titlespacing*{\subsection}{0pt}{10pt plus 3pt minus 2pt}{4pt plus 2pt minus 1pt}
+  {\normalfont\huge\bfseries\color{blue!70!black}}
+  {\chaptertitlename\ \thechapter}{10pt}
+  {\Huge\color{blue!70!black}}
+\titlespacing*{\chapter}{0pt}{-10pt}{30pt}
+
+% Section formatting - professional blue color
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{blue!60!black}}
+  {\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{16pt plus 4pt minus 2pt}{8pt plus 2pt minus 2pt}
+
+% Subsection formatting - darker blue
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{blue!50!black}}
+  {\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{12pt plus 3pt minus 2pt}{6pt plus 2pt minus 1pt}
+
+% Subsubsection formatting
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries\color{blue!40!black}}
+  {\thesubsubsection}{1em}{}
+\titlespacing*{\subsubsection}{0pt}{10pt plus 2pt minus 1pt}{4pt plus 1pt minus 1pt}
 
 % =========================
 % Math / Tables / Figures
@@ -70,7 +90,21 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{subcaption}
+
+% Enhanced caption formatting
 \usepackage{caption}
+\captionsetup{
+  font={small,it},
+  labelfont={bf,color=blue!70!black},
+  textfont={it},
+  format=hang,
+  justification=justified,
+  singlelinecheck=false,
+  margin=10pt
+}
+\captionsetup[table]{position=top}
+\captionsetup[figure]{position=bottom}
+
 \usepackage{siunitx}
 \usepackage{algorithm,algorithmic}
 \usepackage{textcomp}
@@ -88,7 +122,7 @@
 \usepackage{pifont}
 
 % =========================
-% Links (hyperref nên đặt gần cuối)
+% Links (hyperref should be near the end)
 % =========================
 \usepackage{xcolor}
 \usepackage{hyperref}
@@ -173,88 +207,108 @@
 \begin{titlepage}
   \centering
 
-  % Logo FPT University - Placeholder (replace fpt_logo.png with a valid image)
-  % \includegraphics[width=0.5\textwidth]{../../image/fpt_logo.png}
-  
-  \vspace{2cm}
-  {\Huge \textbf{FPT UNIVERSITY}}\\
-  {\Large \textbf{FPT Education}}
+  % Logo FPT University with shadow box effect
+  \begin{tcolorbox}[colback=white,colframe=blue!70!black,boxrule=1.5pt,arc=3mm,width=0.5\textwidth]
+    \centering
+    \includegraphics[width=0.85\textwidth]{../../image/Logo-FSB.png}
+  \end{tcolorbox}
   \vspace{1cm}
 
-  {\Large \textbf{BÁO CÁO PHÂN TÍCH BÀI BÁO KHOA HỌC}}\\[0.8cm]
+  % Report title with enhanced styling
+  {\LARGE \textbf{\color{blue!70!black}BÁO CÁO PHÂN TÍCH BÀI BÁO KHOA HỌC}}\\[1cm]
 
+  % Main paper title with decorative rules
+  {\color{blue!70!black}\rule{\textwidth}{1.5pt}}\\[0.5cm]
+  {\Large\textbf{\color{blue!60!black}A Comparative Study of CNN, ResNet, and Vision Transformers\\
+  for Multi-Classification of Chest Diseases}}\\[0.5cm]
+  {\color{blue!70!black}\rule{\textwidth}{1.5pt}}\\[0.3cm]
 
-  \rule{\textwidth}{1.2pt}\\[0.4cm]
-  {\Large\textbf{A Comparative Study of CNN, ResNet, and Vision Transformers\\
-  for Multi-Classification of Chest Diseases}}\\[0.3cm]
-  \rule{\textwidth}{1.2pt}\\[0.8cm]
+  % Original paper info in a nice box
+  \begin{tcolorbox}[colback=blue!5!white,colframe=blue!50!black,boxrule=0.8pt,arc=2mm,width=0.85\textwidth]
+    \centering
+    {\large \textbf{arXiv: 2406.00237}}\\[0.3cm]
+    {\normalsize \textit{Ananya Jain, Aviral Bhardwaj, Kaushik Murali, Isha Surani}}\\
+    {\small University of Toronto}
+  \end{tcolorbox}
+  \vspace{0.2cm}
 
-  {\large arXiv: 2406.00237}\\[0.2cm]
-  {\normalsize Ananya Jain, Aviral Bhardwaj, Kaushik Murali, Isha Surani}\\
-  {\normalsize University of Toronto}\\[1
-  cm]
-
-  \begin{tabular}{rl}
-    \textbf{Kho mã nguồn gốc:}    & \url{https://github.com/Aviral-03/ViT-Chest-Xray} \\
-    \textbf{Bộ dữ liệu:}          & NIH ChestX-ray14 (112\,120 ảnh X-quang) \\
-    \textbf{Framework gốc:}       & TensorFlow/Keras \\
-    \textbf{Framework hiện tại:}  & PyTorch \\
-  \end{tabular}
+  % Dataset and framework info in table format
+  \begin{tcolorbox}[colback=gray!5!white,colframe=gray!50!black,boxrule=0.8pt,arc=2mm,width=0.85\textwidth]
+    \begin{tabular}{rl}
+      \textbf{Kho mã nguồn gốc:}    & \url{https://github.com/Aviral-03/ViT-Chest-Xray} \\
+      \textbf{Bộ dữ liệu:}          & NIH ChestX-ray14 (112\,120 ảnh X-quang) \\
+      \textbf{Framework gốc:}       & TensorFlow/Keras \\
+      \textbf{Framework hiện tại:}  & PyTorch \\
+       \textbf{Link Github của team:}  & \url{https://github.com/AnBinh1703/ViT-Chest-Xray} \\
+    \end{tabular}
+  \end{tcolorbox}
 
   \vfill
 
-  \begin{flushleft}
-    \textbf{Sinh viên thực hiện:}\\[0.2cm]
+  % Student information in a professional box
+  \begin{tcolorbox}[colback=green!5!white,colframe=green!50!black,boxrule=0.8pt,arc=2mm,width=0.85\textwidth,left=1cm]
+    \textbf{\large Sinh viên thực hiện:}\\[0.2cm]
     \begin{tabular}{ll}
-      Dương Bình An      & MSSV: 25MSA23234 \\
-      Lê Quang Tuyến     & MSSV: 25MSA23232 \\
-      Nguyễn Lê Hồng Nhi & MSSV: 25MSA23235 \\
+      Dương Bình An      & \textbf{MSSV:} 25MSA23234 \\
+      Lê Quang Tuyến     & \textbf{MSSV:} 25MSA23232 \\
+      Nguyễn Lê Hồng Nhi & \textbf{MSSV:} 25MSA23235 \\
     \end{tabular}\\[0.6cm]
+    
+    \begin{tabular}{ll}
+      \textbf{Lớp:} & MSA29HCM\\
+      \textbf{Môn học:} & Deep Learning\\
+      \textbf{Giảng viên hướng dẫn:} & Lê Việt Tuấn
+    \end{tabular}
+  \end{tcolorbox}
 
-    \textbf{Lớp:} MSA29HCM\\
-    \textbf{Môn học:} Deep Learning\\
-    \textbf{Giảng viên hướng dẫn:} Lê Việt Tuấn
-  \end{flushleft}
-
-  \vfill
-
-  {\large Thành phố Hồ Chí Minh -- 2026}
+  {\textbf{\color{blue!70!black}Thành phố Hồ Chí Minh -- 2026}}
 \end{titlepage}
 
 % ============================================================
 % ABSTRACT & KEYWORDS
 % ============================================================
-\chapter*{Tóm tắt nghiên cứu}
+\chapter*{\textbf{\color{blue!70!black}Tóm tắt nghiên cứu}}
 \addcontentsline{toc}{chapter}{Tóm tắt nghiên cứu}
 
-\section*{Tổng quan bài báo}
+\begin{tcolorbox}[enhanced,colback=blue!3!white,colframe=blue!60!black,
+  boxrule=1pt,arc=3mm,left=8pt,right=8pt,top=10pt,bottom=10pt,
+  title={\textbf{\large Tổng quan bài báo}}]
 
 Bài báo \textit{``A Comparative Study of CNN, ResNet, and Vision Transformers for Multi-Classification of Chest Diseases''} (arXiv:2406.00237) nghiên cứu và so sánh hiệu năng của ba nhóm kiến trúc học sâu phổ biến trong bài toán \textbf{phân loại đa nhãn} bệnh lý trên ảnh X-quang ngực, bao gồm:
 
-\begin{enumerate}
+\begin{enumerate}[leftmargin=1.5cm]
   \item \textbf{Convolutional Neural Networks (CNN):} Mô hình baseline với kiến trúc tích chập truyền thống.
   \item \textbf{Residual Networks (ResNet):} Mạng CNN sâu sử dụng skip-connection nhằm khắc phục hiện tượng mất gradient.
   \item \textbf{Vision Transformers (ViT):} Kiến trúc Transformer áp dụng cho thị giác máy tính thông qua cơ chế self-attention.
 \end{enumerate}
 
 Nghiên cứu được thực hiện trên bộ dữ liệu \textbf{NIH ChestX-ray14} với hơn 112.000 ảnh X-quang ngực và 14 nhãn bệnh lý khác nhau.
+\end{tcolorbox}
 
-\section*{Đóng góp chính của bài báo}
+\vspace{0.5cm}
+
+\begin{tcolorbox}[enhanced,colback=green!3!white,colframe=green!60!black,
+  boxrule=1pt,arc=3mm,left=8pt,right=8pt,top=10pt,bottom=10pt,
+  title={\textbf{\large Đóng góp chính của bài báo}}]
 
 Các đóng góp nổi bật của bài báo bao gồm:
-\begin{itemize}
+\begin{itemize}[leftmargin=1.5cm]
   \item So sánh có hệ thống hiệu năng giữa CNN, ResNet và Vision Transformer trên cùng tập dữ liệu và thiết lập thí nghiệm.
   \item Đề xuất hai biến thể Vision Transformer: ViT-v1 (huấn luyện từ đầu) và ViT-v2 (bổ sung regularization).
   \item Giới thiệu mô hình lai \textbf{ViT--ResNet} với pre-training trên ImageNet-21k nhằm kết hợp ưu điểm của CNN và Transformer.
   \item Phân tích \textbf{attention maps} để trực quan hoá và diễn giải quyết định của mô hình ViT trong ngữ cảnh y tế.
 \end{itemize}
+\end{tcolorbox}
 
-\section*{Kết quả thực nghiệm chính}
+\vspace{0.5cm}
+
+\begin{tcolorbox}[enhanced,colback=yellow!5!white,colframe=orange!60!black,
+  boxrule=1pt,arc=3mm,left=8pt,right=8pt,top=10pt,bottom=10pt,
+  title={\textbf{\large Kết quả thực nghiệm chính}}]
 
 \begin{table}[H]
 \centering
-\caption[Kết quả thực nghiệm từ bài báo gốc]{Tổng hợp kết quả thực nghiệm từ bài báo gốc}
-\label{tab:paper_results_main}
+\small
 \begin{tabular}{lcccc}
 \toprule
 \textbf{Mô hình} & \textbf{Test Acc (\%)} & \textbf{Val Acc (\%)} & \textbf{AUC} & \textbf{Ghi chú} \\
@@ -268,21 +322,32 @@ ViT--ResNet & \textbf{93.90} & \textbf{94.07} & 0.85 & Mô hình lai, pre-traine
 \end{tabular}
 \end{table}
 
-Kết quả cho thấy ResNet và ViT--ResNet đạt hiệu năng cao và ổn định hơn so với CNN baseline và các biến thể ViT huấn luyện từ đầu.
+\textit{Kết quả cho thấy ResNet và ViT--ResNet đạt hiệu năng cao và ổn định hơn so với CNN baseline và các biến thể ViT huấn luyện từ đầu.}
+\end{tcolorbox}
 
-\section*{Phạm vi và mục tiêu của báo cáo}
+\vspace{0.5cm}
+
+\begin{tcolorbox}[enhanced,colback=purple!3!white,colframe=purple!60!black,
+  boxrule=1pt,arc=3mm,left=8pt,right=8pt,top=10pt,bottom=10pt,
+  title={\textbf{\large Phạm vi và mục tiêu của báo cáo}}]
 
 Báo cáo phân tích chuyên sâu này không chỉ dừng lại ở việc tóm tắt bài báo gốc, mà còn mở rộng và đào sâu các khía cạnh sau:
-\begin{enumerate}
+\begin{enumerate}[leftmargin=1.5cm]
   \item \textbf{Phân tích lý thuyết:} Trình bày chi tiết nền tảng toán học và trực giác của CNN, ResNet và Vision Transformer.
   \item \textbf{Liên kết paper với mã nguồn:} Mapping rõ ràng giữa các mô tả trong bài báo và phần cài đặt trong kho mã nguồn GitHub.
   \item \textbf{Tái lập và cải tiến:} Chuyển đổi pipeline từ TensorFlow/Keras sang PyTorch và đề xuất các cải tiến hiện đại.
   \item \textbf{Đánh giá phê bình:} Phân tích ưu, nhược điểm của từng kiến trúc và khả năng ứng dụng trong thực tế lâm sàng.
 \end{enumerate}
+\end{tcolorbox}
 
-\section*{Từ khoá}
+\vspace{0.5cm}
 
-\textbf{Từ khoá:} Chest X-ray, phân loại đa nhãn, Convolutional Neural Networks, Residual Networks, Vision Transformer, Self-Attention, Transfer Learning, Medical Image Analysis, ROC-AUC, PyTorch, Deep Learning.
+\begin{tcolorbox}[enhanced,colback=cyan!3!white,colframe=cyan!60!black,
+  boxrule=1pt,arc=3mm,left=8pt,right=8pt,top=8pt,bottom=8pt,
+  title={\textbf{\large Từ khoá}}]
+\centering
+\textbf{Keywords:} Chest X-ray $\bullet$ Multi-label Classification $\bullet$ Convolutional Neural Networks $\bullet$ Residual Networks $\bullet$ Vision Transformer $\bullet$ Self-Attention $\bullet$ Transfer Learning $\bullet$ Medical Image Analysis $\bullet$ ROC-AUC $\bullet$ PyTorch $\bullet$ Deep Learning
+\end{tcolorbox}
 
 % ============================================================
 % TABLE OF CONTENTS, LIST OF FIGURES, LIST OF TABLES
@@ -310,7 +375,7 @@ Báo cáo phân tích chuyên sâu này không chỉ dừng lại ở việc tó
 \chapter{Giới thiệu và Bối cảnh nghiên cứu}
 \label{chap:introduction}
 
-\section{Bối cảnh lâm sàng}
+\section{\textbf{Bối cảnh lâm sàng}}
 
 Bệnh lý phổi và tim–phổi (như viêm phổi, tràn dịch màng phổi, khí phế thũng, xẹp phổi, tim to, v.v.) là một trong những nguyên nhân hàng đầu gây tử vong trên toàn cầu. Theo Tổ chức Y tế Thế giới (WHO), các bệnh liên quan đến hệ hô hấp chiếm hơn 10\% tổng số ca tử vong mỗi năm, đặc biệt phổ biến tại các quốc gia đang phát triển.
 
@@ -322,7 +387,7 @@ Trong thực hành lâm sàng, \textbf{X-quang ngực (Chest X-ray)} là phươn
   \item \textbf{Phát hiện đa dạng bệnh lý:} Có thể phát hiện nhiều dạng tổn thương khác nhau trong cùng một ảnh.
 \end{itemize}
 
-\section{Thách thức trong chẩn đoán X-quang ngực}
+\section{\textbf{Thách thức trong chẩn đoán X-quang ngực}}
 
 Mặc dù có nhiều ưu điểm, việc diễn giải ảnh X-quang ngực trong thực tế lâm sàng vẫn tồn tại nhiều thách thức nghiêm trọng. Như bài báo gốc đã chỉ ra:
 
@@ -338,7 +403,7 @@ Các thách thức chính bao gồm:
   \item \textbf{Dấu hiệu bệnh tinh vi:} Nhiều tổn thương giai đoạn sớm rất khó phát hiện bằng mắt thường.
 \end{enumerate}
 
-\section{Động lực ứng dụng trí tuệ nhân tạo trong chẩn đoán hình ảnh}
+\section{\textbf{Động lực ứng dụng trí tuệ nhân tạo trong chẩn đoán hình ảnh}}
 
 Sự phát triển mạnh mẽ của \textbf{học sâu (Deep Learning)} đã tạo ra bước ngoặt trong lĩnh vực phân tích hình ảnh y tế. Các mô hình học sâu có khả năng tự động học đặc trưng từ dữ liệu ảnh lớn, giảm phụ thuộc vào kinh nghiệm chủ quan của con người.
 
@@ -357,7 +422,7 @@ Về mặt lịch sử, các mốc phát triển quan trọng của học sâu t
   \item \textbf{2020 -- Vision Transformer (ViT):} Áp dụng Transformer cho thị giác máy tính.
 \end{enumerate}
 
-\section{Giới thiệu bài báo gốc}
+\section{\textbf{Giới thiệu bài báo gốc}}
 
 Bài báo \textit{``A Comparative Study of CNN, ResNet, and Vision Transformers for Multi-Classification of Chest Diseases''} (arXiv:2406.00237) tập trung so sánh hiệu năng của ba nhóm kiến trúc học sâu phổ biến trong bài toán \textbf{phân loại đa nhãn} bệnh lý trên ảnh X-quang ngực, sử dụng bộ dữ liệu \textbf{NIH ChestX-ray14}.
 
@@ -369,7 +434,7 @@ Các mô hình được nghiên cứu bao gồm:
   \item Mô hình lai ViT--ResNet sử dụng pre-training trên ImageNet-21k.
 \end{itemize}
 
-\section{Câu hỏi nghiên cứu}
+\section{\textbf{Câu hỏi nghiên cứu}}
 
 Bài báo gốc đặt ra các câu hỏi nghiên cứu cốt lõi sau:
 \begin{enumerate}
@@ -379,7 +444,7 @@ Bài báo gốc đặt ra các câu hỏi nghiên cứu cốt lõi sau:
   \item[\textbf{RQ4}] Attention maps có giúp cải thiện khả năng diễn giải mô hình hay không?
 \end{enumerate}
 
-\section{Mục tiêu và phạm vi báo cáo}
+\section{\textbf{Mục tiêu và phạm vi báo cáo}}
 
 Báo cáo này hướng tới các mục tiêu sau:
 \begin{itemize}
@@ -396,7 +461,7 @@ Phạm vi nghiên cứu bao gồm:
   \item \textbf{Mô hình:} CNN, ResNet-34, ViT và ViT--ResNet.
 \end{itemize}
 
-\section{Cấu trúc báo cáo}
+\section{\textbf{Cấu trúc báo cáo}}
 
 Phần còn lại của báo cáo được tổ chức như sau:
 \begin{itemize}
@@ -416,15 +481,15 @@ Phần còn lại của báo cáo được tổ chức như sau:
 \chapter{Các Công Trình Liên Quan (Related Works)}
 \label{chap:related_works}
 
-\section{Tổng quan}
+\section{\textbf{Tổng quan}}
 
 Lĩnh vực phân tích ảnh X-quang ngực bằng học sâu đã chứng kiến sự phát triển mạnh mẽ trong thập kỷ qua. Chương này tổng hợp các công trình tiêu biểu theo bốn hướng nghiên cứu chính: (1) Phương pháp dựa trên CNN, (2) Kiến trúc Transformer cho thị giác y tế, (3) Xử lý mất cân bằng lớp, và (4) Khả năng diễn giải mô hình.
 
 % ============================================================
-\section{Phương pháp dựa trên CNN (CNN-based Methods)}
+\section{\textbf{Phương pháp dựa trên CNN (CNN-based Methods)}}
 \label{sec:rw_cnn}
 
-\subsection{ChestX-ray14 và CheXNet}
+\subsection{\textbf{ChestX-ray14 và CheXNet}}
 
 \textbf{Wang et al. (2017)} \cite{wang2017chestxray14} giới thiệu bộ dữ liệu NIH ChestX-ray14 với 112,120 ảnh và đề xuất baseline sử dụng DenseNet-121. Đây là công trình nền tảng cho hầu hết các nghiên cứu tiếp theo.
 
@@ -444,7 +509,7 @@ Lĩnh vực phân tích ảnh X-quang ngực bằng học sâu đã chứng ki�
 \end{itemize}
 \end{tcolorbox}
 
-\subsection{CheXpert và Uncertainty Labeling}
+\subsection{\textbf{CheXpert và Uncertainty Labeling}}
 
 \textbf{Irvin et al. (2019)} \cite{irvin2019chexpert} công bố bộ dữ liệu \textbf{CheXpert} với 224,316 ảnh từ 65,240 bệnh nhân. Khác biệt quan trọng:
 \begin{itemize}
@@ -471,15 +536,15 @@ Public & \checkmark & \checkmark \\
 \end{tabular}
 \end{table}
 
-\subsection{MIMIC-CXR và Vision-Language Models}
+\subsection{\textbf{MIMIC-CXR và Vision-Language Models}}
 
 \textbf{Johnson et al. (2019)} \cite{johnson2019mimic} phát hành \textbf{MIMIC-CXR} với 377,110 ảnh kèm theo \textbf{227,835 radiology reports}. Đây là bước đầu tiên hướng đến vision-language models trong y tế.
 
 % ============================================================
-\section{Kiến trúc Transformer cho Thị giác Y tế}
+\section{\textbf{Kiến trúc Transformer cho Thị giác Y tế}}
 \label{sec:rw_transformer}
 
-\subsection{Vision Transformer (ViT)}
+\subsection{\textbf{Vision Transformer (ViT)}}
 
 \textbf{Dosovitskiy et al. (2020)} \cite{dosovitskiy2020vit} giới thiệu Vision Transformer, áp dụng kiến trúc Transformer thuần túy cho ảnh:
 \begin{itemize}
@@ -495,7 +560,7 @@ Public & \checkmark & \checkmark \\
   \item Cần $\sim$100M ảnh để ViT vượt CNN inductive bias.
 \end{itemize}
 
-\subsection{Swin Transformer}
+\subsection{\textbf{Swin Transformer}}
 
 \textbf{Liu et al. (2021)} \cite{liu2021swin} đề xuất \textbf{Swin Transformer} với shifted windows:
 \begin{itemize}
@@ -506,7 +571,7 @@ Public & \checkmark & \checkmark \\
 
 \textbf{Ứng dụng trong y tế:} Swin-Tiny đạt AUC 0.903 trên NIH ChestX-ray14 (nêu trong Chapter 8), vượt ViT-Base (0.836) với ít tham số hơn (28M vs 86M).
 
-\subsection{Hybrid CNN-Transformer Architectures}
+\subsection{\textbf{Hybrid CNN-Transformer Architectures}}
 
 \textbf{Xu et al. (2021)} \cite{xu2021vitae} đề xuất ViTAE (ViT with Absolute position Embedding), kết hợp:
 \begin{itemize}
@@ -516,10 +581,10 @@ Public & \checkmark & \checkmark \\
 \end{itemize}
 
 % ============================================================
-\section{Xử lý Mất Cân Bằng Lớp (Class Imbalance Handling)}
+\section{\textbf{Xử lý Mất Cân Bằng Lớp (Class Imbalance Handling)}}
 \label{sec:rw_imbalance}
 
-\subsection{Focal Loss}
+\subsection{\textbf{Focal Loss}}
 
 \textbf{Lin et al. (2017)} \cite{lin2017focal} đề xuất Focal Loss cho object detection với extreme imbalance:
 \begin{equation}
@@ -533,7 +598,7 @@ Public & \checkmark & \checkmark \\
   \item Down-weight easy negatives (No Finding), focus on hard positives (rare diseases).
 \end{itemize}
 
-\subsection{Asymmetric Loss (ASL)}
+\subsection{\textbf{Asymmetric Loss (ASL)}}
 
 \textbf{Ridnik et al. (2021)} \cite{ridnik2021asymmetric} phát triển ASL cho multi-label classification:
 \begin{itemize}
@@ -544,7 +609,7 @@ Public & \checkmark & \checkmark \\
 
 \textbf{Kết quả trên NIH ChestX-ray14:} ASL đạt macro-AUC 0.763, cao nhất trong các loss functions (Chapter 8).
 
-\subsection{Class-Balanced Sampling và Re-weighting}
+\subsection{\textbf{Class-Balanced Sampling và Re-weighting}}
 
 \textbf{Cui et al. (2019)} \cite{cui2019classbalanced} đề xuất class-balanced loss:
 \begin{equation}
@@ -553,10 +618,10 @@ Public & \checkmark & \checkmark \\
 với $n_y$ là số mẫu của lớp $y$, $\beta \in [0, 1)$.
 
 % ============================================================
-\section{Khả năng Diễn Giải Mô Hình (Model Explainability)}
+\section{\textbf{Khả năng Diễn Giải Mô Hình (Model Explainability)}}
 \label{sec:rw_explainability}
 
-\subsection{Grad-CAM và Variants}
+\subsection{\textbf{Grad-CAM và Variants}}
 
 \textbf{Selvaraju et al. (2017)} \cite{selvaraju2017gradcam} đề xuất Grad-CAM:
 \begin{itemize}
@@ -571,7 +636,7 @@ với $n_y$ là số mẫu của lớp $y$, $\beta \in [0, 1)$.
   \item Có thể focus vào artifacts (markers, chest tubes) thay vì pathology.
 \end{itemize}
 
-\subsection{Attention Maps trong Transformer}
+\subsection{\textbf{Attention Maps trong Transformer}}
 
 \textbf{ViT attention maps} cung cấp trực quan hóa tự nhiên:
 \begin{itemize}
@@ -582,7 +647,7 @@ với $n_y$ là số mẫu của lớp $y$, $\beta \in [0, 1)$.
 
 \textbf{Cảnh báo:} \textit{Attention is not explanation} (Jain \& Wallace, 2019). Attention maps chỉ show mô hình nhìn vào đâu, không chứng minh causality.
 
-\subsection{Uncertainty Quantification}
+\subsection{\textbf{Uncertainty Quantification}}
 
 \textbf{Gal \& Ghahramani (2016)} \cite{gal2016dropout} đề xuất MC Dropout:
 \begin{itemize}
@@ -592,10 +657,10 @@ với $n_y$ là số mẫu của lớp $y$, $\beta \in [0, 1)$.
 \end{itemize}
 
 % ============================================================
-\section{Nghiên Cứu So Sánh Kiến Trúc}
+\section{\textbf{Nghiên Cứu So Sánh Kiến Trúc}}
 \label{sec:rw_comparison}
 
-\subsection{CNN vs Transformer trong Y Tế}
+\subsection{\textbf{CNN vs Transformer trong Y Tế}}
 
 \textbf{Matsoukas et al. (2021)} \cite{matsoukas2021medical} so sánh CNN và ViT trên 8 bộ dữ liệu y tế:
 \begin{itemize}
@@ -604,7 +669,7 @@ với $n_y$ là số mẫu của lớp $y$, $\beta \in [0, 1)$.
   \item Transfer learning là yếu tố quyết định, không phải architecture.
 \end{itemize}
 
-\subsection{Bài Báo Gốc (Paper Under Analysis)}
+\subsection{\textbf{Bài Báo Gốc (Paper Under Analysis)}}
 
 \textbf{Jain et al. (2024)} \cite{jain2024comparative} -- bài báo được phân tích trong luận văn này:
 \begin{itemize}
@@ -615,10 +680,10 @@ với $n_y$ là số mẫu của lớp $y$, $\beta \in [0, 1)$.
 \end{itemize}
 
 % ============================================================
-\section{Gaps và Đóng Góp của Luận Văn Này}
+\section{\textbf{Gaps và Đóng Góp của Luận Văn Này}}
 \label{sec:rw_gaps}
 
-\subsection{Gaps trong Literature}
+\subsection{\textbf{Gaps trong Literature}}
 
 \begin{enumerate}
   \item \textbf{Thiếu replication studies nghiêm ngặt:} Nhiều paper báo cáo kết quả cao nhưng không reproducible do data leakage hoặc evaluation bias.
@@ -627,7 +692,7 @@ với $n_y$ là số mẫu của lớp $y$, $\beta \in [0, 1)$.
   \item \textbf{Thiếu so sánh fair giữa CNN và Transformer:} Thường compare pretrained ViT với ResNet from scratch.
 \end{enumerate}
 
-\subsection{Đóng Góp của Luận Văn}
+\subsection{\textbf{Đóng Góp của Luận Văn}}
 
 Luận văn này khắc phục các gaps trên bằng cách:
 \begin{enumerate}
@@ -643,11 +708,11 @@ Luận văn này khắc phục các gaps trên bằng cách:
 % ============================================================
 \chapter{Phân tích Dataset: NIH Chest X-ray}
 
-\section{Tổng quan Dataset}
+\section{\textbf{Tổng quan Dataset}}
 
 \paperref{Section 4.1 - Dataset}
 
-\subsection{Thông tin cơ bản}
+\subsection{\textbf{Thông tin cơ bản}}
 
 \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=NIH Chest X-ray Dataset]
 \begin{itemize}
@@ -660,15 +725,15 @@ Luận văn này khắc phục các gaps trên bằng cách:
 \end{itemize}
 \end{tcolorbox}
 
-\subsection{Trích dẫn từ Paper}
+\subsection{\textbf{Trích dẫn từ Paper}}
 
 \begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Paper Quote - Dataset]
 \textit{``To evaluate the performance of our model architectures, we utilized two freely available datasets: the NIH Chest X-ray dataset comprising 112,120 X-ray images with disease labels from 30,805 unique patients, and a Random Sample of the NIH Chest X-ray Dataset, containing 5,606 X-ray images. Both datasets involved multi-class classification across 15 classes, each representing different disease labels.''}
 \end{tcolorbox}
 
-\section{Danh sách 15 Classes}
+\section{\textbf{Danh sách 15 Classes}}
 
-\subsection{Phân loại bệnh lý}
+\subsection{\textbf{Phân loại bệnh lý}}
 
 \begin{table}[H]
 \centering
@@ -697,7 +762,7 @@ Luận văn này khắc phục các gaps trên bằng cách:
 \end{tabular}
 \end{table}
 
-\subsection{Phân tích mất cân bằng lớp (Class Imbalance)}
+\subsection{\textbf{Phân tích mất cân bằng lớp (Class Imbalance)}}
 
 \begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Vấn đề Class Imbalance]
 \textbf{Quan sát quan trọng:}
@@ -715,9 +780,9 @@ Luận văn này khắc phục các gaps trên bằng cách:
 \end{itemize}
 \end{tcolorbox}
 
-\section{Bản chất Multi-label}
+\section{\textbf{Bản chất Multi-label}}
 
-\subsection{Multi-label vs Multi-class}
+\subsection{\textbf{Multi-label vs Multi-class}}
 NIH ChestX-ray14 là bài toán \textbf{multi-label classification}, trong đó mỗi ảnh X-quang có thể đồng thời mang nhiều nhãn bệnh lý.
 
 \begin{table}[H]
@@ -737,7 +802,7 @@ NIH Dataset & Không phù hợp & \checkmark Phù hợp \\
 \end{tabular}
 \end{table}
 
-\subsection{Ví dụ Multi-label trong NIH}
+\subsection{\textbf{Ví dụ Multi-label trong NIH}}
 
 Một ảnh X-quang có thể có nhiều bệnh đồng thời:
 
@@ -752,7 +817,7 @@ Một ảnh X-quang có thể có nhiều bệnh đồng thời:
 # Bệnh nhân có: Effusion + Atelectasis (2 bệnh đồng thời)
 \end{lstlisting}
 
-\section{Data Pipeline trong Code}
+\section{\textbf{Data Pipeline trong Code}}
 
 \coderef{data.ipynb}
 Theo bài báo và mã nguồn, các bước tiền xử lý bao gồm:
@@ -770,7 +835,7 @@ Các phép tăng cường dữ liệu cơ bản được sử dụng trong huấ
 
 Cần lưu ý rằng phép lật ngang có thể ảnh hưởng đến các đặc trưng giải phẫu (ví dụ vị trí tim), do đó cần đánh giá cẩn thận ảnh hưởng của augmentation này.
 
-\section{Chia tập dữ liệu và nguy cơ rò rỉ dữ liệu}
+\section{\textbf{Chia tập dữ liệu và nguy cơ rò rỉ dữ liệu}}
 
 Trong bài báo, tác giả huấn luyện mô hình trên tập con khoảng 85.000 ảnh để tăng tốc hội tụ. Tuy nhiên, bài báo không nêu rõ việc chia dữ liệu theo bệnh nhân.
 
@@ -778,7 +843,7 @@ Nếu chia tập theo ảnh (image-level split), các ảnh của cùng một b�
 
 Trong báo cáo này, việc chia tập theo \textbf{Patient ID} được khuyến nghị nhằm đảm bảo khả năng tổng quát hoá thực sự của mô hình.
 
-\subsection{Loading và Preprocessing}
+\subsection{\textbf{Loading và Preprocessing}}
 
 \begin{lstlisting}[caption={Data loading từ data.ipynb (PyTorch version)}]
 class ChestXrayDataset(Dataset):
@@ -810,7 +875,7 @@ class ChestXrayDataset(Dataset):
         return image, label
 \end{lstlisting}
 
-\subsection{Data Augmentation}
+\subsection{\textbf{Data Augmentation}}
 
 \paperref{Section 4.2 - Models}
 
@@ -841,7 +906,7 @@ val_transform = transforms.Compose([
 ])
 \end{lstlisting}
 
-\subsection{Lưu ý về Horizontal Flip trong X-ray}
+\subsection{\textbf{Lưu ý về Horizontal Flip trong X-ray}}
 
 \begin{tcolorbox}[colback=orange!5!white,colframe=orange!75!black,title=Cảnh báo: Horizontal Flip]
 Trong X-quang, flip ngang có thể gây vấn đề:
@@ -853,9 +918,9 @@ Trong X-quang, flip ngang có thể gây vấn đề:
 \textbf{Khuyến nghị:} Cần làm ablation study để đánh giá ảnh hưởng của flip.
 \end{tcolorbox}
 
-\section{Data Split}
+\section{\textbf{Data Split}}
 
-\subsection{Paper Description}
+\subsection{\textbf{Paper Description}}
 
 \paperref{Section 4.1 - Dataset}
 
@@ -863,7 +928,7 @@ Trong X-quang, flip ngang có thể gây vấn đề:
 \textit{``However, our model training was conducted on a subset of 85,000 images from this Random Sample Dataset. We observed a faster convergence to optimal outputs within this subset.''}
 \end{tcolorbox}
 
-\subsection{Implementation trong Code}
+\subsection{\textbf{Implementation trong Code}}
 
 \begin{lstlisting}[caption={Data split implementation}]
 from sklearn.model_selection import train_test_split
@@ -881,7 +946,7 @@ val_df, test_df = train_test_split(
 )
 \end{lstlisting}
 
-\subsection{Vấn đề Data Leakage}
+\subsection{\textbf{Vấn đề Data Leakage}}
 
 \begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Cảnh báo: Patient-level Split]
 \textbf{Vấn đề:} Paper không đề cập rõ về patient-level split.
@@ -903,7 +968,7 @@ val_df, test_df = train_test_split(
 \chapter{Convolutional Neural Network (CNN)}
 \label{chap:cnn}
 
-\section{Tổng quan lý thuyết CNN}
+\section{\textbf{Tổng quan lý thuyết CNN}}
 
 Convolutional Neural Network (CNN) là kiến trúc học sâu được thiết kế chuyên biệt cho dữ liệu có cấu trúc dạng lưới (grid-like), đặc biệt là ảnh. CNN khai thác các \textbf{inductive bias} phù hợp với đặc trưng của dữ liệu hình ảnh, giúp mô hình học hiệu quả hơn so với các mạng fully-connected thuần tuý.
 
@@ -915,7 +980,7 @@ Convolutional Neural Network (CNN) là kiến trúc học sâu được thiết 
 \end{enumerate}
 \end{tcolorbox}
 
-\section{Phép tích chập (Convolution Operation)}
+\section{\textbf{Phép tích chập (Convolution Operation)}}
 
 Với ảnh đầu vào $X \in \mathbb{R}^{H \times W \times C_{\text{in}}}$ và kernel
 $K \in \mathbb{R}^{k \times k \times C_{\text{in}} \times C_{\text{out}}}$,
@@ -931,7 +996,7 @@ Số lượng tham số của một lớp convolution là:
 \text{Params} = (k \times k \times C_{\text{in}} + 1) \times C_{\text{out}}
 \end{equation}
 
-\section{Pooling Layer}
+\section{\textbf{Pooling Layer}}
 
 Pooling được sử dụng để giảm kích thước không gian và tăng tính ổn định với các biến đổi nhỏ.
 
@@ -947,7 +1012,7 @@ Y[i,j] = \max_{(m,n)\in R_{i,j}} X[m,n]
   \item Tăng tính bất biến đối với dịch chuyển nhỏ.
 \end{itemize}
 
-\section{Kiến trúc CNN trong bài báo}
+\section{\textbf{Kiến trúc CNN trong bài báo}}
 
 Theo mô tả trong bài báo gốc, mô hình CNN baseline bao gồm:
 \begin{itemize}
@@ -957,7 +1022,7 @@ Theo mô tả trong bài báo gốc, mô hình CNN baseline bao gồm:
   \item Lớp đầu ra gồm 15 nút, tương ứng 15 nhãn bệnh.
 \end{itemize}
 
-\section{Cài đặt CNN trong PyTorch}
+\section{\textbf{Cài đặt CNN trong PyTorch}}
 
 \coderef{cnn.ipynb}
 
@@ -987,7 +1052,7 @@ class CNNClassifier(nn.Module):
         return x
 \end{lstlisting}
 
-\section{Phân tích số lượng tham số}
+\section{\textbf{Phân tích số lượng tham số}}
 
 \begin{table}[H]
 \centering
@@ -1010,7 +1075,7 @@ Hơn \textbf{99\% tham số} của CNN baseline nằm ở lớp fully-connected 
 Điều này làm tăng nguy cơ overfitting và cho thấy hạn chế của kiến trúc CNN truyền thống.
 \end{tcolorbox}
 
-\section{Hàm mất mát cho bài toán đa nhãn}
+\section{\textbf{Hàm mất mát cho bài toán đa nhãn}}
 
 Do mỗi ảnh có thể mang nhiều nhãn bệnh, bài toán được mô hình hoá dưới dạng \textbf{multi-label classification}. Vì vậy, hàm \texttt{BCEWithLogitsLoss} được sử dụng thay cho CrossEntropyLoss.
 
@@ -1022,7 +1087,7 @@ y_{i,c} \log \sigma(z_{i,c}) +
 \right]
 \end{equation}
 
-\section{Kết quả thực nghiệm}
+\section{\textbf{Kết quả thực nghiệm}}
 
 Theo kết quả được báo cáo trong bài báo:
 \begin{itemize}
@@ -1031,7 +1096,7 @@ Theo kết quả được báo cáo trong bài báo:
   \item \textbf{Test AUC}: 0.82
 \end{itemize}
 
-\section{Phân tích kết quả và hạn chế}
+\section{\textbf{Phân tích kết quả và hạn chế}}
 
 CNN là mô hình có hiệu năng thấp nhất trong số các kiến trúc được so sánh. Nguyên nhân chính bao gồm:
 \begin{enumerate}
@@ -1040,7 +1105,7 @@ CNN là mô hình có hiệu năng thấp nhất trong số các kiến trúc đ
   \item \textbf{Overfitting}: Số lượng tham số quá lớn tập trung ở fully-connected layer.
 \end{enumerate}
 
-\section{Minh hoạ quá trình huấn luyện}
+\section{\textbf{Minh hoạ quá trình huấn luyện}}
 
 \begin{figure}[H]
   \centering
@@ -1055,9 +1120,9 @@ CNN là mô hình có hiệu năng thấp nhất trong số các kiến trúc đ
 \chapter{Residual Network (ResNet)}
 \label{chap:resnet}
 
-\section{Động lực nghiên cứu: Degradation Problem}
+\section{\textbf{Động lực nghiên cứu: Degradation Problem}}
 
-\subsection{Vấn đề khi huấn luyện mạng rất sâu}
+\subsection{\textbf{Vấn đề khi huấn luyện mạng rất sâu}}
 
 \paperref{Section 3.2 - ResNet}
 
@@ -1073,7 +1138,7 @@ Trong các mạng CNN truyền thống, việc tăng số lượng lớp không 
 hiệu năng. Trái lại, khi độ sâu vượt quá một ngưỡng nhất định, mô hình gặp hiện tượng
 \textbf{degradation}: training error và validation error đều tăng.
 
-\subsection{Bản chất của degradation}
+\subsection{\textbf{Bản chất của degradation}}
 
 \begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Key Insight]
 Degradation \textbf{không phải} do overfitting.
@@ -1089,9 +1154,9 @@ Degradation \textbf{không phải} do overfitting.
 (worst case là học identity), nhưng thực nghiệm cho thấy điều ngược lại.
 \end{tcolorbox}
 
-\section{Residual Learning Framework}
+\section{\textbf{Residual Learning Framework}}
 
-\subsection{Ý tưởng cốt lõi của ResNet}
+\subsection{\textbf{Ý tưởng cốt lõi của ResNet}}
 
 \paperref{Section 3.2 - ResNet}
 
@@ -1106,7 +1171,7 @@ Thay vì học trực tiếp ánh xạ $H(x)$, ResNet học \textbf{phần dư} 
 F(x) = H(x) - x.
 \]
 
-\subsection{Mô hình toán học}
+\subsection{\textbf{Mô hình toán học}}
 
 \textbf{Plain network:}
 \[
@@ -1120,7 +1185,7 @@ y = F(x) + x
 
 Nếu $F(x) = 0$ thì block trở thành ánh xạ đồng nhất $y = x$.
 
-\subsection{Phân tích dòng gradient}
+\subsection{\textbf{Phân tích dòng gradient}}
 
 \[
 \frac{\partial \mathcal{L}}{\partial x}
@@ -1140,11 +1205,11 @@ Ngay cả khi $\partial F(x)/\partial x$ nhỏ, gradient vẫn không bị tri�
   \item Có thể xem ResNet như một ensemble ngầm của nhiều mạng nông.
 \end{itemize}
 
-\section{Kiến trúc ResNet-34}
+\section{\textbf{Kiến trúc ResNet-34}}
 
 \paperref{Section 3.2 - ResNet}
 
-\subsection{Mô tả từ bài báo}
+\subsection{\textbf{Mô tả từ bài báo}}
 
 \begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,
 title=Paper Quote -- ResNet Architecture]
@@ -1152,7 +1217,7 @@ title=Paper Quote -- ResNet Architecture]
 224 × 224.''}
 \end{tcolorbox}
 
-\subsection{Cấu trúc chi tiết}
+\subsection{\textbf{Cấu trúc chi tiết}}
 
 \begin{table}[H]
 \centering
@@ -1176,11 +1241,11 @@ FC & -- & 15 & -- & -- \\
 
 \textbf{Tổng số tham số:} $\sim$21.8 triệu (ít hơn rất nhiều so với CNN baseline $\sim$95M).
 
-\section{Cài đặt ResNet-34}
+\section{\textbf{Cài đặt ResNet-34}}
 
 \coderef{resnet.ipynb}
 
-\subsection{BasicBlock}
+\subsection{\textbf{BasicBlock}}
 
 \begin{lstlisting}[language=Python, caption={BasicBlock trong ResNet-34}]
 class BasicBlock(nn.Module):
@@ -1206,7 +1271,7 @@ class BasicBlock(nn.Module):
         return self.relu(out)
 \end{lstlisting}
 
-\section{Cấu hình huấn luyện}
+\section{\textbf{Cấu hình huấn luyện}}
 
 \begin{table}[H]
 \centering
@@ -1228,9 +1293,9 @@ Initialization & Kaiming Normal \\
 \end{tabular}
 \end{table}
 
-\section{Kết quả thực nghiệm}
+\section{\textbf{Kết quả thực nghiệm}}
 
-\subsection{Diễn biến AUC theo epoch}
+\subsection{\textbf{Diễn biến AUC theo epoch}}
 
 \begin{figure}[H]
 \centering
@@ -1239,7 +1304,7 @@ Initialization & Kaiming Normal \\
 \label{fig:resnet_auc}
 \end{figure}
 
-\subsection{Bảng kết quả}
+\subsection{\textbf{Bảng kết quả}}
 
 \begin{table}[H]
 \centering
@@ -1256,7 +1321,7 @@ Best Val AUC & -- & 0.5293 (epoch 6) & -- \\
 \end{tabular}
 \end{table}
 
-\subsection{Phân tích kết quả}
+\subsection{\textbf{Phân tích kết quả}}
 
 \begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,
 title=Analysis -- Vì sao ResNet-34 chưa đạt hiệu năng cao?]
@@ -1292,9 +1357,9 @@ hết sức mạnh trong bài toán X-quang ngực, cần sử dụng pretrained
 % ============================================================
 % SECTION 1: MOTIVATION
 % ============================================================
-\section{Motivation: From NLP to Vision}
+\section{\textbf{Motivation: From NLP to Vision}}
 
-\subsection{The Transformer Revolution}
+\subsection{\textbf{The Transformer Revolution}}
 
 \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Historical Context]
 \textbf{2017:} ``Attention Is All You Need'' (Vaswani et al.)
@@ -1312,7 +1377,7 @@ hết sức mạnh trong bài toán X-quang ngực, cần sử dụng pretrained
 \end{itemize}
 \end{tcolorbox}
 
-\subsection{Paper Motivation}
+\subsection{\textbf{Paper Motivation}}
 
 \paperref{Section 3.3 - Vision Transformer}
 
@@ -1320,7 +1385,7 @@ hết sức mạnh trong bài toán X-quang ngực, cần sử dụng pretrained
 \textit{``Vision Transformer (ViT) follows an approach to image classification by treating an image as a sequence of patches and processing it using a standard Transformer encoder like the ones used in NLP.''}
 \end{tcolorbox}
 
-\subsection{CNN vs Transformer: Inductive Biases}
+\subsection{\textbf{CNN vs Transformer: Inductive Biases}}
 
 CNN được thiết kế với các \textbf{inductive biases} phù hợp ảnh (locality, translation equivariance).
 ViT thì ``ít bias'' hơn và để mô hình tự học cấu trúc ảnh thông qua attention, do đó:
@@ -1350,7 +1415,7 @@ Scalability & Limited & \checkmark Scales well \\
 % ============================================================
 % SECTION 2: ARCHITECTURE OVERVIEW
 % ============================================================
-\section{ViT Architecture Overview}
+\section{\textbf{ViT Architecture Overview}}
 
 Vision Transformer chuyển bài toán ảnh thành bài toán chuỗi:
 \begin{enumerate}
@@ -1391,9 +1456,9 @@ Vision Transformer chuyển bài toán ảnh thành bài toán chuỗi:
 % ============================================================
 % SECTION 3: PATCH EMBEDDING
 % ============================================================
-\section{Step 1: Patch Embedding}
+\section{\textbf{Step 1: Patch Embedding}}
 
-\subsection{Concept}
+\subsection{\textbf{Concept}}
 
 \paperref{Section 3.3 - Vision Transformer}
 
@@ -1401,7 +1466,7 @@ Vision Transformer chuyển bài toán ảnh thành bài toán chuỗi:
 \textit{``This involves dividing the image into fixed-size non-overlapping patches, which are then linearly embedded.''}
 \end{tcolorbox}
 
-\subsection{Mathematical Formulation}
+\subsection{\textbf{Mathematical Formulation}}
 
 Với ảnh $x \in \mathbb{R}^{H \times W \times C}$ và patch size $P$:
 
@@ -1425,7 +1490,7 @@ x_p^i \in \mathbb{R}^{P^2 \cdot C} = \mathbb{R}^{32\cdot 32\cdot 3} = \mathbb{R}
 z_0^i = x_p^i E + b, \quad E \in \mathbb{R}^{(P^2C) \times D}
 \end{equation}
 
-\subsection{Implementation (PyTorch)}
+\subsection{\textbf{Implementation (PyTorch)}}
 
 \begin{lstlisting}[language=Python, caption={PatchEmbedding (Conv2d = Linear Projection)}]
 class PatchEmbedding(nn.Module):
@@ -1446,7 +1511,7 @@ class PatchEmbedding(nn.Module):
         return x
 \end{lstlisting}
 
-\subsection{Conv2d tương đương Linear Projection}
+\subsection{\textbf{Conv2d tương đương Linear Projection}}
 
 Conv2d với kernel=stride=$P$ thực hiện:
 \begin{itemize}
@@ -1458,9 +1523,9 @@ Conv2d với kernel=stride=$P$ thực hiện:
 % ============================================================
 % SECTION 4: POSITIONAL EMBEDDING
 % ============================================================
-\section{Step 2: Positional Embedding}
+\section{\textbf{Step 2: Positional Embedding}}
 
-\subsection{Why Position Matters?}
+\subsection{\textbf{Why Position Matters?}}
 
 \begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Problem: Self-Attention is Permutation Invariant]
 Self-attention không biết thứ tự token nếu không có positional encoding.
@@ -1468,7 +1533,7 @@ Nếu hoán vị patches, output hoán vị tương ứng.
 Do đó ViT cần positional embedding để giữ thông tin spatial.
 \end{tcolorbox}
 
-\subsection{Learnable Position Embedding}
+\subsection{\textbf{Learnable Position Embedding}}
 
 ViT dùng learnable embedding:
 \begin{equation}
@@ -1482,7 +1547,7 @@ self.pos_embedding = nn.Parameter(torch.randn(1, num_patches + 1, embed_dim) * 0
 % ============================================================
 % SECTION 5: CLS TOKEN
 % ============================================================
-\section{Step 3: [CLS] Token}
+\section{\textbf{Step 3: [CLS] Token}}
 
 CLS token là token học được, prepend vào chuỗi patch embeddings.
 Sau Transformer, CLS token trở thành embedding toàn cục cho ảnh.
@@ -1496,15 +1561,15 @@ x = torch.cat([cls_tokens, x], dim=1)  # (B, N+1, D)
 % ============================================================
 % SECTION 6: TRANSFORMER ENCODER
 % ============================================================
-\section{Step 4: Transformer Encoder}
+\section{\textbf{Step 4: Transformer Encoder}}
 
-\subsection{Scaled Dot-Product Attention}
+\subsection{\textbf{Scaled Dot-Product Attention}}
 
 \begin{equation}
 \mathrm{Attention}(Q,K,V) = \mathrm{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 \end{equation}
 
-\subsection{Multi-Head Self-Attention}
+\subsection{\textbf{Multi-Head Self-Attention}}
 
 \begin{equation}
 \mathrm{MultiHead}(Q,K,V)=\mathrm{Concat}(head_1,\dots,head_h)W^O
@@ -1514,7 +1579,7 @@ x = torch.cat([cls_tokens, x], dim=1)  # (B, N+1, D)
 head_i = \mathrm{Attention}(QW_i^Q, KW_i^K, VW_i^V)
 \end{equation}
 
-\subsection{Transformer Encoder Block (Pre-LN)}
+\subsection{\textbf{Transformer Encoder Block (Pre-LN)}}
 
 \begin{align}
 z'_l &= z_{l-1} + \mathrm{MHSA}(\mathrm{LN}(z_{l-1}))\\
@@ -1555,7 +1620,7 @@ class TransformerEncoderBlock(nn.Module):
 % ============================================================
 % SECTION 7: FULL ViT MODEL
 % ============================================================
-\section{Complete Vision Transformer Implementation}
+\section{\textbf{Complete Vision Transformer Implementation}}
 
 \begin{lstlisting}[language=Python, caption={Complete ViT Model}]
 class VisionTransformer(nn.Module):
@@ -1599,21 +1664,21 @@ class VisionTransformer(nn.Module):
 % ============================================================
 % SECTION 8: LOSS, IMBALANCE, COMPUTE COMPLEXITY
 % ============================================================
-\section{Loss Function, Class Imbalance và Computational Complexity}
+\section{\textbf{Loss Function, Class Imbalance và Computational Complexity}}
 
-\subsection{Multi-label BCEWithLogitsLoss}
+\subsection{\textbf{Multi-label BCEWithLogitsLoss}}
 
 \begin{equation}
 \mathcal{L}_{BCE} = - \frac{1}{C}\sum_{c=1}^{C}
 \left[y_c \log\sigma(\hat{y}_c) + (1-y_c)\log(1-\sigma(\hat{y}_c))\right]
 \end{equation}
 
-\subsection{Class Imbalance Effects}
+\subsection{\textbf{Class Imbalance Effects}}
 
 Trong NIH Chest X-ray14, các lớp bệnh hiếm làm mô hình dễ bias về No Finding.
 Do đó metric chính nên là AUC thay vì accuracy.
 
-\subsection{Attention Complexity}
+\subsection{\textbf{Attention Complexity}}
 
 Self-attention có độ phức tạp:
 \begin{equation}
@@ -1626,7 +1691,7 @@ còn $N=196$ (patch 16) $\Rightarrow$ $N^2=38416$ (lớn hơn 16 lần).
 % ============================================================
 % SECTION 9: ViT-v1 vs ViT-v2 vs PRETRAINED
 % ============================================================
-\section{So sánh ViT-v1, ViT-v2 và ViT Pretrained}
+\section{\textbf{So sánh ViT-v1, ViT-v2 và ViT Pretrained}}
 
 \begin{table}[H]
 \centering
@@ -1650,9 +1715,9 @@ Pretrained & Không & Không & ImageNet-21K \\
 % ============================================================
 % SECTION 10: RESULTS + ROC FIGURES
 % ============================================================
-\section{Results Analysis và ROC Curves}
+\section{\textbf{Results Analysis và ROC Curves}}
 
-\subsection{ROC Curves}
+\subsection{\textbf{ROC Curves}}
 
 \begin{figure}[H]
     \centering
@@ -1673,7 +1738,7 @@ Pretrained & Không & Không & ImageNet-21K \\
     \label{fig:roc_vit_comparison}
 \end{figure}
 
-\subsection{Discussion}
+\subsection{\textbf{Discussion}}
 
 \begin{itemize}
     \item ViT-v1 đạt AUC validation tốt nhưng test thấp $\Rightarrow$ overfitting.
@@ -1684,10 +1749,10 @@ Pretrained & Không & Không & ImageNet-21K \\
 % ============================================================
 % SECTION: PER-CLASS AUC ANALYSIS
 % ============================================================
-\section{Per-Class Performance Analysis}
+\section{\textbf{Per-Class Performance Analysis}}
 \label{sec:perclass_analysis}
 
-\subsection{Động lực (Motivation)}
+\subsection{\textbf{Động lực (Motivation)}}
 
 Macro-AUC chỉ cung cấp một con số tổng hợp, che giấu sự khác biệt lớn giữa các lớp bệnh. Phân tích per-class AUC giúp:
 \begin{itemize}[noitemsep]
@@ -1697,7 +1762,7 @@ Macro-AUC chỉ cung cấp một con số tổng hợp, che giấu sự khác bi
   \item Đánh giá clinical utility thực tế.
 \end{itemize}
 
-\subsection{Per-Class AUC: Best Model (ViT Final)}
+\subsection{\textbf{Per-Class AUC: Best Model (ViT Final)}}
 
 \begin{table}[H]
 \centering
@@ -1735,9 +1800,9 @@ Macro-AUC chỉ cung cấp một con số tổng hợp, che giấu sự khác bi
 \end{tabular}
 \end{table}
 
-\subsection{Phân tích chi tiết theo nhóm}
+\subsection{\textbf{Phân tích chi tiết theo nhóm}}
 
-\subsubsection{Nhóm 1: Bệnh hiếm (Rare Diseases)}
+\subsubsection{\textbf{Nhóm 1: Bệnh hiếm (Rare Diseases)}}
 
 \textbf{Thách thức chính:}
 \begin{itemize}[noitemsep]
@@ -1753,7 +1818,7 @@ Macro-AUC chỉ cung cấp một con số tổng hợp, che giấu sự khác bi
   \item Transfer learning quan trọng: pretrained giúp tăng 8-12\% AUC cho nhóm này.
 \end{itemize}
 
-\subsubsection{Nhóm 2: Bệnh trung bình}
+\subsubsection{\textbf{Nhóm 2: Bệnh trung bình}}
 
 \textbf{Đặc điểm:}
 \begin{itemize}[noitemsep]
@@ -1768,7 +1833,7 @@ Macro-AUC chỉ cung cấp một con số tổng hợp, che giấu sự khác bi
   \item Mass ↔ Nodule: Khác nhau chủ yếu về kích thước (3cm threshold).
 \end{itemize}
 
-\subsubsection{Nhóm 3: Bệnh phổ biến}
+\subsubsection{\textbf{Nhóm 3: Bệnh phổ biến}}
 
 \textbf{Kết quả tốt:}
 \begin{itemize}[noitemsep]
@@ -1784,7 +1849,7 @@ Macro-AUC chỉ cung cấp một con số tổng hợp, che giấu sự khác bi
   \item "Infiltration" trong radiology reports có thể chỉ nhiều patterns khác nhau.
 \end{itemize}
 
-\subsection{So sánh với Literature}
+\subsection{\textbf{So sánh với Literature}}
 
 \begin{table}[H]
 \centering
@@ -1823,7 +1888,7 @@ No Finding & -- & -- & -- & 0.856 \\
      \end{itemize}
 \end{enumerate}
 
-\subsection{Clinical Implications}
+\subsection{\textbf{Clinical Implications}}
 
 \begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Khuyến nghị Triển khai Lâm sàng]
 \textbf{Dựa trên per-class AUC, đề xuất strategy cho deployment:}
@@ -1850,7 +1915,7 @@ No Finding & -- & -- & -- & 0.856 \\
 % ============================================================
 % SECTION 11: KEY TAKEAWAYS
 % ============================================================
-\section{Key Takeaways}
+\section{\textbf{Key Takeaways}}
 
 \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Summary]
 \begin{enumerate}
@@ -1872,9 +1937,9 @@ No Finding & -- & -- & -- & 0.856 \\
 % ============================================================
 % 6.1 Experimental Setup
 % ============================================================
-\section{Experimental Setup}
+\section{\textbf{Experimental Setup}}
 
-\subsection{Dataset and Data Splitting}
+\subsection{\textbf{Dataset and Data Splitting}}
 
 Tất cả các thí nghiệm được thực hiện trên bộ dữ liệu \textbf{NIH ChestX-ray14}, gồm 112,120 ảnh X-quang ngực với 14 bệnh lý và nhãn \textit{No Finding}. Đây là bài toán \textbf{multi-label classification}, trong đó mỗi ảnh có thể mang nhiều nhãn bệnh đồng thời.
 
@@ -1887,7 +1952,7 @@ Tất cả các thí nghiệm được thực hiện trên bộ dữ liệu \tex
 
 Chiến lược này nghiêm ngặt hơn so với bài báo gốc và phản ánh đúng hơn khả năng tổng quát hóa trên bệnh nhân mới.
 
-\subsection{Training Configuration}
+\subsection{\textbf{Training Configuration}}
 
 \begin{table}[H]
 \centering
@@ -1916,9 +1981,9 @@ Tất cả các mô hình sử dụng:
 % ============================================================
 % 6.2 Evaluation Metrics
 % ============================================================
-\section{Evaluation Metrics}
+\section{\textbf{Evaluation Metrics}}
 
-\subsection{AUC-ROC}
+\subsection{\textbf{AUC-ROC}}
 
 Chỉ số chính được sử dụng là \textbf{Area Under the ROC Curve (AUC)} do đặc thù:
 \begin{itemize}[noitemsep]
@@ -1944,7 +2009,7 @@ Chỉ số chính được sử dụng là \textbf{Area Under the ROC Curve (AUC
 % ============================================================
 % 6.3 Main Results (Paper-level)
 % ============================================================
-\section{Main Results (Reported in the Original Paper)}
+\section{\textbf{Main Results (Reported in the Original Paper)}}
 
 \begin{table}[H]
 \centering
@@ -1963,7 +2028,7 @@ ViT-ResNet/16 & \textbf{93.9\%} & \textbf{0.92} & -- & 0.85 & -- & \textbf{0.85}
 \end{tabular}
 \end{table}
 
-\subsection{Key Observations (Paper Level)}
+\subsection{\textbf{Key Observations (Paper Level)}}
 
 \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Key Observations]
 \begin{enumerate}
@@ -1977,7 +2042,7 @@ ViT-ResNet/16 & \textbf{93.9\%} & \textbf{0.92} & -- & 0.85 & -- & \textbf{0.85}
 % ============================================================
 % 6.4 Reproduced Results (This Project)
 % ============================================================
-\section{Reproduced and Audited Results}
+\section{\textbf{Reproduced and Audited Results}}
 
 Khác với bài báo gốc, dự án này:
 \begin{itemize}[noitemsep]
@@ -2004,7 +2069,7 @@ ViT pretrained & 86M & -- & 0.6694 & 87.00 & ImageNet pretrained \\
 \end{tabular}
 \end{table}
 
-\subsection{Why Is AUC Lower Than the Paper?}
+\subsection{\textbf{Why Is AUC Lower Than the Paper?}}
 
 \begin{enumerate}[noitemsep]
     \item Chia theo bệnh nhân loại bỏ rò rỉ dữ liệu.
@@ -2015,7 +2080,7 @@ ViT pretrained & 86M & -- & 0.6694 & 87.00 & ImageNet pretrained \\
 % ============================================================
 % 6.5 Discussion
 % ============================================================
-\section{Discussion}
+\section{\textbf{Discussion}}
 
 \begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Discussion Summary]
 \begin{itemize}
@@ -2029,7 +2094,7 @@ ViT pretrained & 86M & -- & 0.6694 & 87.00 & ImageNet pretrained \\
 % ============================================================
 % 6.6 Clinical Perspective
 % ============================================================
-\section{Clinical Perspective}
+\section{\textbf{Clinical Perspective}}
 
 Mô hình phù hợp nhất cho ứng dụng thực tế là:
 \begin{itemize}[noitemsep]
@@ -2042,7 +2107,7 @@ Mô hình đóng vai trò \textbf{Clinical Decision Support (CAD)}, không thay 
 % ============================================================
 % 6.7 Limitations and Future Work
 % ============================================================
-\section{Limitations and Future Work}
+\section{\textbf{Limitations and Future Work}}
 
 \begin{itemize}[noitemsep]
     \item Mất cân bằng lớp chưa xử lý triệt để.
@@ -2059,7 +2124,7 @@ Hướng mở rộng:
 % ============================================================
 % 6.X Replication Study and Detailed Codebase Audit
 % ============================================================
-\section{Replication Study and Detailed Codebase Audit}
+\section{\textbf{Replication Study and Detailed Codebase Audit}}
 
 Phần này trình bày kết quả \textbf{nghiên cứu lặp lại (replication study)} và \textbf{đánh giá chi tiết kho mã nguồn ViT-Chest-Xray}.  
 Mục tiêu không phải là chấm điểm, mà là:
@@ -2070,7 +2135,7 @@ Mục tiêu không phải là chấm điểm, mà là:
 \end{itemize}
 
 %----------------------------------------------------------
-\subsection{Evaluation Framework for File Review}
+\subsection{\textbf{Evaluation Framework for File Review}}
 
 Mỗi tệp/notebook được đánh giá theo các tiêu chí chuẩn nghiên cứu sau:
 \begin{itemize}
@@ -2085,7 +2150,7 @@ Mỗi tệp/notebook được đánh giá theo các tiêu chí chuẩn nghiên c
 Cách tiếp cận này phù hợp với các báo cáo \emph{replication \& audit} trong nghiên cứu học sâu hiện đại.
 
 %----------------------------------------------------------
-\subsection{Configuration Management: \texttt{config.py}}
+\subsection{\textbf{Configuration Management: \texttt{config.py}}}
 
 \textbf{Mục đích.}  
 Đóng vai trò file cấu hình trung tâm, lưu đường dẫn dữ liệu, danh sách nhãn và các siêu tham số huấn luyện.
@@ -2107,7 +2172,7 @@ Cách tiếp cận này phù hợp với các báo cáo \emph{replication \& aud
 File hoạt động đúng chức năng, nhưng cần chuẩn hoá để phù hợp môi trường nghiên cứu đa nền tảng.
 
 %----------------------------------------------------------
-\subsection{Data Acquisition: \texttt{data\_download.ipynb}}
+\subsection{\textbf{Data Acquisition: \texttt{data\_download.ipynb}}}
 
 \textbf{Mục đích.}  
 Tải bộ NIH ChestX-ray14 từ Kaggle.
@@ -2128,7 +2193,7 @@ Tải bộ NIH ChestX-ray14 từ Kaggle.
 Phù hợp cho mục đích học tập và nghiên cứu, nhưng chưa đạt mức pipeline dữ liệu bền vững.
 
 %----------------------------------------------------------
-\subsection{Data Processing Pipeline: \texttt{data.ipynb}}
+\subsection{\textbf{Data Processing Pipeline: \texttt{data.ipynb}}}
 
 \textbf{Mục đích.}  
 Load ảnh, parse nhãn và tạo DataLoader cho bài toán multi-label.
@@ -2149,7 +2214,7 @@ Pipeline cuối đã được sửa để \textbf{chia dữ liệu theo ID bện
 Đây là điểm khác biệt quan trọng nhất giữa bài báo gốc và dự án replication.
 
 %----------------------------------------------------------
-\subsection{CNN Baseline: \texttt{cnn.ipynb}}
+\subsection{\textbf{CNN Baseline: \texttt{cnn.ipynb}}}
 
 \textbf{Mục đích.}  
 Cung cấp baseline đơn giản để so sánh.
@@ -2164,7 +2229,7 @@ Cung cấp baseline đơn giản để so sánh.
 CNN baseline phù hợp làm mốc so sánh, nhưng không phải kiến trúc hiệu quả cho dữ liệu X-quang quy mô lớn.
 
 %----------------------------------------------------------
-\subsection{Residual Network: \texttt{resnet.ipynb}}
+\subsection{\textbf{Residual Network: \texttt{resnet.ipynb}}}
 
 \textbf{Mục đích.}  
 Cài đặt ResNet-34 cho phân loại đa nhãn.
@@ -2184,7 +2249,7 @@ Cài đặt ResNet-34 cho phân loại đa nhãn.
 ResNet-34 thể hiện inductive bias mạnh cho ảnh y khoa, nhưng hiệu năng bị giới hạn do thiếu transfer learning.
 
 %----------------------------------------------------------
-\subsection{Vision Transformer from Scratch: \texttt{ViT-v1} và \texttt{ViT-v2}}
+\subsection{\textbf{Vision Transformer from Scratch: \texttt{ViT-v1}} và \texttt{ViT-v2}}
 
 \textbf{Mục đích.}  
 Khảo sát khả năng huấn luyện ViT từ đầu trên dữ liệu X-quang.
@@ -2199,7 +2264,7 @@ Khảo sát khả năng huấn luyện ViT từ đầu trên dữ liệu X-quang
 Kết quả củng cố nhận định rằng ViT cần pretraining mạnh hoặc kiến trúc lai.
 
 %----------------------------------------------------------
-\subsection{Hybrid and Pretrained Models: \texttt{ViT-ResNet.ipynb}}
+\subsection{\textbf{Hybrid and Pretrained Models: \texttt{ViT-ResNet.ipynb}}}
 
 \textbf{Mục đích.}  
 Fine-tune ViT pretrained cho bài toán X-quang.
@@ -2226,7 +2291,7 @@ Fine-tune ViT pretrained cho bài toán X-quang.
 Kiến trúc lai CNN–Transformer là hướng đi phù hợp nhất cho dữ liệu X-quang.
 
 %----------------------------------------------------------
-\subsection{Overall Findings from Replication}
+\subsection{\textbf{Overall Findings from Replication}}
 
 Tổng hợp từ nghiên cứu lặp lại cho thấy:
 \begin{itemize}[noitemsep]
@@ -2239,7 +2304,7 @@ Tổng hợp từ nghiên cứu lặp lại cho thấy:
 Phần này bổ sung chiều sâu phản biện cho kết quả thực nghiệm, đồng thời giải thích vì sao kết quả của dự án thấp hơn bài báo gốc nhưng \textbf{đáng tin cậy hơn về mặt khoa học}.
 
 %----------------------------------------------------------
-\section{Tổng hợp Kết quả Trực quan}
+\section{\textbf{Tổng hợp Kết quả Trực quan}}
 \label{sec:visual_summary}
 
 Phần này tổng hợp các hình ảnh minh họa kết quả huấn luyện của tất cả các mô hình trong nghiên cứu.
@@ -2273,7 +2338,7 @@ Phần này tổng hợp các hình ảnh minh họa kết quả huấn luyện 
 % ============================================================
 % SECTION: ADDITIONAL VISUALIZATIONS NEEDED
 % ============================================================
-\section{Visualizations bổ sung cần thiết}
+\section{\textbf{Visualizations bổ sung cần thiết}}
 \label{sec:additional_viz}
 
 \begin{tcolorbox}[colback=orange!5!white,colframe=orange!75!black,title=Note: Visualizations chưa hoàn thiện]
@@ -2406,7 +2471,7 @@ def plot_calibration(y_true, y_pred, n_bins=10):
 \end{lstlisting}
 \end{tcolorbox}
 
-\subsection{Timeline Implementation}
+\subsection{\textbf{Timeline Implementation}}
 
 \textbf{Để hoàn thiện visualizations, đề xuất timeline:}
 \begin{enumerate}
@@ -2424,7 +2489,7 @@ def plot_calibration(y_true, y_pred, n_bins=10):
 
 \chapter{PyTorch Implementation Details}
 	
-	\section{Migration Overview}
+	\section{\textbf{Migration Overview}}
 	
 	\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Migration Summary]
 		\textbf{Original Paper:} TensorFlow/Keras implementation
@@ -2438,7 +2503,7 @@ def plot_calibration(y_true, y_pred, n_bins=10):
 		\end{itemize}
 	\end{tcolorbox}
 	
-	\section{Critical Bug Fix: AUC NaN Issue}
+	\section{\textbf{Critical Bug Fix: AUC NaN Issue}}
 	
 	\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Bug: AUC Returns NaN]
 		\textbf{Symptom:} \texttt{Val AUC: nan}
@@ -2451,7 +2516,7 @@ def plot_calibration(y_true, y_pred, n_bins=10):
 		\end{itemize}
 	\end{tcolorbox}
 	
-	\subsection{Solution}
+	\subsection{\textbf{Solution}}
 	
 	\begin{lstlisting}[caption={AUC Fix Implementation}]
 		def compute_auc_safe(y_true, y_pred):
@@ -2475,7 +2540,7 @@ def plot_calibration(y_true, y_pred, n_bins=10):
 		return auc
 	\end{lstlisting}
 	
-	\section{Complete Training Script}
+	\section{\textbf{Complete Training Script}}
 	
 	\begin{lstlisting}[caption={Complete training function}]
 		def train_model(model, train_loader, val_loader, num_epochs=30, lr=1e-4):
@@ -2523,7 +2588,7 @@ def plot_calibration(y_true, y_pred, n_bins=10):
 		return model
 	\end{lstlisting}
 	
-	\section{Repository Structure}
+	\section{\textbf{Repository Structure}}
 	
 	\begin{lstlisting}[style=plain,caption={Project structure}]
 		ViT-Chest-Xray/
@@ -2546,7 +2611,7 @@ def plot_calibration(y_true, y_pred, n_bins=10):
 \chapter{Các Cải Tiến Nâng Cao (Advanced Improvements)}
 \label{chap:improvements}
 
-\section{Tổng quan (Overview)}
+\section{\textbf{Tổng quan (Overview)}}
 
 Chương này trình bày chi tiết các cải tiến đã được thực hiện nhằm nâng cao hiệu suất của các mô hình phân loại bệnh trên ảnh X-quang ngực. Các cải tiến được chia thành ba giai đoạn chính theo mức độ ưu tiên và mức độ tác động:
 
@@ -2556,7 +2621,7 @@ Chương này trình bày chi tiết các cải tiến đã được thực hi�
     \item \textbf{Giai đoạn 3 -- Kỹ thuật nâng cao (Advanced)}: Ensemble nhiều mô hình, định lượng bất định (uncertainty quantification)
 \end{enumerate}
 
-\subsection{Kết quả tổng hợp (Summary Results)}
+\subsection{\textbf{Kết quả tổng hợp (Summary Results)}}
 
 \begin{table}[h!]
 \centering
@@ -2576,14 +2641,14 @@ Swin-T & - & \textbf{0.903} & New & Kiến trúc SOTA (Swin Transformer) \\
 \end{table}
 
 %==============================================================================
-\section{Giai đoạn 1: Các cải tiến nhanh (Phase 1: Quick Wins)}
+\section{\textbf{Giai đoạn 1: Các cải tiến nhanh (Phase 1: Quick Wins)}}
 \label{sec:improve_phase1}
 
 %------------------------------------------------------------------------------
-\subsection{Transfer Learning với pre-trained weights}
+\subsection{\textbf{Transfer Learning với pre-trained weights}}
 \label{subsec:transfer_learning}
 
-\subsubsection{Động lực (Motivation)}
+\subsubsection{\textbf{Động lực (Motivation)}}
 
 Các mô hình trong bài báo gốc được huấn luyện từ đầu (from scratch), bỏ qua tri thức đã được học từ ImageNet. Transfer learning cho phép:
 
@@ -2593,7 +2658,7 @@ Các mô hình trong bài báo gốc được huấn luyện từ đầu (from s
     \item Cải thiện hiệu suất thêm khoảng 2--4\% AUC
 \end{itemize}
 
-\subsubsection{Triển khai (Implementation)}
+\subsubsection{\textbf{Triển khai (Implementation)}}
 
 \textbf{1. ResNet-34 với ImageNet pre-training:}
 
@@ -2640,7 +2705,7 @@ param_groups = [
 optimizer = torch.optim.AdamW(param_groups)
 \end{lstlisting}
 
-\subsubsection{Kết quả (Results)}
+\subsubsection{\textbf{Kết quả (Results)}}
 
 \begin{table}[h!]
 \centering
@@ -2666,10 +2731,10 @@ EfficientNet-B4 & - & 0.897 & - & - \\
 \end{itemize}
 
 %------------------------------------------------------------------------------
-\subsection{Xử lý mất cân bằng lớp (Class Imbalance Handling)}
+\subsection{\textbf{Xử lý mất cân bằng lớp (Class Imbalance Handling)}}
 \label{subsec:class_imbalance}
 
-\subsubsection{Vấn đề (Problem)}
+\subsubsection{\textbf{Vấn đề (Problem)}}
 
 Tập dữ liệu \Dataset chứa mất cân bằng lớp rất nghiêm trọng:
 
@@ -2681,7 +2746,7 @@ Tập dữ liệu \Dataset chứa mất cân bằng lớp rất nghiêm trọng:
 
 Hàm mất mát BCE tiêu chuẩn gặp nhiều khó khăn với sự mất cân bằng này.
 
-\subsubsection{Giải pháp: Focal Loss}
+\subsubsection{\textbf{Giải pháp: Focal Loss}}
 
 \textbf{Công thức toán học:}
 
@@ -2755,7 +2820,7 @@ criterion = FocalLoss(alpha=0.25, gamma=2.0)
 loss = criterion(outputs, targets)
 \end{lstlisting}
 
-\subsubsection{Asymmetric Loss (ASL)}
+\subsubsection{\textbf{Asymmetric Loss (ASL)}}
 
 \textbf{Công thức:}
 
@@ -2816,7 +2881,7 @@ class AsymmetricLoss(nn.Module):
 criterion = AsymmetricLoss(gamma_neg=4, gamma_pos=1, clip=0.05)
 \end{lstlisting}
 
-\subsubsection{Kết quả so sánh các hàm mất mát}
+\subsubsection{\textbf{Kết quả so sánh các hàm mất mát}}
 
 \begin{table}[h!]
 \centering
@@ -2854,10 +2919,10 @@ Emphysema & 2{,}516 & 0.881 & 0.903 & \textbf{0.909} \\
 \end{table}
 
 %------------------------------------------------------------------------------
-\subsection{Tăng cường dữ liệu nâng cao (Advanced Data Augmentation)}
+\subsection{\textbf{Tăng cường dữ liệu nâng cao (Advanced Data Augmentation)}}
 \label{subsec:data_augmentation}
 
-\subsubsection{Vấn đề với tăng cường dữ liệu cơ bản}
+\subsubsection{\textbf{Vấn đề với tăng cường dữ liệu cơ bản}}
 
 Bài báo gốc sử dụng:
 
@@ -2866,7 +2931,7 @@ Bài báo gốc sử dụng:
     \item \texttt{RandomRotation} (±15°) -- \textbf{Vấn đề}: Góc xoay khá lớn đối với ảnh X-quang, tạo ra hình ảnh không thực tế.
 \end{itemize}
 
-\subsubsection{Pipeline tăng cường dữ liệu chuyên biệt cho ảnh y khoa}
+\subsubsection{\textbf{Pipeline tăng cường dữ liệu chuyên biệt cho ảnh y khoa}}
 
 \begin{lstlisting}[language=Python, caption=Pipeline tăng cường dữ liệu với Albumentations]
 import albumentations as A
@@ -2922,7 +2987,7 @@ val_transform = A.Compose([
 ])
 \end{lstlisting}
 
-\subsubsection{Ablation study về tác động của tăng cường dữ liệu}
+\subsubsection{\textbf{Ablation study về tác động của tăng cường dữ liệu}}
 
 \begin{table}[h!]
 \centering
@@ -2943,14 +3008,14 @@ Chỉ Resize (Baseline) & 0.680 & 0.671 \\
 \end{table}
 
 %==============================================================================
-\section{Giai đoạn 2: Cải tiến kiến trúc (Phase 2: Architecture Improvements)}
+\section{\textbf{Giai đoạn 2: Cải tiến kiến trúc (Phase 2: Architecture Improvements)}}
 \label{sec:improve_phase2}
 
 %------------------------------------------------------------------------------
-\subsection{Swin Transformer}
+\subsection{\textbf{Swin Transformer}}
 \label{subsec:swin_transformer}
 
-\subsubsection{Kiến trúc (Architecture)}
+\subsubsection{\textbf{Kiến trúc (Architecture)}}
 
 Swin Transformer sử dụng kiến trúc phân cấp (\textit{hierarchical}) và cửa sổ dịch chuyển (\textit{shifted windows}) để:
 
@@ -3001,7 +3066,7 @@ scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
 )
 \end{lstlisting}
 
-\subsubsection{Kết quả}
+\subsubsection{\textbf{Kết quả}}
 
 \begin{table}[h!]
 \centering
@@ -3029,10 +3094,10 @@ Swin-Base & 88M & 15.4G & \textbf{0.921} & \textbf{0.908} & 1.3× \\
 \end{itemize}
 
 %------------------------------------------------------------------------------
-\subsection{Hợp nhất đặc trưng đa tỷ lệ (Multi-Scale Feature Fusion)}
+\subsection{\textbf{Hợp nhất đặc trưng đa tỷ lệ (Multi-Scale Feature Fusion)}}
 \label{subsec:multiscale}
 
-\subsubsection{Động lực}
+\subsubsection{\textbf{Động lực}}
 
 Các bệnh có thể xuất hiện ở nhiều tỷ lệ (scale) khác nhau trong ảnh X-quang:
 
@@ -3044,7 +3109,7 @@ Các bệnh có thể xuất hiện ở nhiều tỷ lệ (scale) khác nhau tro
 
 Do đó, một kiến trúc chỉ làm việc ở một scale duy nhất sẽ khó tối ưu cho tất cả các loại bệnh.
 
-\subsubsection{Kiến trúc Multi-Scale ViT}
+\subsubsection{\textbf{Kiến trúc Multi-Scale ViT}}
 
 \begin{lstlisting}[language=Python, caption=Mô hình Multi-Scale ViT]
 class MultiScaleViT(nn.Module):
@@ -3099,7 +3164,7 @@ model = MultiScaleViT(num_classes=15).to(device)
 optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5)
 \end{lstlisting}
 
-\subsubsection{Kết quả theo từng bệnh (Per-disease)}
+\subsubsection{\textbf{Kết quả theo từng bệnh (Per-disease)}}
 
 \begin{table}[h!]
 \centering
@@ -3122,14 +3187,14 @@ Fibrosis & Nhỏ & 0.779 & \textbf{0.819} & +4.0\% \\
 \end{table}
 
 %==============================================================================
-\section{Giai đoạn 3: Kỹ thuật nâng cao (Phase 3: Advanced Techniques)}
+\section{\textbf{Giai đoạn 3: Kỹ thuật nâng cao (Phase 3: Advanced Techniques)}}
 \label{sec:improve_phase3}
 
 %------------------------------------------------------------------------------
-\subsection{Model ensemble}
+\subsection{\textbf{Model ensemble}}
 \label{subsec:ensemble}
 
-\subsubsection{Chiến lược ensemble}
+\subsubsection{\textbf{Chiến lược ensemble}}
 
 Kết hợp ba mô hình tốt nhất:
 
@@ -3187,7 +3252,7 @@ with torch.no_grad():
         # outputs đã là xác suất (sau sigmoid)
 \end{lstlisting}
 
-\subsubsection{Kết quả ensemble}
+\subsubsection{\textbf{Kết quả ensemble}}
 
 \begin{table}[h!]
 \centering
@@ -3208,10 +3273,10 @@ Ensemble (trọng số bằng nhau) & 0.912 & 0.901 & +2.3\% \\
 \end{table}
 
 %------------------------------------------------------------------------------
-\subsection{Định lượng bất định (Uncertainty quantification)}
+\subsection{\textbf{Định lượng bất định (Uncertainty quantification)}}
 \label{subsec:uncertainty}
 
-\subsubsection{Monte Carlo Dropout}
+\subsubsection{\textbf{Monte Carlo Dropout}}
 
 \begin{lstlisting}[language=Python, caption=MC Dropout để ước lượng bất định]
 class MCDropoutModel(nn.Module):
@@ -3257,10 +3322,10 @@ uncertain_samples = images[high_uncertainty_mask]
 \end{lstlisting}
 
 %==============================================================================
-\section{Kết luận và khuyến nghị cho các cải tiến (Conclusion)}
+\section{\textbf{Kết luận và khuyến nghị cho các cải tiến (Conclusion)}}
 \label{sec:improve_conclusion}
 
-\subsection{Tóm tắt các kết quả chính}
+\subsection{\textbf{Tóm tắt các kết quả chính}}
 
 \begin{enumerate}
     \item \textbf{Transfer Learning}: Là cải tiến quan trọng nhất, giúp tăng khoảng 3--4\% AUC và giảm một nửa thời gian huấn luyện.
@@ -3270,7 +3335,7 @@ uncertain_samples = images[high_uncertainty_mask]
     \item \textbf{Ensemble}: Đạt AUC khoảng 0.917, tiệm cận SOTA trên tập dữ liệu \Dataset.
 \end{enumerate}
 
-\subsection{Best practices tổng hợp}
+\subsection{\textbf{Best practices tổng hợp}}
 
 \begin{itemize}
     \item \textbf{Luôn ưu tiên} sử dụng pre-trained weights (ImageNet hoặc pre-training tự giám sát) nếu có thể.
@@ -3280,7 +3345,7 @@ uncertain_samples = images[high_uncertainty_mask]
     \item \textbf{Ensemble} các mô hình mạnh (Swin, ViT, EfficientNet) là lựa chọn phù hợp cho hệ thống triển khai thực tế, khi chi phí tính toán cho inference cho phép.
 \end{itemize}
 
-\subsection{Hướng phát triển tiếp theo}
+\subsection{\textbf{Hướng phát triển tiếp theo}}
 
 \begin{enumerate}
     \item Self-supervised pre-training trên dữ liệu X-quang không gán nhãn để giảm phụ thuộc vào ImageNet.
@@ -3295,7 +3360,7 @@ uncertain_samples = images[high_uncertainty_mask]
 \chapter{Conclusion}
 \label{chap:conclusion}
 
-\section{Overall Summary}
+\section{\textbf{Overall Summary}}
 
 Nghiên cứu này đã thực hiện một phân tích toàn diện và có hệ thống về ba họ kiến trúc học sâu chủ đạo — \textbf{Convolutional Neural Networks (CNN)}, \textbf{Residual Networks (ResNet)}, và \textbf{Vision Transformers (ViT)} — cho bài toán \textbf{phân loại đa nhãn bệnh lý phổi trên ảnh X-quang ngực}.  
 Khác với nhiều nghiên cứu chỉ tập trung vào việc báo cáo kết quả, luận văn này tiếp cận bài toán theo hướng \textbf{replication study kết hợp phân tích kiến trúc}, nhằm trả lời các câu hỏi cốt lõi sau:
@@ -3309,7 +3374,7 @@ Khác với nhiều nghiên cứu chỉ tập trung vào việc báo cáo kết 
 Thông qua việc tái triển khai toàn bộ pipeline, sửa các vấn đề thực nghiệm quan trọng và đánh giá nghiêm ngặt, nghiên cứu đã cung cấp một góc nhìn đáng tin cậy và mang tính phản biện đối với kết luận của bài báo gốc.
 
 %----------------------------------------------------------
-\section{Key Empirical Findings}
+\section{\textbf{Key Empirical Findings}}
 
 Các kết quả thực nghiệm cho thấy sự khác biệt rõ rệt giữa các kiến trúc:
 
@@ -3326,7 +3391,7 @@ Các kết quả thực nghiệm cho thấy sự khác biệt rõ rệt giữa c
 Những kết quả này củng cố nhận định rằng \textbf{hiệu năng cao không chỉ đến từ mô hình lớn hơn}, mà từ sự phù hợp giữa kiến trúc, dữ liệu và chiến lược huấn luyện.
 
 %----------------------------------------------------------
-\section{Architectural Insights and Theoretical Implications}
+\section{\textbf{Architectural Insights and Theoretical Implications}}
 
 Một đóng góp quan trọng của nghiên cứu là làm rõ vai trò của \textbf{inductive bias} trong học sâu cho ảnh y tế:
 
@@ -3344,7 +3409,7 @@ Từ góc nhìn lý thuyết, nghiên cứu này ủng hộ quan điểm rằng:
 \end{quote}
 
 %----------------------------------------------------------
-\section{Methodological Contributions}
+\section{\textbf{Methodological Contributions}}
 
 Ngoài kết quả mô hình, nghiên cứu còn đóng góp quan trọng về mặt phương pháp:
 
@@ -3361,7 +3426,7 @@ Ngoài kết quả mô hình, nghiên cứu còn đóng góp quan trọng về m
 Những yếu tố này giúp kết quả nghiên cứu có giá trị tham khảo cao cho các công trình tiếp theo.
 
 %----------------------------------------------------------
-\section{Clinical and Practical Implications}
+\section{\textbf{Clinical and Practical Implications}}
 
 Từ góc nhìn ứng dụng lâm sàng, nghiên cứu cho thấy:
 
@@ -3376,7 +3441,7 @@ Từ góc nhìn ứng dụng lâm sàng, nghiên cứu cho thấy:
 Tuy nhiên, việc triển khai lâm sàng đòi hỏi thêm các bước như hiệu chuẩn xác suất, đánh giá đa trung tâm và kiểm chứng bởi chuyên gia y khoa.
 
 %----------------------------------------------------------
-\section{Limitations}
+\section{\textbf{Limitations}}
 
 Mặc dù đạt được nhiều kết quả có ý nghĩa, nghiên cứu vẫn tồn tại các hạn chế:
 
@@ -3393,7 +3458,7 @@ Mặc dù đạt được nhiều kết quả có ý nghĩa, nghiên cứu vẫn
 Những hạn chế này mở ra các hướng nghiên cứu tiếp theo.
 
 %----------------------------------------------------------
-\section{Future Directions}
+\section{\textbf{Future Directions}}
 
 Dựa trên các kết quả và phân tích, một số hướng phát triển tiềm năng bao gồm:
 
@@ -3406,7 +3471,7 @@ Dựa trên các kết quả và phân tích, một số hướng phát triển 
 \end{itemize}
 
 %----------------------------------------------------------
-\section{Final Remarks}
+\section{\textbf{Final Remarks}}
 
 Kết luận chung của nghiên cứu là:  
 \begin{quote}

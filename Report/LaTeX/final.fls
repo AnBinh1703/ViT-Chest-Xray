@@ -399,9 +399,6 @@ INPUT C:\Program Files\MiKTeX\tex\latex\graphics\color.sty
 INPUT C:\Program Files\MiKTeX\tex\latex\listings\lstlang1.sty
 INPUT C:\Program Files\MiKTeX\tex\latex\listings\lstlang1.sty
 INPUT C:\Program Files\MiKTeX\tex\latex\listings\lstlang1.sty
-INPUT .\final.aux
-INPUT .\final.aux
-INPUT final.aux
 OUTPUT final.aux
 INPUT C:\Program Files\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
 INPUT C:\Program Files\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
@@ -415,3 +412,181 @@ INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\microtype\mt-ptm.cfg
 INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\microtype\mt-ptm.cfg
 INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\microtype\mt-ptm.cfg
 OUTPUT final.out
+OUTPUT final.pdf
+INPUT ..\..\image\Logo-FSB.png
+INPUT ..\..\image\Logo-FSB.png
+INPUT ..\..\image\Logo-FSB.png
+INPUT ..\..\image\Logo-FSB.png
+INPUT ..\..\image\Logo-FSB.png
+INPUT ..\..\image\Logo-FSB.png
+INPUT ..\..\image\Logo-FSB.png
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr17.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr17.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr17.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr12.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr12.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr10.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\microtype\mt-cmr.cfg
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\microtype\mt-cmr.cfg
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\microtype\mt-cmr.cfg
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmr8.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmr6.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmmi12.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmmi8.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmmi6.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmsy10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmsy8.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmsy6.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmex10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmex8.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmex7.tfm
+INPUT C:\Program Files\MiKTeX\tex\latex\amsfonts\umsa.fd
+INPUT C:\Program Files\MiKTeX\tex\latex\amsfonts\umsa.fd
+INPUT C:\Program Files\MiKTeX\tex\latex\amsfonts\umsa.fd
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msam10.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\microtype\mt-msa.cfg
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\microtype\mt-msa.cfg
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\microtype\mt-msa.cfg
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msam10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msam7.tfm
+INPUT C:\Program Files\MiKTeX\tex\latex\amsfonts\umsb.fd
+INPUT C:\Program Files\MiKTeX\tex\latex\amsfonts\umsb.fd
+INPUT C:\Program Files\MiKTeX\tex\latex\amsfonts\umsb.fd
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\microtype\mt-msb.cfg
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\microtype\mt-msb.cfg
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\microtype\mt-msb.cfg
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm7.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr12.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr12.tfm
+INPUT C:\Users\dan13\AppData\Local\MiKTeX\fonts\map\pdftex\pdftex.map
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr17.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr17.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\newtx\ts1ntxtlf.fd
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\newtx\ts1ntxtlf.fd
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\newtx\ts1ntxtlf.fd
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\public\tex-gyre\ts1-qtmr.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmr10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmmi10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmsy10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\cm\cmex10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msam10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr10.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr10.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\enc\dvips\tex-gyre\q-ts1.enc
+OUTPUT final.toc
+OUTPUT final.lof
+OUTPUT final.lot
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr10.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr10.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr8.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr6.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\jknappen\ec\tcrm1200.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr10.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\newtx\ts1ntxtt.fd
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\newtx\ts1ntxtt.fd
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\newtx\ts1ntxtt.fd
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\public\txfonts\tcxtt.tfm
+INPUT ..\..\image\output_cnn.png
+INPUT ..\..\image\output_cnn.png
+INPUT ..\..\image\output_cnn.png
+INPUT ..\..\image\output_cnn.png
+INPUT ..\..\image\output_cnn.png
+INPUT ..\..\image\output_cnn.png
+INPUT ..\..\image\output_cnn.png
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\public\tex-gyre\ts1-qtmri.tfm
+INPUT ..\..\image\output-resnet.png
+INPUT ..\..\image\output-resnet.png
+INPUT ..\..\image\output-resnet.png
+INPUT ..\..\image\output-resnet.png
+INPUT ..\..\image\output-resnet.png
+INPUT ..\..\image\output-resnet.png
+INPUT ..\..\image\output-resnet.png
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\public\tex-gyre\ts1-qtmr.tfm
+INPUT ..\..\image\output-roc-vit-v1.png
+INPUT ..\..\image\output-roc-vit-v1.png
+INPUT ..\..\image\output-roc-vit-v1.png
+INPUT ..\..\image\output-roc-vit-v1.png
+INPUT ..\..\image\output-roc-vit-v1.png
+INPUT ..\..\image\output-roc-vit-v1.png
+INPUT ..\..\image\output-roc-vit-v1.png
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr10.tfm
+INPUT ..\..\image\output-roc-vit-v2.png
+INPUT ..\..\image\output-roc-vit-v2.png
+INPUT ..\..\image\output-roc-vit-v2.png
+INPUT ..\..\image\output-roc-vit-v2.png
+INPUT ..\..\image\output-roc-vit-v2.png
+INPUT ..\..\image\output-roc-vit-v2.png
+INPUT ..\..\image\output-roc-vit-v2.png
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr12.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr12.tfm
+INPUT ..\..\image\output-vit-resnet.png
+INPUT ..\..\image\output-vit-resnet.png
+INPUT ..\..\image\output-vit-resnet.png
+INPUT ..\..\image\output-vit-resnet.png
+INPUT ..\..\image\output-vit-resnet.png
+INPUT ..\..\image\output-vit-resnet.png
+INPUT ..\..\image\output-vit-resnet.png
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr10.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\vntex\t5cmtt.fd
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\vntex\t5cmtt.fd
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\vntex\t5cmtt.fd
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vntt10.tfm
+INPUT C:\Program Files\MiKTeX\fonts\tfm\jknappen\ec\tctt1095.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr12.tfm
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\public\tex-gyre\ts1-qtmb.tfm
+INPUT final.aux
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\newtx\ot1ntxtlf.fd
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\newtx\ot1ntxtlf.fd
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\newtx\ot1ntxtlf.fd
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\public\newtx\ntx-Regular-tlf-ot1.tfm
+INPUT .\final.out
+INPUT .\final.out
+INPUT C:\Users\dan13\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\tctt1095.pk
+INPUT C:\Users\dan13\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\tctt1095.pk
+INPUT C:\Users\dan13\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1200.pk
+INPUT C:\Users\dan13\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1200.pk
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmex10.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmex10.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi12.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi12.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi6.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi6.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi8.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmmi8.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmr12.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmr12.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmr6.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmr6.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmr8.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmr8.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmsy10.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmsy10.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmsy6.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmsy6.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmsy8.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\cm\cmsy8.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\symbols\msam10.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\symbols\msam10.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\symbols\msbm10.pfb
+INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\symbols\msbm10.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\public\tex-gyre\qtmb.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\public\tex-gyre\qtmb.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\public\tex-gyre\qtmr.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\public\tex-gyre\qtmr.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\public\tex-gyre\qtmri.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\public\tex-gyre\qtmri.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\public\txfonts\tcxtt.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\public\txfonts\tcxtt.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\vntex\vnr\vnr10.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\vntex\vnr\vnr10.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\vntex\vnr\vnr12.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\vntex\vnr\vnr12.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\vntex\vnr\vnr17.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\vntex\vnr\vnr17.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\vntex\vnr\vnr6.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\vntex\vnr\vnr6.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\vntex\vnr\vnr8.pfb
+INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\vntex\vnr\vnr8.pfb

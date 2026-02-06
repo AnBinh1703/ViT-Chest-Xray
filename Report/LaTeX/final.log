@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.1) (preloaded format=pdflatex 2026.2.3)  6 FEB 2026 22:35
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.1) (preloaded format=pdflatex 2026.2.3)  6 FEB 2026 22:39
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1151,7 +1151,7 @@ LaTeX Font Info:    No file T5ntxtlf.fd. on input line 217.
 LaTeX Font Warning: Font shape `T5/ntxtlf/m/n' undefined
 (Font)              using `T5/cmr/m/n' instead on input line 217.
 
-(final.aux)
+No file final.aux.
 \openout1 = `final.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 217.
@@ -1176,7 +1176,7 @@ LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 217.
 LaTeX Font Info:    ... okay on input line 217.
 Package babel Info: 'vietnamese' activates 'vietnamese' shorthands.
 (babel)             Reported on input line 217.
- (C:\Program Files\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
+(C:\Program Files\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count395
 \scratchdimen=\dimen353
@@ -1268,23 +1268,579 @@ Package hyperref Info: Link coloring ON on input line 217.
 \@outlinefile=\write4
 \openout4 = `final.out'.
 
-d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex:217: I can't write on file `final.pdf'.
-(Press Enter to retry, or Control-C to exit; default file extension is `.pdf')
-Please type another file name for output
-d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex:217: Emergency stop.
-<to be read again> 
-                   \edef 
-l.217 \begin{document}
-                      
-*** (job aborted, file error in nonstop mode)
+\c@lstlisting=\count403
+<../../image/Logo-FSB.png, id=6, 803.0pt x 302.12875pt>
+File: ../../image/Logo-FSB.png Graphic file (type png)
+<use ../../image/Logo-FSB.png>
+Package pdftex.def Info: ../../image/Logo-FSB.png  used on input line 228.
+(pdftex.def)             Requested size: 196.97641pt x 74.11208pt.
 
- 
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/m/n/20.74'. Switching off
+(microtype)                protrusion for this font on input line 233.
+
+
+LaTeX Font Warning: Font shape `T5/ntxtlf/b/n' undefined
+(Font)              using `T5/ntxtlf/m/n' instead on input line 233.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/m/n/17.28'. Switching off
+(microtype)                protrusion for this font on input line 237.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/b/n/17.28'. Switching off
+(microtype)                protrusion for this font on input line 238.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/m/n/14.4'. Switching off
+(microtype)                protrusion for this font on input line 244.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/b/n/14.4'. Switching off
+(microtype)                protrusion for this font on input line 244.
+
+
+LaTeX Font Warning: Font shape `T5/ntxtlf/m/it' undefined
+(Font)              using `T5/ntxtlf/m/n' instead on input line 245.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/m/n/10.95'. Switching off
+(microtype)                protrusion for this font on input line 246.
+
+(C:\Users\dan13\AppData\Roaming\MiKTeX\tex/latex/microtype\mt-cmr.cfg
+File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
+)
+LaTeX Font Info:    Trying to load font information for U+msa on input line 252.
+ (C:\Program Files\MiKTeX\tex/latex/amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+) (C:\Users\dan13\AppData\Roaming\MiKTeX\tex/latex/microtype\mt-msa.cfg
+File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 252.
+ (C:\Program Files\MiKTeX\tex/latex/amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) (C:\Users\dan13\AppData\Roaming\MiKTeX\tex/latex/microtype\mt-msb.cfg
+File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
+)
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/b/n/12'. Switching off
+(microtype)                protrusion for this font on input line 253.
+
+LaTeX Font Info:    Trying to load font information for T5+ntxtt on input line 253.
+LaTeX Font Info:    No file T5ntxtt.fd. on input line 253.
+
+LaTeX Font Warning: Font shape `T5/ntxtt/m/n' undefined
+(Font)              using `T5/cmr/m/n' instead on input line 253.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtt/m/n/12'. Switching off
+(microtype)                protrusion for this font on input line 257.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 265--271
+
+ []
+
+[1
+
+{C:/Users/dan13/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <../../image/Logo-FSB.png>]
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/m/n/24.88'. Switching off
+(microtype)                protrusion for this font on input line 285.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/b/n/24.88'. Switching off
+(microtype)                protrusion for this font on input line 285.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/m/it/12'. Switching off
+(microtype)                protrusion for this font on input line 292.
+
+
+pdfTeX warning (font expansion): font should be expanded before its first use
+LaTeX Font Info:    Trying to load font information for TS1+ntxtlf on input line 311.
+(C:\Users\dan13\AppData\Roaming\MiKTeX\tex/latex/newtx\ts1ntxtlf.fd
+File: ts1ntxtlf.fd 2015/01/18 v1.0 fd file for TS1/ntxtlf
+)
+LaTeX Font Info:    Font shape `TS1/ntxtlf/m/n' will be
+(Font)              scaled to size 12.0pt on input line 311.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/b/n/10.95'. Switching off
+(microtype)                protrusion for this font on input line 329.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtt/m/n/10'. Switching off
+(microtype)                protrusion for this font on input line 342.
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.342 
+       [1
+
+{C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/enc/dvips/tex-gyre/q-ts1.enc}] [1]
+No file final.toc.
+\tf@toc=\write5
+\openout5 = `final.toc'.
+
+[2
+
+]
+No file final.lof.
+\tf@lof=\write6
+\openout6 = `final.lof'.
+
+[3
+
+
+]
+No file final.lot.
+\tf@lot=\write7
+\openout7 = `final.lot'.
+
+[4
+
+
+]
+Chương 1.
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.419   \item \textbf
+                     {Dấu hiệu bệnh tinh vi:} Nhiều tổn thương g... [1
+
+
+] [2] [3]
+Chương 2.
+
+LaTeX Warning: Citation `wang2017chestxray14' on page 4 undefined on input line 510.
+
+
+LaTeX Warning: Citation `rajpurkar2017chexnet' on page 4 undefined on input line 512.
+
+
+LaTeX Warning: Citation `irvin2019chexpert' on page 4 undefined on input line 530.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/m/it/10.95'. Switching off
+(microtype)                protrusion for this font on input line 540.
+
+
+LaTeX Font Warning: Font shape `T5/ntxtlf/b/it' undefined
+(Font)              using `T5/ntxtlf/b/n' instead on input line 540.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/b/it/10.95'. Switching off
+(microtype)                protrusion for this font on input line 540.
+
+[4
+
+]
+
+LaTeX Warning: Citation `johnson2019mimic' on page 5 undefined on input line 557.
+
+
+LaTeX Warning: Citation `dosovitskiy2020vit' on page 5 undefined on input line 565.
+
+
+LaTeX Warning: Citation `liu2021swin' on page 5 undefined on input line 581.
+
+[5]
+
+LaTeX Warning: Citation `xu2021vitae' on page 6 undefined on input line 592.
+
+
+LaTeX Warning: Citation `lin2017focal' on page 6 undefined on input line 605.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/m/n/8'. Switching off
+(microtype)                protrusion for this font on input line 607.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/m/n/6'. Switching off
+(microtype)                protrusion for this font on input line 607.
+
+LaTeX Info: Symbol \textrightarrow not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 613.
+
+LaTeX Warning: Citation `ridnik2021asymmetric' on page 6 undefined on input line 619.
+
+
+LaTeX Warning: Citation `cui2019classbalanced' on page 6 undefined on input line 630.
+
+[6]
+
+LaTeX Warning: Citation `selvaraju2017gradcam' on page 7 undefined on input line 642.
+
+
+LaTeX Warning: Citation `gal2016dropout' on page 7 undefined on input line 668.
+
+
+LaTeX Warning: Citation `matsoukas2021medical' on page 7 undefined on input line 681.
+
+
+LaTeX Warning: Citation `jain2024comparative' on page 7 undefined on input line 690.
+
+[7] [8]
+Chương 3.
+[9
+
+] [10]
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 825.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/m/n/10'. Switching off
+(microtype)                protrusion for this font on input line 826.
+
+
+pdfTeX warning (font expansion): font should be expanded before its first use
+
+LaTeX Font Warning: Font shape `T5/ntxtt/m/it' undefined
+(Font)              using `T5/ntxtt/m/n' instead on input line 826.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtt/m/it/10'. Switching off
+(microtype)                protrusion for this font on input line 826.
+
+[11]
+LaTeX Font Info:    Trying to load font information for TS1+ntxtt on input line 877.
+ (C:\Users\dan13\AppData\Roaming\MiKTeX\tex/latex/newtx\ts1ntxtt.fd
+File: ts1ntxtt.fd 2012/04/20 v3.1
+)
+LaTeX Font Info:    Font shape `TS1/ntxtt/m/n' will be
+(Font)              scaled to size 10.0pt on input line 877.
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `ntxtt' (encoding: TS1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+ [12]
+LaTeX Info: Symbol \textrightarrow not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 930.
+ [13] [14]
+Chương 4.
+LaTeX Info: Symbol \textrightarrow not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 995.
+LaTeX Info: Symbol \textrightarrow not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 995.
+[15
+
+] [16]
+<../../image/output_cnn.png, id=313, 729.2043pt x 340.3917pt>
+File: ../../image/output_cnn.png Graphic file (type png)
+<use ../../image/output_cnn.png>
+Package pdftex.def Info: ../../image/output_cnn.png  used on input line 1128.
+(pdftex.def)             Requested size: 447.4228pt x 208.8592pt.
+ [17] [18 <../../image/output_cnn.png>]
+Chương 5.
+[19
+
+]
+LaTeX Font Info:    Font shape `TS1/ntxtlf/m/it' will be
+(Font)              scaled to size 12.0pt on input line 1233.
+ [20] [21]
+<../../image/output-resnet.png, id=384, 723.4227pt x 340.3917pt>
+File: ../../image/output-resnet.png Graphic file (type png)
+<use ../../image/output-resnet.png>
+Package pdftex.def Info: ../../image/output-resnet.png  used on input line 1318.
+(pdftex.def)             Requested size: 447.4228pt x 210.52646pt.
+ [22 <../../image/output-resnet.png>] [23]
+Chương 6.
+[24
+
+]
+LaTeX Font Info:    Font shape `TS1/ntxtlf/m/n' will be
+(Font)              scaled to size 10.95pt on input line 1449.
+ [25] [26] [27] [28] [29]
+<../../image/output-roc-vit-v1.png, id=559, 619.3539pt x 506.6127pt>
+File: ../../image/output-roc-vit-v1.png Graphic file (type png)
+<use ../../image/output-roc-vit-v1.png>
+Package pdftex.def Info: ../../image/output-roc-vit-v1.png  used on input line 1742.
+(pdftex.def)             Requested size: 252.65823pt x 206.66896pt.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/m/it/10'. Switching off
+(microtype)                protrusion for this font on input line 1743.
+
+
+pdfTeX warning (font expansion): font should be expanded before its first use
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/b/it/10'. Switching off
+(microtype)                protrusion for this font on input line 1743.
+
+<../../image/output-roc-vit-v2.png, id=560, 619.3539pt x 506.6127pt>
+File: ../../image/output-roc-vit-v2.png Graphic file (type png)
+<use ../../image/output-roc-vit-v2.png>
+Package pdftex.def Info: ../../image/output-roc-vit-v2.png  used on input line 1749.
+(pdftex.def)             Requested size: 252.65823pt x 206.66896pt.
+[30 <../../image/output-roc-vit-v1.png> <../../image/output-roc-vit-v2.png>]
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtlf/b/it/12'. Switching off
+(microtype)                protrusion for this font on input line 1791.
+
+
+Underfull \hbox (badness 7081) in paragraph at lines 1795--1796
+[]|\T5/ntxtlf/b/it/12 (+20) Benefit from CLAHE
+ []
+
+LaTeX Info: Symbol \textrightarrow not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 1802.
+
+Underfull \hbox (badness 3557) in paragraph at lines 1802--1803
+[]|\T5/ntxtlf/b/it/12 (+20) Sharp pleu-ral line \TS1/cmr/m/n/12 ^^Y
+ []
+
+[31]
+LaTeX Info: Symbol \textrightarrow not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 1825.
+ [32]
+LaTeX Info: Symbol \textrightarrow not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 1832.
+
+
+d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex:1848: LaTeX Error: Unicode character ↔ (U+2194)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1848   \item Consolidation ↔
+                                 Infiltration: Cả hai đều là opacities...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex:1849: LaTeX Error: Unicode character ↔ (U+2194)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1849   \item Mass ↔
+                        Nodule: Khác nhau chủ yếu về kích thước (...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+[33]
+LaTeX Info: Symbol \textrightarrow not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 1915.
+LaTeX Info: Symbol \textrightarrow not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 1915.
+LaTeX Info: Symbol \textrightarrow not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 1921.
+LaTeX Info: Symbol \textrightarrow not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 1921.
+LaTeX Info: Symbol \textrightarrow not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 1927.
+LaTeX Info: Symbol \textrightarrow not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 1927.
+ [34] [35]
+Chương 7.
+
+Overfull \hbox (145.3133pt too wide) in paragraph at lines 1977--1988
+ [][] 
+ []
+
+[36
+
+] [37] [38]
+
+LaTeX Font Warning: Font shape `T5/ntxtt/b/n' undefined
+(Font)              using `T5/ntxtt/m/n' instead on input line 2169.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtt/m/n/14.4'. Switching off
+(microtype)                protrusion for this font on input line 2169.
+
+LaTeX Info: Symbol \textrightarrow not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 2182.
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtt/b/n/14.4'. Switching off
+(microtype)                protrusion for this font on input line 2191.
+
+[39] [40]
+<../../image/output-vit-resnet.png, id=666, 1076.823pt x 281.853pt>
+File: ../../image/output-vit-resnet.png Graphic file (type png)
+<use ../../image/output-vit-resnet.png>
+Package pdftex.def Info: ../../image/output-vit-resnet.png  used on input line 2296.
+(pdftex.def)             Requested size: 447.4228pt x 117.10873pt.
+ [41 <../../image/output-vit-resnet.png>]
+
+LaTeX Warning: Reference `fig:cnn_auc' on page 42 undefined on input line 2336.
+
+
+LaTeX Warning: Reference `fig:resnet_auc' on page 42 undefined on input line 2337.
+
+
+LaTeX Warning: Reference `fig:roc_vit_comparison' on page 42 undefined on input line 2338.
+
+
+LaTeX Warning: Reference `fig:output_vit_resnet' on page 42 undefined on input line 2339.
+
+[42] [43]
+
+d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex:2458: LaTeX Error: Unicode character ↔ (U+2194)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2458 ...�n confusion patterns: Consolidation ↔
+                                                   Infiltration
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+[44] [45]
+Chương 8.
+LaTeX Info: Symbol \textrightarrow not provided by
+            font family ntxtlf in TS1 encoding.
+            Default family used instead on input line 2527.
+[46
+
+] [47]
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtt/m/n/10.95'. Switching off
+(microtype)                protrusion for this font on input line 2605.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtt/m/it/10.95'. Switching off
+(microtype)                protrusion for this font on input line 2608.
+
+LaTeX Info: Symbol \textasciigrave not provided by
+            font family ntxtt in TS1 encoding.
+            Default family used instead on input line 2616.
+LaTeX Font Info:    Trying to load font information for T5+cmtt on input line 2616.
+(C:\Users\dan13\AppData\Roaming\MiKTeX\tex/latex/vntex\t5cmtt.fd
+File: t5cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/cmtt/m/n/10.95'. Switching off
+(microtype)                protrusion for this font on input line 2616.
+
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `cmtt' (encoding: TS1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+LaTeX Info: Symbol \textasciigrave not provided by
+            font family ntxtt in TS1 encoding.
+            Default family used instead on input line 2618.
+LaTeX Info: Symbol \textasciigrave not provided by
+            font family ntxtt in TS1 encoding.
+            Default family used instead on input line 2620.
+[48]
+Chương 9.
+[49
+
+]
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/ntxtt/b/n/12'. Switching off
+(microtype)                protrusion for this font on input line 2699.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[50] [51] [52] [53] [54] [55] [56]
+LaTeX Font Info:    Font shape `TS1/ntxtlf/b/n' will be
+(Font)              scaled to size 12.0pt on input line 3093.
+ [57] [58] [59]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[60] [61] [62]
+Chương 10.
+[63
+
+] [64] [65] [66
+
+] (final.aux
+LaTeX Font Info:    Trying to load font information for OT1+ntxtlf on input line 8.
+ (C:\Users\dan13\AppData\Roaming\MiKTeX\tex/latex/newtx\ot1ntxtlf.fd
+File: ot1ntxtlf.fd 2021/05/24 v1.0 font definition file for OT1/ntx/tlf
+)
+LaTeX Font Info:    Font shape `OT1/ntxtlf/m/n' will be
+(Font)              scaled to size 12.0pt on input line 8.
+)
+ ***********
+LaTeX2e <2025-11-01>
+L3 programming layer <2020/03/25>
+ ***********
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `final.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `final.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D5D4B584997DDF84A8FCB299B605589F;37330.
+ ) 
 Here is how much of TeX's memory you used:
- 40528 strings out of 467866
- 845916 string characters out of 5428393
- 1474896 words of memory out of 5000000
- 68805 multiletter control sequences out of 15000+600000
- 629779 words of font info for 46 fonts, out of 8000000 for 9000
+ 43764 strings out of 467866
+ 894541 string characters out of 5428393
+ 1791896 words of memory out of 5000000
+ 70711 multiletter control sequences out of 15000+600000
+ 664214 words of font info for 168 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,1n,131p,1260b,543s stack positions out of 10000i,1000n,20000p,200000b,200000s
-d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex:217:  ==> Fatal error occurred, no output PDF file produced!
+ 84i,12n,131p,1260b,2769s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\dan13\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tctt1095.pk> <C:\Users\dan13\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/type1/public/tex-gyre/qtmb.pfb><C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/type1/public/tex-gyre/qtmr.pfb><C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/type1/public/tex-gyre/qtmri.pfb><C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/type1/public/txfonts/tcxtt.pfb><C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/type1/vntex/vnr/vnr10.pfb><C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/type1/vntex/vnr/vnr12.pfb><C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/type1/vntex/vnr/vnr17.pfb><C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/type1/vntex/vnr/vnr6.pfb><C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/type1/vntex/vnr/vnr8.pfb>
+Output written on final.pdf (72 pages, 1047080 bytes).
+PDF statistics:
+ 1733 PDF objects out of 2073 (max. 8388607)
+ 1135 named destinations out of 1200 (max. 500000)
+ 54827 words of extra memory for PDF output out of 61914 (max. 10000000)
+

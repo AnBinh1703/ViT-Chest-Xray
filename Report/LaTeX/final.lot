@@ -1,0 +1,34 @@
+\babel@toc {vietnamese}{}\relax 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces So sánh hai bộ dữ liệu lớn nhất}}{5}{table.caption.6}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces 15 Classes trong NIH Chest X-ray Dataset}}{10}{table.caption.7}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces So sánh Multi-class và Multi-label}}{11}{table.caption.8}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces Tham số của CNN baseline}}{17}{table.caption.9}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{\ignorespaces Kiến trúc ResNet-34}}{21}{table.caption.11}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Cấu hình huấn luyện ResNet-34}}{22}{table.caption.12}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Kết quả huấn luyện ResNet-34}}{22}{table.caption.14}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {6.1}{\ignorespaces Inductive Biases: CNN vs ViT}}{25}{table.caption.15}%
+\contentsline {table}{\numberline {6.2}{\ignorespaces So sánh các biến thể ViT}}{30}{table.caption.17}%
+\contentsline {table}{\numberline {6.3}{\ignorespaces Per-class AUC cho 15 bệnh lý với mô hình tốt nhất}}{32}{table.caption.19}%
+\contentsline {table}{\numberline {6.4}{\ignorespaces So sánh per-class AUC với các công trình khác}}{34}{table.caption.23}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {7.1}{\ignorespaces Training hyperparameters theo bài báo và triển khai lại}}{36}{table.caption.24}%
+\contentsline {table}{\numberline {7.2}{\ignorespaces Performance comparison kết quả bài báo gốc}}{37}{table.caption.25}%
+\contentsline {table}{\numberline {7.3}{\ignorespaces Final metrics sau khi rà soát và chuẩn hoá}}{38}{table.caption.26}%
+\contentsline {table}{\numberline {7.4}{\ignorespaces Danh sách hình ảnh kết quả thực nghiệm}}{42}{table.caption.28}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {9.1}{\ignorespaces So sánh hiệu suất giữa mô hình gốc và các mô hình cải tiến}}{48}{table.caption.29}%
+\contentsline {table}{\numberline {9.2}{\ignorespaces Hiệu quả của Transfer Learning}}{50}{table.caption.33}%
+\contentsline {table}{\numberline {9.3}{\ignorespaces So sánh các chiến lược xử lý mất cân bằng lớp}}{53}{table.caption.38}%
+\contentsline {table}{\numberline {9.4}{\ignorespaces AUC theo từng bệnh hiếm với các hàm mất mát khác nhau}}{53}{table.caption.39}%
+\contentsline {table}{\numberline {9.5}{\ignorespaces Ablation study: tác động của các mức độ tăng cường dữ liệu}}{55}{table.caption.43}%
+\contentsline {table}{\numberline {9.6}{\ignorespaces So sánh Swin Transformer với ViT gốc}}{56}{table.caption.46}%
+\contentsline {table}{\numberline {9.7}{\ignorespaces Ảnh hưởng của multi-scale lên các loại bệnh}}{58}{table.caption.50}%
+\contentsline {table}{\numberline {9.8}{\ignorespaces Hiệu suất của các cấu hình ensemble}}{59}{table.caption.53}%
+\addvspace {10\p@ }

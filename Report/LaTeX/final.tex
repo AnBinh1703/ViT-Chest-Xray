@@ -272,7 +272,7 @@
     \begin{tabular}{ll}
       \textbf{Lớp:} & MSA29HCM\\
       \textbf{Môn học:} & Deep Learning\\
-      \textbf{Giảng viên hướng dẫn:} & Lê Việt Tuấn
+      \textbf{Giảng viên hướng dẫn:} & TS. Lê Việt Tuấn
     \end{tabular}
   \end{tcolorbox}
 
@@ -2389,19 +2389,19 @@ def visualize_attention(model, image, layer_idx=-1, head_idx=0):
     plt.show()
 \end{lstlisting}
 
-\textbf{Ví dụ cần generate:}
+\textbf{Ví dụ cần minh họa (Case Studies):}
 \begin{itemize}[noitemsep]
-  \item Case 1: Pneumonia -- Attention focus vào infiltrates
-  \item Case 2: Cardiomegaly -- Attention focus vào enlarged heart
-  \item Case 3: Multi-label (Effusion + Atelectasis) -- Multiple focus regions
+  \item \textbf{Trường hợp 1 (Case 1): Viêm phổi (Pneumonia)} -- Cơ chế Attention tập trung chính xác vào vùng thâm nhiễm (infiltrates).
+  \item \textbf{Trường hợp 2 (Case 2): Tim to (Cardiomegaly)} -- Cơ chế Attention tập trung vào vùng bóng tim bị mở rộng (enlarged heart).
+  \item \textbf{Trường hợp 3 (Case 3): Đa nhãn (Effusion + Atelectasis)} -- Xuất hiện nhiều vùng tập trung (multiple focus regions) đồng thời ứng với các vùng tổn thương khác nhau.
 \end{itemize}
 
-\subsection*{2. Precision-Recall Curves}
-\textbf{Tại sao PR curve quan trọng hơn ROC với imbalanced data:}
+\subsection*{2. Đường cong Precision-Recall (PR Curves)}
+\textbf{Tại sao đồ thị PR quan trọng hơn ROC đối với dữ liệu mất cân bằng (imbalanced data):}
 \begin{itemize}[noitemsep]
-  \item ROC có thể optimistic khi negative class chiếm đa số.
-  \item PR curve focus vào positive predictions (quan trọng trong y tế).
-  \item AUC-PR tốt hơn phản ánh performance trên rare diseases.
+  \item ROC có thể cho kết quả lạc quan quá mức (optimistic) khi lớp âm tính chiếm đa số.
+  \item PR curve tập trung vào độ chính xác của các dự đoán dương tính (positive predictions) — yếu tố cực kỳ quan trọng trong chẩn đoán y tế.
+  \item AUC-PR phản ánh tốt hơn hiệu năng của mô hình trên các bệnh hiếm (rare diseases).
 \end{itemize}
 
 \textbf{Code generation:}
@@ -2483,17 +2483,17 @@ def plot_calibration(y_true, y_pred, n_bins=10):
     plt.grid(True, alpha=0.3)
 \end{lstlisting}
 
-\subsection{\textbf{Timeline Implementation}}
+\subsection{\textbf{Kế hoạch triển khai (Implementation Timeline)}}
 
-\textbf{Để hoàn thiện visualizations, đề xuất timeline:}
+\textbf{Để hoàn thiện phần trực quan hóa kết quả, chúng tôi đề xuất lộ trình:}
 \begin{enumerate}
-  \item \textbf{Week 1}: Generate attention maps cho 3 case studies (Pneumonia, Cardiomegaly, Multi-label)
-  \item \textbf{Week 2}: Create PR curves cho cả 15 classes với best model
-  \item \textbf{Week 3}: Qualitative analysis với 6-8 representative cases
-  \item \textbf{Week 4}: Calibration plots và confusion heatmaps
+  \item \textbf{Tuần 1}: Tạo Attention maps cho 3 trường hợp nghiên cứu điểm (Pneumonia, Cardiomegaly, Multi-label).
+  \item \textbf{Tuần 2}: Vẽ đường cong PR cho đầy đủ 15 lớp bệnh lý với mô hình tốt nhất.
+  \item \textbf{Tuần 3}: Phân tích định tính (Qualitative analysis) với 6-8 trường hợp tiêu biểu.
+  \item \textbf{Tuần 4}: Vẽ biểu đồ hiệu chuẩn (Calibration plots) và bản đồ nhiệt ma trận nhầm lẫn (Confusion heatmaps).
 \end{enumerate}
 
-\textbf{Expected impact:} Bổ sung visualizations sẽ nâng điểm báo cáo từ 81/100 lên 90+/100.
+\textbf{Kết quả mong đợi (Expected impact):} Việc bổ sung các trực quan hóa này sẽ nâng cao tính thuyết phục và giá trị khoa học của báo cáo, giúp minh chứng rõ ràng khả năng của mô hình trong môi trường lâm sàng thực tế.
 
 % ============================================================
 % END OF CHAPTER

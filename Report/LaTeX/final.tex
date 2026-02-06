@@ -823,14 +823,14 @@ NIH Dataset & Không phù hợp & \checkmark Phù hợp \\
 Một ảnh X-quang có thể có nhiều bệnh đồng thời:
 
 \begin{lstlisting}[caption={Ví dụ multi-label trong dataset}]
-# Ảnh 00000001_000.png có thể có labels:
+# Image 00000001_000.png may have labels:
 #labels = [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
 #         ^     ^        ^
 #         |     |        |
 #         |     |        Atelectasis (index 6)
 #         |     Effusion (index 2)
-#         Cardiomegaly (index 0) - Không có
-# Bệnh nhân có: Effusion + Atelectasis (2 bệnh đồng thời)
+#         Cardiomegaly (index 0) - Not present
+# Patient has: Effusion + Atelectasis (2 diseases simultaneously)
 \end{lstlisting}
 
 \section{\textbf{Data Pipeline trong Code}}
@@ -2369,7 +2369,7 @@ import torch
 import matplotlib.pyplot as plt
 
 def visualize_attention(model, image, layer_idx=-1, head_idx=0):
-    # Forward pass với hooks để lấy attention weights
+    # Forward pass with hooks to get attention weights
     attentions = []
     def hook_fn(module, input, output):
         attentions.append(output[1])  # attention weights
@@ -2378,10 +2378,10 @@ def visualize_attention(model, image, layer_idx=-1, head_idx=0):
     _ = model(image.unsqueeze(0))
     hook.remove()
     
-    # Lấy attention từ CLS token
+    # Get attention from CLS token
     attn = attentions[0][0, head_idx, 0, 1:]  # (num_patches,)
     
-    # Reshape về spatial dimension
+    # Reshape to spatial dimension
     H = W = int(attn.shape[0] ** 0.5)
     attn_map = attn.reshape(H, W).detach().cpu().numpy()
     
@@ -2688,10 +2688,10 @@ resnet = models.resnet34(weights='IMAGENET1K_V1')
 # Replace final layer for 15-class multi-label
 resnet.fc = nn.Linear(512, 15)
 
-# Fine-tuning strategy 1: train toàn bộ mô hình
+# Fine-tuning strategy 1: train entire model
 optimizer = torch.optim.AdamW(resnet.parameters(), lr=1e-4)
 
-# Fine-tuning strategy 2: đóng băng backbone, chỉ train head
+# Fine-tuning strategy 2: freeze backbone, train only head
 for param in resnet.parameters():
     param.requires_grad = False
 resnet.fc.weight.requires_grad = True
@@ -2712,7 +2712,7 @@ vit = timm.create_model(
     num_classes=15  # Auto-replace head
 )
 
-# Fine-tuning với learning rate phân biệt theo từng phần
+# Fine-tuning with differentiated learning rate for each part
 param_groups = [
     {'params': vit.patch_embed.parameters(), 'lr': 1e-5},
     {'params': vit.blocks.parameters(), 'lr': 1e-4},
@@ -2804,24 +2804,24 @@ class FocalLoss(nn.Module):
             inputs: (N, C) logits
             targets: (N, C) binary labels
         """
-        # BCE theo từng phần tử
+        # BCE per element
         BCE_loss = F.binary_cross_entropy_with_logits(
             inputs, targets, reduction='none'
         )
         
-        # Xác suất dự đoán
+        # Predicted probabilities
         p = torch.sigmoid(inputs)
         
         # p_t
         p_t = p * targets + (1 - p) * (1 - targets)
         
-        # Thành phần (1 - p_t)^gamma
+        # (1 - p_t)^gamma component
         focal_weight = (1 - p_t) ** self.gamma
         
-        # Hệ số alpha_t
+        # alpha_t factor
         alpha_t = self.alpha * targets + (1 - self.alpha) * (1 - targets)
         
-        # Focal loss cuối cùng
+        # Final focal loss
         focal_loss = alpha_t * focal_weight * BCE_loss
         
         if self.reduction == 'mean':
@@ -2867,7 +2867,7 @@ class AsymmetricLoss(nn.Module):
             x: (N, C) logits
             y: (N, C) targets {0, 1}
         """
-        # Xác suất
+        # Probabilities
         xs_pos = torch.sigmoid(x)
         xs_neg = 1 - xs_pos
         
@@ -2875,7 +2875,7 @@ class AsymmetricLoss(nn.Module):
         if self.clip is not None and self.clip > 0:
             xs_neg = (xs_neg + self.clip).clamp(max=1)
         
-        # Cross-entropy cơ bản
+        # Basic cross-entropy
         los_pos = y * torch.log(xs_pos.clamp(min=1e-8))
         los_neg = (1 - y) * torch.log(xs_neg.clamp(min=1e-8))
         
@@ -2959,18 +2959,18 @@ train_transform = A.Compose([
     A.Resize(256, 256),
     A.RandomCrop(224, 224),
     
-    # 2. Biến đổi hình học (nhẹ, phù hợp ảnh y khoa)
-    A.HorizontalFlip(p=0.3),  # giảm xác suất flip
+    # 2. Geometric transformations (light, suitable for medical images)
+    A.HorizontalFlip(p=0.3),  # reduce flip probability
     A.ShiftScaleRotate(
-        shift_limit=0.05,      # dịch chuyển nhỏ
-        scale_limit=0.05,      # zoom nhỏ
-        rotate_limit=5,        # xoay nhỏ
+        shift_limit=0.05,      # small shift
+        scale_limit=0.05,      # small zoom
+        rotate_limit=5,        # small rotation
         p=0.5
     ),
     
-    # 3. Biến đổi cường độ (rất quan trọng với X-ray)
+    # 3. Intensity transformations (very important for X-ray)
     A.OneOf([
-        A.CLAHE(clip_limit=2.0, p=1.0),  # tăng tương phản
+        A.CLAHE(clip_limit=2.0, p=1.0),  # increase contrast
         A.RandomBrightnessContrast(
             brightness_limit=0.1,
             contrast_limit=0.1,
@@ -2978,16 +2978,16 @@ train_transform = A.Compose([
         ),
     ], p=0.5),
     
-    # 4. Nhiễu và mờ (giả lập artifacts)
+    # 4. Noise and blur (simulate artifacts)
     A.OneOf([
         A.GaussNoise(var_limit=(10, 50), p=1.0),
         A.GaussianBlur(blur_limit=3, p=1.0),
     ], p=0.3),
     
-    # 5. Biến dạng lưới nhẹ
+    # 5. Light grid distortion
     A.GridDistortion(num_steps=5, distort_limit=0.05, p=0.2),
     
-    # 6. Chuẩn hóa
+    # 6. Normalization
     A.Normalize(
         mean=[0.485, 0.456, 0.406],
         std=[0.229, 0.224, 0.225]
@@ -2995,7 +2995,7 @@ train_transform = A.Compose([
     ToTensorV2(),
 ])
 
-# Validation/Test (không tăng cường)
+# Validation/Test (no augmentation)
 val_transform = A.Compose([
     A.Resize(224, 224),
     A.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
@@ -3057,16 +3057,16 @@ Swin Transformer sử dụng kiến trúc phân cấp (\textit{hierarchical}) v�
 \begin{lstlisting}[language=Python, caption=Sử dụng Swin Transformer từ \texttt{timm}]
 import timm
 
-# Tạo mô hình Swin-Tiny
+# Create Swin-Tiny model
 swin_tiny = timm.create_model(
     'swin_tiny_patch4_window7_224',
     pretrained=True,
     num_classes=15
 )
 
-# Thông tin số tham số
+# Parameter count info
 print(f"Params: {sum(p.numel() for p in swin_tiny.parameters()) / 1e6:.1f}M")
-# Ví dụ: Params: 28.3M
+# Example: Params: 28.3M
 
 # Fine-tuning
 optimizer = torch.optim.AdamW(
@@ -3223,8 +3223,8 @@ Kết hợp ba mô hình tốt nhất:
 \begin{lstlisting}[language=Python, caption=Ensemble tuyến tính có trọng số]
 class WeightedEnsemble(nn.Module):
     """
-    Ensemble trung bình có trọng số của nhiều mô hình.
-    Trọng số được chọn/tinh chỉnh dựa trên tập validation.
+    Weighted average ensemble of multiple models.
+    Weights are selected/tuned based on validation set.
     """
     def __init__(self, models, weights=None):
         super().__init__()
@@ -3239,33 +3239,33 @@ class WeightedEnsemble(nn.Module):
         )
     
     def forward(self, x):
-        # Lấy dự đoán từ tất cả mô hình
+        # Get predictions from all models
         outputs = []
         for model in self.models:
             with torch.no_grad():
                 out = torch.sigmoid(model(x))
             outputs.append(out)
         
-        # Stack và nhân trọng số
+        # Stack and multiply by weights
         outputs = torch.stack(outputs, dim=0)  # (M, B, C)
         weights = F.softmax(self.weights, dim=0).view(-1, 1, 1)
         
-        # Trung bình có trọng số
+        # Weighted average
         ensemble_out = (outputs * weights).sum(dim=0)
         
         return ensemble_out
 
-# Khởi tạo ensemble
+# Initialize ensemble
 ensemble = WeightedEnsemble(
     models=[swin_model, vit_model, efficientnet_model],
-    weights=[0.4, 0.35, 0.25]  # tinh chỉnh trên tập validation
+    weights=[0.4, 0.35, 0.25]  # tuned on validation set
 )
 
-# Đánh giá
+# Evaluation
 with torch.no_grad():
     for images, labels in test_loader:
         outputs = ensemble(images.to(device))
-        # outputs đã là xác suất (sau sigmoid)
+        # outputs are already probabilities (after sigmoid)
 \end{lstlisting}
 
 \subsubsection{\textbf{Kết quả ensemble}}

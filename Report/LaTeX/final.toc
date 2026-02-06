@@ -1,7 +1,7 @@
 \babel@toc {vietnamese}{}\relax 
 \contentsline {chapter}{Tóm tắt nghiên cứu}{1}{chapter*.1}%
-\contentsline {chapter}{DANH SÁCH HÌNH}{iii}{chapter*.3}%
-\contentsline {chapter}{DANH SÁCH BẢNG}{iv}{chapter*.4}%
+\contentsline {chapter}{DANH SÁCH HÌNH}{vii}{chapter*.3}%
+\contentsline {chapter}{DANH SÁCH BẢNG}{viii}{chapter*.4}%
 \contentsline {chapter}{\numberline {1}Giới thiệu và Bối cảnh nghiên cứu}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}\textbf {Bối cảnh lâm sàng}}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}\textbf {Thách thức trong chẩn đoán X-quang ngực}}{1}{section.1.2}%
@@ -24,13 +24,13 @@
 \contentsline {subsection}{\numberline {2.4.1}\textbf {Focal Loss}}{6}{subsection.2.4.1}%
 \contentsline {subsection}{\numberline {2.4.2}\textbf {Asymmetric Loss (ASL)}}{6}{subsection.2.4.2}%
 \contentsline {subsection}{\numberline {2.4.3}\textbf {Class-Balanced Sampling và Re-weighting}}{6}{subsection.2.4.3}%
-\contentsline {section}{\numberline {2.5}\textbf {Khả năng Diễn Giải Mô Hình (Model Explainability)}}{7}{section.2.5}%
-\contentsline {subsection}{\numberline {2.5.1}\textbf {Grad-CAM và Variants}}{7}{subsection.2.5.1}%
+\contentsline {section}{\numberline {2.5}\textbf {Khả năng Diễn Giải Mô Hình (Model Explainability)}}{6}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}\textbf {Grad-CAM và Variants}}{6}{subsection.2.5.1}%
 \contentsline {subsection}{\numberline {2.5.2}\textbf {Attention Maps trong Transformer}}{7}{subsection.2.5.2}%
 \contentsline {subsection}{\numberline {2.5.3}\textbf {Uncertainty Quantification}}{7}{subsection.2.5.3}%
 \contentsline {section}{\numberline {2.6}\textbf {Nghiên Cứu So Sánh Kiến Trúc}}{7}{section.2.6}%
 \contentsline {subsection}{\numberline {2.6.1}\textbf {CNN vs Transformer trong Y Tế}}{7}{subsection.2.6.1}%
-\contentsline {subsection}{\numberline {2.6.2}\textbf {Bài Báo Gốc (Paper Under Analysis)}}{8}{subsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.6.2}\textbf {Bài Báo Gốc (Paper Under Analysis)}}{7}{subsection.2.6.2}%
 \contentsline {section}{\numberline {2.7}\textbf {Gaps và Đóng Góp của Luận Văn Này}}{8}{section.2.7}%
 \contentsline {subsection}{\numberline {2.7.1}\textbf {Gaps trong Literature}}{8}{subsection.2.7.1}%
 \contentsline {subsection}{\numberline {2.7.2}\textbf {Đóng Góp của Luận Văn}}{8}{subsection.2.7.2}%
@@ -105,11 +105,11 @@
 \contentsline {section}{\numberline {6.8}\textbf {Loss Function, Class Imbalance và Computational Complexity}}{29}{section.6.8}%
 \contentsline {subsection}{\numberline {6.8.1}\textbf {Multi-label BCEWithLogitsLoss}}{29}{subsection.6.8.1}%
 \contentsline {subsection}{\numberline {6.8.2}\textbf {Class Imbalance Effects}}{29}{subsection.6.8.2}%
-\contentsline {subsection}{\numberline {6.8.3}\textbf {Attention Complexity}}{30}{subsection.6.8.3}%
+\contentsline {subsection}{\numberline {6.8.3}\textbf {Attention Complexity}}{29}{subsection.6.8.3}%
 \contentsline {section}{\numberline {6.9}\textbf {So sánh ViT-v1, ViT-v2 và ViT Pretrained}}{30}{section.6.9}%
 \contentsline {section}{\numberline {6.10}\textbf {Results Analysis và ROC Curves}}{30}{section.6.10}%
 \contentsline {subsection}{\numberline {6.10.1}\textbf {ROC Curves}}{30}{subsection.6.10.1}%
-\contentsline {subsection}{\numberline {6.10.2}\textbf {Discussion}}{31}{subsection.6.10.2}%
+\contentsline {subsection}{\numberline {6.10.2}\textbf {Discussion}}{30}{subsection.6.10.2}%
 \contentsline {section}{\numberline {6.11}\textbf {Per-Class Performance Analysis}}{31}{section.6.11}%
 \contentsline {subsection}{\numberline {6.11.1}\textbf {Động lực (Motivation)}}{31}{subsection.6.11.1}%
 \contentsline {subsection}{\numberline {6.11.2}\textbf {Per-Class AUC: Best Model (ViT Final)}}{32}{subsection.6.11.2}%
@@ -124,8 +124,8 @@
 \contentsline {section}{\numberline {7.1}\textbf {Experimental Setup}}{36}{section.7.1}%
 \contentsline {subsection}{\numberline {7.1.1}\textbf {Dataset and Data Splitting}}{36}{subsection.7.1.1}%
 \contentsline {subsection}{\numberline {7.1.2}\textbf {Training Configuration}}{36}{subsection.7.1.2}%
-\contentsline {section}{\numberline {7.2}\textbf {Evaluation Metrics}}{37}{section.7.2}%
-\contentsline {subsection}{\numberline {7.2.1}\textbf {AUC-ROC}}{37}{subsection.7.2.1}%
+\contentsline {section}{\numberline {7.2}\textbf {Evaluation Metrics}}{36}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}\textbf {AUC-ROC}}{36}{subsection.7.2.1}%
 \contentsline {section}{\numberline {7.3}\textbf {Main Results (Reported in the Original Paper)}}{37}{section.7.3}%
 \contentsline {subsection}{\numberline {7.3.1}\textbf {Key Observations (Paper Level)}}{37}{subsection.7.3.1}%
 \contentsline {section}{\numberline {7.4}\textbf {Reproduced and Audited Results}}{37}{section.7.4}%
@@ -136,13 +136,13 @@
 \contentsline {section}{\numberline {7.8}\textbf {Replication Study and Detailed Codebase Audit}}{39}{section.7.8}%
 \contentsline {subsection}{\numberline {7.8.1}\textbf {Evaluation Framework for File Review}}{39}{subsection.7.8.1}%
 \contentsline {subsection}{\numberline {7.8.2}\textbf {Configuration Management: \texttt {config.py}}}{39}{subsection.7.8.2}%
-\contentsline {subsection}{\numberline {7.8.3}\textbf {Data Acquisition: \texttt {data\_download.ipynb}}}{40}{subsection.7.8.3}%
+\contentsline {subsection}{\numberline {7.8.3}\textbf {Data Acquisition: \texttt {data\_download.ipynb}}}{39}{subsection.7.8.3}%
 \contentsline {subsection}{\numberline {7.8.4}\textbf {Data Processing Pipeline: \texttt {data.ipynb}}}{40}{subsection.7.8.4}%
 \contentsline {subsection}{\numberline {7.8.5}\textbf {CNN Baseline: \texttt {cnn.ipynb}}}{40}{subsection.7.8.5}%
 \contentsline {subsection}{\numberline {7.8.6}\textbf {Residual Network: \texttt {resnet.ipynb}}}{40}{subsection.7.8.6}%
 \contentsline {subsection}{\numberline {7.8.7}\textbf {Vision Transformer from Scratch: \texttt {ViT-v1}} và \texttt {ViT-v2}}{41}{subsection.7.8.7}%
 \contentsline {subsection}{\numberline {7.8.8}\textbf {Hybrid and Pretrained Models: \texttt {ViT-ResNet.ipynb}}}{41}{subsection.7.8.8}%
-\contentsline {subsection}{\numberline {7.8.9}\textbf {Overall Findings from Replication}}{42}{subsection.7.8.9}%
+\contentsline {subsection}{\numberline {7.8.9}\textbf {Overall Findings from Replication}}{41}{subsection.7.8.9}%
 \contentsline {section}{\numberline {7.9}\textbf {Tổng hợp Kết quả Trực quan}}{42}{section.7.9}%
 \contentsline {section}{\numberline {7.10}\textbf {Visualizations bổ sung cần thiết}}{42}{section.7.10}%
 \contentsline {subsection}{\numberline {7.10.1}\textbf {Timeline Implementation}}{45}{subsection.7.10.1}%
@@ -184,15 +184,15 @@
 \contentsline {subsection}{\numberline {9.4.2}\textbf {Định lượng bất định (Uncertainty quantification)}}{60}{subsection.9.4.2}%
 \contentsline {subsubsection}{\textbf {Monte Carlo Dropout}}{60}{subsubsection*.54}%
 \contentsline {section}{\numberline {9.5}\textbf {Kết luận và khuyến nghị cho các cải tiến (Conclusion)}}{61}{section.9.5}%
-\contentsline {subsection}{\numberline {9.5.1}\textbf {Tóm tắt các kết quả chính}}{62}{subsection.9.5.1}%
+\contentsline {subsection}{\numberline {9.5.1}\textbf {Tóm tắt các kết quả chính}}{61}{subsection.9.5.1}%
 \contentsline {subsection}{\numberline {9.5.2}\textbf {Best practices tổng hợp}}{62}{subsection.9.5.2}%
 \contentsline {subsection}{\numberline {9.5.3}\textbf {Hướng phát triển tiếp theo}}{62}{subsection.9.5.3}%
 \contentsline {chapter}{\numberline {10}Conclusion}{63}{chapter.10}%
 \contentsline {section}{\numberline {10.1}\textbf {Overall Summary}}{63}{section.10.1}%
 \contentsline {section}{\numberline {10.2}\textbf {Key Empirical Findings}}{63}{section.10.2}%
-\contentsline {section}{\numberline {10.3}\textbf {Architectural Insights and Theoretical Implications}}{64}{section.10.3}%
+\contentsline {section}{\numberline {10.3}\textbf {Architectural Insights and Theoretical Implications}}{63}{section.10.3}%
 \contentsline {section}{\numberline {10.4}\textbf {Methodological Contributions}}{64}{section.10.4}%
 \contentsline {section}{\numberline {10.5}\textbf {Clinical and Practical Implications}}{64}{section.10.5}%
-\contentsline {section}{\numberline {10.6}\textbf {Limitations}}{65}{section.10.6}%
+\contentsline {section}{\numberline {10.6}\textbf {Limitations}}{64}{section.10.6}%
 \contentsline {section}{\numberline {10.7}\textbf {Future Directions}}{65}{section.10.7}%
 \contentsline {section}{\numberline {10.8}\textbf {Final Remarks}}{65}{section.10.8}%

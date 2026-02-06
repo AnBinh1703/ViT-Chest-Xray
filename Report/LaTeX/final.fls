@@ -414,12 +414,6 @@ INPUT C:\Program Files\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
 INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\microtype\mt-ptm.cfg
 INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\microtype\mt-ptm.cfg
 INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\microtype\mt-ptm.cfg
-INPUT .\final.out
-INPUT .\final.out
-INPUT final.out
-INPUT final.out
-INPUT .\final.out
-INPUT .\final.out
 OUTPUT final.out
 OUTPUT final.pdf
 INPUT ..\..\image\Logo-FSB.png

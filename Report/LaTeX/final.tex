@@ -44,7 +44,7 @@
 % =========================
 % Page / Typography
 % =========================
-\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage[a4paper,top=1.5cm,bottom=1cm,left=1cm,right=1cm]{geometry}
 \usepackage{setspace}
 \onehalfspacing
 \usepackage{parskip}
@@ -57,21 +57,21 @@
 % Chapter formatting - larger, more prominent
 \titleformat{\chapter}[display]
   {\normalfont\huge\bfseries\color{blue!70!black}}
-  {\chaptertitlename\ \thechapter}{10pt}
+  {\chaptertitlename\ \thechapter}{6pt}
   {\Huge\color{blue!70!black}}
-\titlespacing*{\chapter}{0pt}{-10pt}{30pt}
+\titlespacing*{\chapter}{0pt}{-10pt}{10pt}
 
 % Section formatting - professional blue color
 \titleformat{\section}
   {\normalfont\Large\bfseries\color{blue!60!black}}
   {\thesection}{1em}{}
-\titlespacing*{\section}{0pt}{16pt plus 4pt minus 2pt}{8pt plus 2pt minus 2pt}
+\titlespacing*{\section}{0pt}{6pt plus 2pt minus 1pt}{2pt plus 1pt minus 0.5pt}
 
 % Subsection formatting - darker blue
 \titleformat{\subsection}
   {\normalfont\large\bfseries\color{blue!50!black}}
   {\thesubsection}{1em}{}
-\titlespacing*{\subsection}{0pt}{12pt plus 3pt minus 2pt}{6pt plus 2pt minus 1pt}
+\titlespacing*{\subsection}{0pt}{8pt plus 2pt minus 1pt}{4pt plus 1pt minus 0.5pt}
 
 % Subsubsection formatting
 \titleformat{\subsubsection}
@@ -134,6 +134,18 @@
 }
 
 % =========================
+% Page numbering with monospace font
+% =========================
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{
+  \fancyhf{} % clear all header and footer fields
+  \fancyhead[C]{\ttfamily\footnotesize\thepage} % center header with monospace font
+  \renewcommand{\headrulewidth}{0pt} % no header rule
+  \renewcommand{\footrulewidth}{0pt} % no footer rule
+}
+\pagestyle{plain}
+
+% =========================
 % Lists / Code
 % =========================
 \usepackage{enumitem}
@@ -152,7 +164,7 @@
 
 \lstdefinestyle{pythonstyle}{
   backgroundcolor=\color{backcolour},
-  commentstyle=\color{codegreen},
+  commentstyle=\normalfont\ttfamily\itshape\color{codegreen},
   keywordstyle=\color{magenta},
   numberstyle=\tiny\color{codegray},
   stringstyle=\color{codepurple},
@@ -167,7 +179,10 @@
   showstringspaces=false,
   showtabs=false,
   tabsize=2,
-  language=Python
+  language=Python,
+  inputencoding=utf8,
+  extendedchars=true,
+  upquote=true
 }
 \lstset{style=pythonstyle}
 
@@ -355,19 +370,20 @@ Báo cáo phân tích chuyên sâu này không chỉ dừng lại ở việc tó
 \pagenumbering{roman}
 
 \tableofcontents
-
 \clearpage
-\phantomsection
+
+\renewcommand{\listfigurename}{DANH SÁCH HÌNH}
 \addcontentsline{toc}{chapter}{DANH SÁCH HÌNH}
 \listoffigures
-
 \clearpage
-\phantomsection
+
+\renewcommand{\listtablename}{DANH SÁCH BẢNG}
 \addcontentsline{toc}{chapter}{DANH SÁCH BẢNG}
 \listoftables
-
 \clearpage
+
 \pagenumbering{arabic}
+\setcounter{page}{1}
 
 % ============================================================
 % CHAPTER 1: INTRODUCTION
@@ -3111,29 +3127,29 @@ Do đó, một kiến trúc chỉ làm việc ở một scale duy nhất sẽ kh
 
 \subsubsection{\textbf{Kiến trúc Multi-Scale ViT}}
 
-\begin{lstlisting}[language=Python, caption=Mô hình Multi-Scale ViT]
+\begin{lstlisting}[language=Python, caption=Multi-Scale ViT Model]
 class MultiScaleViT(nn.Module):
     """
-    Xử lý ảnh ở nhiều kích thước patch khác nhau và hợp nhất đặc trưng.
+    Process image at multiple patch sizes and fuse features.
     """
     def __init__(self, num_classes=15):
         super().__init__()
         
-        # Patch16 cho đặc trưng chi tiết
+        # Patch16 for fine-grained features
         self.vit_16 = timm.create_model(
             'vit_base_patch16_224',
             pretrained=True
         )
         self.vit_16.head = nn.Identity()
         
-        # Patch32 cho đặc trưng thô hơn
+        # Patch32 for coarse features
         self.vit_32 = timm.create_model(
             'vit_base_patch32_224',
             pretrained=True
         )
         self.vit_32.head = nn.Identity()
         
-        # Khối hợp nhất đặc trưng
+        # Feature fusion block
         self.fusion = nn.Sequential(
             nn.Linear(768 * 2, 1024),
             nn.LayerNorm(1024),
@@ -3147,20 +3163,20 @@ class MultiScaleViT(nn.Module):
         )
     
     def forward(self, x):
-        # Trích xuất đặc trưng đa tỷ lệ
+        # Extract multi-scale features
         feat_16 = self.vit_16(x)  # fine-grained
         feat_32 = self.vit_32(x)  # coarse
         
-        # Nối và hợp nhất
+        # Concatenate and fuse
         fused = torch.cat([feat_16, feat_32], dim=1)
         output = self.fusion(fused)
         
         return output
 
-# Khởi tạo mô hình
+# Initialize model
 model = MultiScaleViT(num_classes=15).to(device)
 
-# Huấn luyện (thường cần gradient accumulation vì tốn VRAM)
+# Training (usually need gradient accumulation due to VRAM)
 optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5)
 \end{lstlisting}
 
@@ -3278,22 +3294,22 @@ Ensemble (trọng số bằng nhau) & 0.912 & 0.901 & +2.3\% \\
 
 \subsubsection{\textbf{Monte Carlo Dropout}}
 
-\begin{lstlisting}[language=Python, caption=MC Dropout để ước lượng bất định]
+\begin{lstlisting}[language=Python, caption=MC Dropout for uncertainty estimation]
 class MCDropoutModel(nn.Module):
     """
-    Model với MC Dropout để ước lượng bất định.
+    Model with MC Dropout for uncertainty estimation.
     """
     def predict_with_uncertainty(self, x, n_samples=30):
         """
         Args:
             x: Input tensor (B, C, H, W)
-            n_samples: Số lần lấy mẫu MC
+            n_samples: Number of MC sampling iterations
         
         Returns:
-            mean: (B, num_classes) - dự đoán trung bình
-            uncertainty: (B, num_classes) - bất định kiểu epistemic
+            mean: (B, num_classes) - average prediction
+            uncertainty: (B, num_classes) - epistemic uncertainty
         """
-        # Đặt model ở chế độ train để dropout được kích hoạt
+        # Set model to train mode so dropout is activated
         self.train()
         
         predictions = []
@@ -3309,14 +3325,14 @@ class MCDropoutModel(nn.Module):
         
         return mean, uncertainty
 
-# Sử dụng
+# Usage
 model_mc = MCDropoutModel(base_model).to(device)
 
-# Dự đoán kèm độ tin cậy
+# Prediction with confidence
 images = test_batch.to(device)
 predictions, uncertainties = model_mc.predict_with_uncertainty(images, n_samples=30)
 
-# Các mẫu có bất định cao (cần bác sĩ xem lại)
+# Samples with high uncertainty (need doctor review)
 high_uncertainty_mask = uncertainties.max(dim=1)[0] > 0.15
 uncertain_samples = images[high_uncertainty_mask]
 \end{lstlisting}

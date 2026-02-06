@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1770392363.13485 "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" "final.pdf" "final" 1770392367.92428 2
+["pdflatex"] 1770393031.78382 "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" "final.pdf" "final" 1770393037.17704 2
   "../../image/Logo-FSB.png" 1770320501 20888 4af56de24083c5c66e74a1a1ac603e22 ""
   "../../image/output-resnet.png" 1770234016 57005 20a8e802fa55a42f9fa5ca55be0497ce ""
   "../../image/output-roc-vit-v1.png" 1770234046 53893 ee14a03758310edbae7f0740210e9cdb ""
@@ -283,13 +283,13 @@
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/vntex/t5enc.dfu" 1368738347 13949 387dd4fa58aea5f873839c93430fffed ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/xpatch/xpatch.sty" 1585221260 8510 7803f78066c4f9d008405191a4b43073 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/xstring/xstring.sty" 1693735632 123 a302f2c651a95033260db60e51527ae8 ""
-  "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" 1770392256 149349 2c4b48903adabc04f379d6676ca80748 ""
-  "final.aux" 1770392367 46014 9baa43d2aa96c608281f5653e77428e4 "pdflatex"
-  "final.lof" 1770392367 848 deba6347928ab614915463b02d7fca11 "pdflatex"
-  "final.lot" 1770392367 3150 c00e6bee7a04e6382853eaf0d48a10fb "pdflatex"
-  "final.out" 1770392367 37330 d5d4b584997ddf84a8fcb299b605589f "pdflatex"
-  "final.tex" 1770392256 149349 2c4b48903adabc04f379d6676ca80748 ""
-  "final.toc" 1770392367 20661 491a77715cf7e49d5640f43184c60500 "pdflatex"
+  "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" 1770393027 151871 a5002ea6359e8f0ea2b1a8cfddd89479 ""
+  "final.aux" 1770393036 46485 5d69e1abeaa322e2aed4725ca26d4331 "pdflatex"
+  "final.lof" 1770393036 848 4f912e4157d6b74ac06fa491f64f192f "pdflatex"
+  "final.lot" 1770393036 3150 751a083cb247b4ac6878116c1a3e410b "pdflatex"
+  "final.out" 1770393036 39318 b0614f9e0c785657ecc63b68ae96bba5 "pdflatex"
+  "final.tex" 1770393027 151871 a5002ea6359e8f0ea2b1a8cfddd89479 ""
+  "final.toc" 1770393036 21102 3d98c83f3123dc3aca5e652261544035 "pdflatex"
   (generated)
   "final.aux"
   "final.lof"

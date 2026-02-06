@@ -44,7 +44,7 @@
 % =========================
 % Page / Typography
 % =========================
-\usepackage[a4paper,top=2.5cm,bottom=2cm,left=1.5cm,right=1cm]{geometry}
+\usepackage[a4paper,top=1.5cm,bottom=1.5cm,left=1cm,right=1cm]{geometry}
 \usepackage{setspace}
 \onehalfspacing
 \usepackage{parskip}
@@ -1373,23 +1373,23 @@ hết sức mạnh trong bài toán X-quang ngực, cần sử dụng pretrained
 % ============================================================
 % SECTION 1: MOTIVATION
 % ============================================================
-\section{\textbf{Motivation: From NLP to Vision}}
+\section{\textbf{Động lực: Từ Xử lý Ngôn ngữ sang Thị giác máy tính}}
 
-\subsection{\textbf{The Transformer Revolution}}
+\subsection{\textbf{Cuộc cách mạng của Transformer}}
 
-\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Historical Context]
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Bối cảnh lịch sử]
 \textbf{2017:} ``Attention Is All You Need'' (Vaswani et al.)
 \begin{itemize}
-    \item Transformer thay thế RNN trong NLP, loại bỏ bottleneck tuần tự.
-    \item Self-attention nắm bắt dependencies dài hạn tốt hơn RNN/CNN 1D.
-    \item Parallelizable $\Rightarrow$ huấn luyện nhanh hơn đáng kể trên GPU/TPU.
+    \item Transformer thay thế RNN trong xử lý ngôn ngữ tự nhiên, giải quyết vấn đề xử lý tuần tự.
+    \item Self-attention bắt được các mối liên hệ dài hạn tốt hơn RNN hoặc CNN một chiều.
+    \item Có thể tính toán song song → huấn luyện nhanh hơn rất nhiều trên GPU/TPU.
 \end{itemize}
 
 \textbf{2020:} ``An Image is Worth 16×16 Words'' (Dosovitskiy et al.)
 \begin{itemize}
-    \item Áp dụng Transformer thuần (pure) cho thị giác: Vision Transformer (ViT).
-    \item Xem ảnh như chuỗi token bằng cách chia thành patch.
-    \item Khi pretrained trên dữ liệu cực lớn, ViT đạt SOTA trên ImageNet.
+    \item Áp dụng Transformer vào thị giác máy tính: Vision Transformer (ViT).
+    \item Cách tiếp cận: chia ảnh thành các mảnh nhỏ (patches) rồi xem chúng như chuỗi từ (tokens).
+    \item Khi được huấn luyện trước trên dữ liệu khổng lồ, ViT đạt kết quả tốt nhất (SOTA) trên ImageNet.
 \end{itemize}
 \end{tcolorbox}
 
@@ -1401,13 +1401,13 @@ hết sức mạnh trong bài toán X-quang ngực, cần sử dụng pretrained
 \textit{``Vision Transformer (ViT) follows an approach to image classification by treating an image as a sequence of patches and processing it using a standard Transformer encoder like the ones used in NLP.''}
 \end{tcolorbox}
 
-\subsection{\textbf{CNN vs Transformer: Inductive Biases}}
+\subsection{\textbf{So sánh CNN và Transformer: Thiên lệch quy nạp}}
 
-CNN được thiết kế với các \textbf{inductive biases} phù hợp ảnh (locality, translation equivariance).
-ViT thì ``ít bias'' hơn và để mô hình tự học cấu trúc ảnh thông qua attention, do đó:
+CNN được thiết kế với các \textbf{inductive bias} phù hợp với đặc điểm của ảnh (tính cục bộ, tính bất biến w/dịch chuyển).
+ViT thì không có nhiều thiên lệch như vậy, mà để mô hình tự học cấu trúc ảnh qua cơ chế attention:
 \begin{itemize}
-    \item \textbf{Ưu điểm}: có khả năng học quan hệ toàn cục tốt, mở rộng theo dữ liệu lớn.
-    \item \textbf{Nhược điểm}: kém data-efficient, dễ thua CNN nếu training từ đầu với dữ liệu nhỏ.
+    \item \textbf{Ưu điểm}: học được các quan hệ toàn cục tốt hơn, mở rộng tốt khi dữ liệu lớn.
+    \item \textbf{Nhược điểm}: cần nhiều dữ liệu hơn, dễ thua CNN nếu bắt đầu huấn luyện từ đầu với dữ liệu ít.
 \end{itemize}
 
 \begin{table}[H]
@@ -2499,40 +2499,40 @@ def plot_calibration(y_true, y_pred, n_bins=10):
 % END OF CHAPTER
 % ============================================================
 
-\chapter{PyTorch Implementation Details}
+\chapter{Chi tiết triển khai PyTorch (PyTorch Implementation Details)}
 	
-	\section{\textbf{Migration Overview}}
+	\section{\textbf{Tổng quan chuyển đổi (Migration Overview)}}
 	
-	\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Migration Summary]
-		\textbf{Original Paper:} TensorFlow/Keras implementation
+	\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Tóm tắt chuyển đổi]
+		\textbf{Bài báo gốc:} Sử dụng TensorFlow/Keras.
 		
-		\textbf{Our Contribution:} Complete PyTorch reimplementation with:
+		\textbf{Đóng góp của chúng tôi:} Tái triển khai hoàn toàn bằng PyTorch với:
 		\begin{itemize}
-			\item All 5 model architectures (CNN, ResNet, ViT-v1, ViT-v2, ViT-ResNet)
-			\item Bug fixes (AUC NaN issue)
-			\item Code cleanup and documentation
-			\item Consistent coding style
+			\item Cả 5 kiến trúc mô hình (CNN, ResNet, ViT-v1, ViT-v2, ViT-ResNet).
+			\item Sửa các lỗi quan trọng (vấn đề AUC NaN).
+			\item Mã nguồn sạch và có tài liệu hướng dẫn.
+			\item Phong cách lập trình (coding style) nhất quán.
 		\end{itemize}
 	\end{tcolorbox}
 	
-	\section{\textbf{Critical Bug Fix: AUC NaN Issue}}
+	\section{\textbf{Sửa lỗi nghiêm trọng: Vấn đề AUC trả về NaN}}
 	
-	\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Bug: AUC Returns NaN]
-		\textbf{Symptom:} \texttt{Val AUC: nan}
+	\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Lỗi: AUC Trả về NaN]
+		\textbf{Triệu chứng:} \texttt{Val AUC: nan}
 		
-		\textbf{Root Cause:}
+		\textbf{Nguyên nhân gốc rễ:}
 		\begin{itemize}
-			\item sklearn's \texttt{roc\_auc\_score} requires both classes (0 and 1) present
-			\item With small batches or imbalanced data, some classes may have only 0s or only 1s
-			\item AUC undefined for single-class data → returns NaN
+			\item Hàm \texttt{roc\_auc\_score} của sklearn yêu cầu cả hai lớp (0 và 1) đều phải xuất hiện trong dữ liệu đánh giá.
+			\item Với kích thước batch nhỏ hoặc dữ liệu mất cân bằng, một số lớp có thể chỉ chứa toàn nhãn 0 hoặc toàn nhãn 1.
+			\item AUC không xác định cho dữ liệu chỉ có một lớp → trả về NaN.
 		\end{itemize}
 	\end{tcolorbox}
 	
-	\subsection{\textbf{Solution}}
+	\subsection{\textbf{Giải pháp}}
 	
-	\begin{lstlisting}[caption={AUC Fix Implementation}]
+	\begin{lstlisting}[caption={Triển khai sửa lỗi AUC}]
 		def compute_auc_safe(y_true, y_pred):
-		"""Compute AUC-ROC safely, handling classes with only one label."""
+		"""Tính toán AUC-ROC an toàn, xử lý các lớp chỉ có một nhãn."""
 		num_classes = y_true.shape[1]
 		valid_classes = []
 		
@@ -2552,9 +2552,9 @@ def plot_calibration(y_true, y_pred, n_bins=10):
 		return auc
 	\end{lstlisting}
 	
-	\section{\textbf{Complete Training Script}}
+	\section{\textbf{Mã nguồn huấn luyện đầy đủ}}
 	
-	\begin{lstlisting}[caption={Complete training function}]
+	\begin{lstlisting}[caption={Hàm huấn luyện hoàn chỉnh}]
 		def train_model(model, train_loader, val_loader, num_epochs=30, lr=1e-4):
 		model = model.to(device)
 		criterion = nn.BCEWithLogitsLoss()
@@ -2600,9 +2600,9 @@ def plot_calibration(y_true, y_pred, n_bins=10):
 		return model
 	\end{lstlisting}
 	
-	\section{\textbf{Repository Structure}}
+	\section{\textbf{Cấu trúc thư mục dự án (Repository Structure)}}
 	
-	\begin{lstlisting}[style=plain,caption={Project structure}]
+	\begin{lstlisting}[style=plain,caption={Cấu trúc project}]
 		ViT-Chest-Xray/
 		|-- Project/
 		|   |-- cnn.ipynb           # CNN implementation
@@ -3369,13 +3369,13 @@ uncertain_samples = images[high_uncertainty_mask]
 	% ============================================================
 % CHAPTER: CONCLUSION
 % ============================================================
-\chapter{Conclusion}
+\chapter{Kết luận (Conclusion)}
 \label{chap:conclusion}
 
-\section{\textbf{Overall Summary}}
+\section{\textbf{Tóm tắt tổng quan}}
 
-Nghiên cứu này đã thực hiện một phân tích toàn diện và có hệ thống về ba họ kiến trúc học sâu chủ đạo — \textbf{Convolutional Neural Networks (CNN)}, \textbf{Residual Networks (ResNet)}, và \textbf{Vision Transformers (ViT)} — cho bài toán \textbf{phân loại đa nhãn bệnh lý phổi trên ảnh X-quang ngực}.  
-Khác với nhiều nghiên cứu chỉ tập trung vào việc báo cáo kết quả, luận văn này tiếp cận bài toán theo hướng \textbf{replication study kết hợp phân tích kiến trúc}, nhằm trả lời các câu hỏi cốt lõi sau:
+Báo cáo này phân tích toàn diện ba kiến trúc mạng học sâu phổ biến — \textbf{CNN}, \textbf{ResNet}, và \textbf{Vision Transformer (ViT)} — áp dụng cho bài toán \textbf{phân loại và phát hiện bệnh lý trên ảnh X-quang ngực (với khả năng phát hiện nhiều bệnh cùng lúc)}.  
+Khác với các nghiên cứu chỉ báo cáo con số kết quả, báo cáo này kết hợp \textbf{tái triển khai bài báo gốc} với \textbf{phân tích chi tiết kiến trúc}, để trả lời những câu hỏi quan trọng:
 
 \begin{itemize}[noitemsep]
     \item Vì sao một số kiến trúc hoạt động tốt hơn trong bối cảnh dữ liệu y tế?
@@ -3386,111 +3386,111 @@ Khác với nhiều nghiên cứu chỉ tập trung vào việc báo cáo kết 
 Thông qua việc tái triển khai toàn bộ pipeline, sửa các vấn đề thực nghiệm quan trọng và đánh giá nghiêm ngặt, nghiên cứu đã cung cấp một góc nhìn đáng tin cậy và mang tính phản biện đối với kết luận của bài báo gốc.
 
 %----------------------------------------------------------
-\section{\textbf{Key Empirical Findings}}
+\section{\textbf{Những phát hiện thực nghiệm chính}}
 
-Các kết quả thực nghiệm cho thấy sự khác biệt rõ rệt giữa các kiến trúc:
+Kết quả thực nghiệm cho thấy sự khác biệt rõ ràng giữa các kiến trúc:
 
 \begin{enumerate}
-    \item \textbf{Vision Transformer pretrained đạt hiệu năng cao nhất} về mặt AUC-ROC, khẳng định rằng Transformer có thể áp dụng hiệu quả cho medical imaging \emph{khi và chỉ khi} được hỗ trợ bởi pretraining quy mô lớn.
+    \item \textbf{Vision Transformer huấn luyện trước đạt hiệu suất cao nhất} (tính bằng AUC-ROC), điều này chứng minh Transformer có thể dùng hiệu quả cho hình ảnh y tế — \emph{nhưng chỉ khi} được huấn luyện từ trước trên dữ liệu khổng lồ.
     
-    \item \textbf{ResNet-34 thể hiện sự ổn định và cân bằng} giữa độ phức tạp mô hình và khả năng tổng quát hóa, đặc biệt phù hợp trong bối cảnh dữ liệu y tế có kích thước vừa phải.
+    \item \textbf{ResNet-34 cân bằng tốt} giữa độ phức tạp của mô hình và khả năng học được trên dữ liệu khác, đặc biệt phù hợp với các bộ dữ liệu y tế có quy mô trung bình.
     
-    \item \textbf{Vision Transformer huấn luyện từ đầu thất bại rõ rệt}, với hiệu năng gần mức ngẫu nhiên, cho thấy sự thiếu hụt inductive bias là rào cản nghiêm trọng.
+    \item \textbf{Vision Transformer huấn luyện từ đầu thất bại hoàn toàn}, hiệu suất gần như guess ngẫu nhiên, cho thấy thiếu các thiên lệch quy nạp phù hợp khiến học tập rất khó.
     
-    \item \textbf{CNN baseline không được thiết kế tối ưu} dẫn đến overfitting mạnh, minh họa rằng kiến trúc — chứ không chỉ số lượng tham số — đóng vai trò quyết định.
+    \item \textbf{CNN baseline không được thiết kế tối ưu}, dẫn tới overfitting (học vẹt dữ liệu huấn luyện), chứng minh rằng \emph{kiến trúc} — không phải chỉ số lượng tham số — là yếu tố quyết định.
 \end{enumerate}
 
 Những kết quả này củng cố nhận định rằng \textbf{hiệu năng cao không chỉ đến từ mô hình lớn hơn}, mà từ sự phù hợp giữa kiến trúc, dữ liệu và chiến lược huấn luyện.
 
 %----------------------------------------------------------
-\section{\textbf{Architectural Insights and Theoretical Implications}}
+\section{\textbf{Nhận định về kiến trúc và Ý nghĩa lý thuyết}}
 
-Một đóng góp quan trọng của nghiên cứu là làm rõ vai trò của \textbf{inductive bias} trong học sâu cho ảnh y tế:
+Một đóng góp quan trọng của nghiên cứu là làm rõ vai trò của \textbf{inductive bias} (thiên lệch quy nạp) trong học sâu cho ảnh y tế:
 
 \begin{itemize}[noitemsep]
-    \item CNN và ResNet tận dụng mạnh mẽ tính cục bộ, tính tương đương dịch chuyển và học đặc trưng phân cấp — những đặc tính phù hợp tự nhiên với cấu trúc ảnh X-quang.
+    \item \textbf{CNN và ResNet} tận dụng mạnh mẽ tính cục bộ (locality), tính tương đương dịch chuyển (translation equivariance) và học đặc trưng phân cấp — những đặc tính phù hợp tự nhiên với cấu trúc giải phẫu của ảnh X-quang.
     
-    \item Vision Transformer, ngược lại, gần như không có inductive bias về không gian, buộc mô hình phải học mọi quan hệ từ dữ liệu, dẫn đến nhu cầu dữ liệu và pretraining rất lớn.
+    \item \textbf{Vision Transformer}, ngược lại, gần như không có inductive bias về không gian, buộc mô hình phải học mọi quan hệ từ dữ liệu, dẫn đến nhu cầu dữ liệu và pretraining rất lớn.
     
-    \item Kiến trúc lai (CNN–Transformer) hoặc Transformer pretrained giúp dung hòa hai thế giới: vừa giữ được inductive bias cục bộ, vừa khai thác khả năng suy luận toàn cục của attention.
+    \item \textbf{Kiến trúc lai (CNN–Transformer)} hoặc Transformer pretrained giúp dung hòa hai thế giới: vừa giữ được inductive bias cục bộ, vừa khai thác khả năng suy luận toàn cục của cơ chế attention.
 \end{itemize}
 
 Từ góc nhìn lý thuyết, nghiên cứu này ủng hộ quan điểm rằng:
 \begin{quote}
-\textit{``Transformer không thay thế CNN trong thị giác, mà mở rộng khả năng biểu diễn khi được đặt trên một nền tảng inductive bias phù hợp.''}
+\textit{``Transformer không thay thế CNN trong thị giác máy tính, mà mở rộng khả năng biểu diễn khi được đặt trên một nền tảng inductive bias phù hợp.''}
 \end{quote}
 
 %----------------------------------------------------------
-\section{\textbf{Methodological Contributions}}
+\section{\textbf{Đóng góp về mặt phương pháp luận (Methodological Contributions)}}
 
 Ngoài kết quả mô hình, nghiên cứu còn đóng góp quan trọng về mặt phương pháp:
 
 \begin{enumerate}
-    \item \textbf{Chuẩn hoá đánh giá thực nghiệm}: Chia dữ liệu theo \textbf{Patient ID} thay vì image-level, loại bỏ rò rỉ dữ liệu — một vấn đề phổ biến nhưng thường bị bỏ qua trong literature.
+    \item \textbf{Chuẩn hoá đánh giá thực nghiệm}: Chia dữ liệu theo \textbf{Patient ID} thay vì image-level, loại bỏ hiện tượng rò rỉ dữ liệu (data leakage) — một vấn đề phổ biến nhưng thường bị bỏ qua trong nhiều tài liệu.
     
-    \item \textbf{Đánh giá đúng bản chất multi-label}: Sử dụng sigmoid + Binary Cross-Entropy và Macro-AUC thay cho accuracy hoặc softmax-based metrics.
+    \item \textbf{Đánh giá đúng bản chất multi-label}: Sử dụng hàm sigmoid kết hợp Binary Cross-Entropy và chỉ số Macro-AUC thay cho accuracy hoặc các metric dựa trên softmax.
     
-    \item \textbf{Replication có kiểm soát}: Tái hiện bài báo gốc trong một framework khác (PyTorch), chỉ ra những khác biệt quan trọng giữa kết quả báo cáo và kết quả đánh giá nghiêm ngặt.
+    \item \textbf{Tái triển khai có kiểm soát (Replication)}: Tái hiện lại bài báo gốc trong một framework hiện đại (PyTorch), chỉ ra những khác biệt quan trọng giữa kết quả báo cáo và kết quả khi được đánh giá nghiêm ngặt.
     
-    \item \textbf{Phân tích sâu theo kiến trúc}: Không chỉ so sánh con số, mà lý giải nguyên nhân thành công/thất bại của từng mô hình.
+    \item \textbf{Phân tích sâu theo kiến trúc}: Không chỉ dừng lại ở việc so sánh con số, mà còn lý giải nguyên nhân sâu xa dẫn đến sự thành công hoặc thất bại của từng mô hình.
 \end{enumerate}
 
-Những yếu tố này giúp kết quả nghiên cứu có giá trị tham khảo cao cho các công trình tiếp theo.
+Những yếu tố này giúp kết quả nghiên cứu có giá trị tham khảo cao cho các công trình nghiên cứu tiếp theo trong lĩnh vực này.
 
 %----------------------------------------------------------
-\section{\textbf{Clinical and Practical Implications}}
+\section{\textbf{Ý nghĩa lâm sàng và thực tiễn (Clinical and Practical Implications)}}
 
-Từ góc nhìn ứng dụng lâm sàng, nghiên cứu cho thấy:
+Từ góc nhìn ứng dụng thực tế trong y tế, nghiên cứu cho thấy:
 
 \begin{itemize}[noitemsep]
-    \item Các mô hình học sâu trong nghiên cứu này \textbf{phù hợp nhất với vai trò hỗ trợ quyết định} (Computer-Aided Diagnosis), không phải thay thế bác sĩ.
+    \item Các mô hình học sâu trong nghiên cứu này \textbf{phù hợp nhất với vai trò hệ thống hỗ trợ quyết định} (Computer-Aided Diagnosis - CAD), chứ không phải để thay thế hoàn toàn bác sĩ.
     
-    \item AUC-ROC cao cho phép mô hình được sử dụng như công cụ \textbf{lọc ưu tiên ca nghi ngờ}, giảm tải cho hệ thống y tế.
+    \item Chỉ số AUC-ROC cao cho phép mô hình được sử dụng như một công cụ \textbf{lọc và ưu tiên các ca nghi ngờ}, giúp giảm tải đáng kể cho hệ thống y tế và rút ngắn thời gian chẩn đoán.
     
-    \item Attention map và các phương pháp explainability là yếu tố then chốt để tăng độ tin cậy khi triển khai thực tế.
+    \item \textbf{Attention maps} và các phương pháp giải thích mô hình (explainability) là yếu tố then chốt để xây dựng độ tin cậy khi triển khai thực tế trong môi trường lâm sàng.
 \end{itemize}
 
-Tuy nhiên, việc triển khai lâm sàng đòi hỏi thêm các bước như hiệu chuẩn xác suất, đánh giá đa trung tâm và kiểm chứng bởi chuyên gia y khoa.
+Tuy nhiên, việc triển khai chính thức yêu cầu thêm các bước như hiệu chuẩn xác suất (probability calibration), đánh giá đa trung tâm (multi-center evaluation) và kiểm chứng lâm sàng bởi các chuyên gia y tế đầu ngành.
 
 %----------------------------------------------------------
-\section{\textbf{Limitations}}
+\section{\textbf{Hạn chế của nghiên cứu (Limitations)}}
 
-Mặc dù đạt được nhiều kết quả có ý nghĩa, nghiên cứu vẫn tồn tại các hạn chế:
+Mặc dù đạt được nhiều kết quả có ý nghĩa, nghiên cứu vẫn tồn tại một số hạn chế nhất định:
 
 \begin{enumerate}
-    \item Chỉ đánh giá trên một bộ dữ liệu (NIH Chest X-ray14), chưa kiểm chứng khả năng tổng quát hóa đa trung tâm.
+    \item Chỉ đánh giá trên một bộ dữ liệu duy nhất (NIH Chest X-ray14), chưa kiểm chứng khả năng tổng quát hóa trên các nguồn dữ liệu đa trung tâm khác.
     
-    \item Nhãn bệnh mang tính \emph{weakly supervised}, chứa nhiễu từ quá trình trích xuất NLP.
+    \item Nhãn bệnh mang tính \emph{weakly supervised}, trích xuất bằng NLP nên có thể chứa nhiễu từ báo cáo gốc.
     
-    \item Không đánh giá khả năng localization do thiếu ground-truth bounding boxes.
+    \item Chưa đánh giá khả năng khu trú vùng bệnh (localization) do thiếu dữ liệu bounding box chuẩn.
     
-    \item Không thực hiện tìm kiếm hyperparameter quy mô lớn do giới hạn tài nguyên.
+    \item Chưa thực hiện tìm kiếm siêu tham số (hyperparameter search) quy mô lớn do giới hạn về tài nguyên tính toán.
 \end{enumerate}
 
-Những hạn chế này mở ra các hướng nghiên cứu tiếp theo.
+Những hạn chế này chính là động lực mở ra các hướng nghiên cứu tiếp theo.
 
 %----------------------------------------------------------
-\section{\textbf{Future Directions}}
+\section{\textbf{Hướng phát triển trong tương lai (Future Directions)}}
 
 Dựa trên các kết quả và phân tích, một số hướng phát triển tiềm năng bao gồm:
 
 \begin{itemize}[noitemsep]
-    \item \textbf{Multi-dataset validation}: Đánh giá trên CheXpert, MIMIC-CXR, PadChest.
-    \item \textbf{Self-supervised learning}: MAE, DINO, hoặc masked image modeling cho ảnh y tế.
-    \item \textbf{Hybrid architectures}: Các mô hình CNN–Transformer thế hệ mới như ConvNeXt, CvT, Swin.
-    \item \textbf{Explainability nâng cao}: Kết hợp attention với Grad-CAM++ và uncertainty estimation.
-    \item \textbf{Multi-modal learning}: Kết hợp ảnh X-quang với clinical notes và dữ liệu xét nghiệm.
+    \item \textbf{Xác thực đa tập dữ liệu (Multi-dataset validation)}: Đánh giá mô hình trên các bộ dữ liệu khác như CheXpert, MIMIC-CXR, PadChest để kiểm tra tính ổn định.
+    \item \textbf{Học tự giám sát (Self-supervised learning)}: Áp dụng MAE, DINO, hoặc masked image modeling chuyên biệt cho ảnh y khoa để tận dụng dữ liệu không gán nhãn.
+    \item \textbf{Kiến trúc lai thế hệ mới}: Thử nghiệm các mô hình CNN–Transformer tiên tiến như ConvNeXt, CvT, hoặc Swin Transformer.
+    \item \textbf{Giải thích mô hình nâng cao}: Kết hợp cơ chế attention với Grad-CAM++ và dự đoán độ bất định (uncertainty estimation).
+    \item \textbf{Học đa phương thức (Multi-modal learning)}: Kết hợp ảnh X-quang với ghi chú lâm sàng và dữ liệu xét nghiệm của bệnh nhân để nâng cao độ chính xác.
 \end{itemize}
 
 %----------------------------------------------------------
-\section{\textbf{Final Remarks}}
+\section{\textbf{Lời kết (Final Remarks)}}
 
-Kết luận chung của nghiên cứu là:  
+Kết luận chung của toàn bộ nghiên cứu này là:  
 \begin{quote}
-\textit{Không tồn tại một kiến trúc ``tối ưu tuyệt đối'' cho mọi bài toán. Hiệu quả của mô hình phụ thuộc vào sự phù hợp giữa kiến trúc, dữ liệu và mục tiêu ứng dụng.}
+\textit{``Không tồn tại một kiến trúc tối ưu tuyệt đối cho mọi bài toán. Hiệu quả của mô hình phụ thuộc mật thiết vào sự tương thích giữa kiến trúc, đặc thù dữ liệu và mục tiêu ứng dụng cụ thể.''}
 \end{quote}
 
-Vision Transformer không phải là ``silver bullet'', nhưng khi được kết hợp với pretraining mạnh hoặc inductive bias phù hợp, chúng mở ra những khả năng mới cho phân tích ảnh y tế. Nghiên cứu này kỳ vọng đóng góp một nền tảng vững chắc cho các công trình tiếp theo trong lĩnh vực giao thoa giữa học sâu và y học.
+Vision Transformer không phải là một ``chiếc đũa thần'' (silver bullet), nhưng khi được kết hợp với chiến lược pretraining mạnh mẽ hoặc các thiên lệch quy nạp (inductive bias) phù hợp, chúng mở ra những tiềm năng mới to lớn cho lĩnh vực phân tích ảnh y tế. Nghiên cứu này kỳ vọng sẽ đóng góp một nền tảng tri thức vững chắc cho các công trình nghiên cứu chuyên sâu tiếp theo trong lĩnh vực giao thoa giữa học sâu và y học.
 
 % ============================================================
 % REFERENCES (Bibliography)

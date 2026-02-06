@@ -1,14 +1,14 @@
 \babel@toc {vietnamese}{}\relax 
 \contentsline {chapter}{Tóm tắt nghiên cứu}{1}{chapter*.1}%
-\contentsline {chapter}{DANH SÁCH HÌNH}{vii}{chapter*.3}%
-\contentsline {chapter}{DANH SÁCH BẢNG}{viii}{chapter*.4}%
+\contentsline {chapter}{DANH SÁCH HÌNH}{iii}{chapter*.3}%
+\contentsline {chapter}{DANH SÁCH BẢNG}{iv}{chapter*.4}%
 \contentsline {chapter}{\numberline {1}Giới thiệu và Bối cảnh nghiên cứu}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}\textbf {Bối cảnh lâm sàng}}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}\textbf {Thách thức trong chẩn đoán X-quang ngực}}{1}{section.1.2}%
-\contentsline {section}{\numberline {1.3}\textbf {Động lực ứng dụng trí tuệ nhân tạo trong chẩn đoán hình ảnh}}{2}{section.1.3}%
+\contentsline {section}{\numberline {1.3}\textbf {Động lực ứng dụng trí tuệ nhân tạo trong chẩn đoán hình ảnh}}{1}{section.1.3}%
 \contentsline {section}{\numberline {1.4}\textbf {Giới thiệu bài báo gốc}}{2}{section.1.4}%
 \contentsline {section}{\numberline {1.5}\textbf {Câu hỏi nghiên cứu}}{2}{section.1.5}%
-\contentsline {section}{\numberline {1.6}\textbf {Mục tiêu và phạm vi báo cáo}}{3}{section.1.6}%
+\contentsline {section}{\numberline {1.6}\textbf {Mục tiêu và phạm vi báo cáo}}{2}{section.1.6}%
 \contentsline {section}{\numberline {1.7}\textbf {Cấu trúc báo cáo}}{3}{section.1.7}%
 \contentsline {chapter}{\numberline {2}Các Công Trình Liên Quan (Related Works)}{4}{chapter.2}%
 \contentsline {section}{\numberline {2.1}\textbf {Tổng quan}}{4}{section.2.1}%
@@ -57,9 +57,9 @@
 \contentsline {section}{\numberline {4.1}\textbf {Tổng quan lý thuyết CNN}}{15}{section.4.1}%
 \contentsline {section}{\numberline {4.2}\textbf {Phép tích chập (Convolution Operation)}}{15}{section.4.2}%
 \contentsline {section}{\numberline {4.3}\textbf {Pooling Layer}}{15}{section.4.3}%
-\contentsline {section}{\numberline {4.4}\textbf {Kiến trúc CNN trong bài báo}}{16}{section.4.4}%
+\contentsline {section}{\numberline {4.4}\textbf {Kiến trúc CNN trong bài báo}}{15}{section.4.4}%
 \contentsline {section}{\numberline {4.5}\textbf {Cài đặt CNN trong PyTorch}}{16}{section.4.5}%
-\contentsline {section}{\numberline {4.6}\textbf {Phân tích số lượng tham số}}{17}{section.4.6}%
+\contentsline {section}{\numberline {4.6}\textbf {Phân tích số lượng tham số}}{16}{section.4.6}%
 \contentsline {section}{\numberline {4.7}\textbf {Hàm mất mát cho bài toán đa nhãn}}{17}{section.4.7}%
 \contentsline {section}{\numberline {4.8}\textbf {Kết quả thực nghiệm}}{17}{section.4.8}%
 \contentsline {section}{\numberline {4.9}\textbf {Phân tích kết quả và hạn chế}}{17}{section.4.9}%
@@ -80,27 +80,27 @@
 \contentsline {section}{\numberline {5.5}\textbf {Cấu hình huấn luyện}}{22}{section.5.5}%
 \contentsline {section}{\numberline {5.6}\textbf {Kết quả thực nghiệm}}{22}{section.5.6}%
 \contentsline {subsection}{\numberline {5.6.1}\textbf {Diễn biến AUC theo epoch}}{22}{subsection.5.6.1}%
-\contentsline {subsection}{\numberline {5.6.2}\textbf {Bảng kết quả}}{23}{subsection.5.6.2}%
+\contentsline {subsection}{\numberline {5.6.2}\textbf {Bảng kết quả}}{22}{subsection.5.6.2}%
 \contentsline {subsection}{\numberline {5.6.3}\textbf {Phân tích kết quả}}{23}{subsection.5.6.3}%
 \contentsline {chapter}{\numberline {6}Vision Transformer (ViT)}{24}{chapter.6}%
-\contentsline {section}{\numberline {6.1}\textbf {Motivation: From NLP to Vision}}{24}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}\textbf {The Transformer Revolution}}{24}{subsection.6.1.1}%
+\contentsline {section}{\numberline {6.1}\textbf {Động lực: Từ Xử lý Ngôn ngữ sang Thị giác máy tính}}{24}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}\textbf {Cuộc cách mạng của Transformer}}{24}{subsection.6.1.1}%
 \contentsline {subsection}{\numberline {6.1.2}\textbf {Paper Motivation}}{24}{subsection.6.1.2}%
-\contentsline {subsection}{\numberline {6.1.3}\textbf {CNN vs Transformer: Inductive Biases}}{24}{subsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.1.3}\textbf {So sánh CNN và Transformer: Thiên lệch quy nạp}}{24}{subsection.6.1.3}%
 \contentsline {section}{\numberline {6.2}\textbf {ViT Architecture Overview}}{25}{section.6.2}%
 \contentsline {section}{\numberline {6.3}\textbf {Step 1: Patch Embedding}}{25}{section.6.3}%
 \contentsline {subsection}{\numberline {6.3.1}\textbf {Concept}}{25}{subsection.6.3.1}%
 \contentsline {subsection}{\numberline {6.3.2}\textbf {Mathematical Formulation}}{26}{subsection.6.3.2}%
 \contentsline {subsection}{\numberline {6.3.3}\textbf {Implementation (PyTorch)}}{26}{subsection.6.3.3}%
 \contentsline {subsection}{\numberline {6.3.4}\textbf {Conv2d tương đương Linear Projection}}{26}{subsection.6.3.4}%
-\contentsline {section}{\numberline {6.4}\textbf {Step 2: Positional Embedding}}{27}{section.6.4}%
+\contentsline {section}{\numberline {6.4}\textbf {Step 2: Positional Embedding}}{26}{section.6.4}%
 \contentsline {subsection}{\numberline {6.4.1}\textbf {Why Position Matters?}}{27}{subsection.6.4.1}%
 \contentsline {subsection}{\numberline {6.4.2}\textbf {Learnable Position Embedding}}{27}{subsection.6.4.2}%
 \contentsline {section}{\numberline {6.5}\textbf {Step 3: [CLS] Token}}{27}{section.6.5}%
 \contentsline {section}{\numberline {6.6}\textbf {Step 4: Transformer Encoder}}{27}{section.6.6}%
 \contentsline {subsection}{\numberline {6.6.1}\textbf {Scaled Dot-Product Attention}}{27}{subsection.6.6.1}%
 \contentsline {subsection}{\numberline {6.6.2}\textbf {Multi-Head Self-Attention}}{27}{subsection.6.6.2}%
-\contentsline {subsection}{\numberline {6.6.3}\textbf {Transformer Encoder Block (Pre-LN)}}{28}{subsection.6.6.3}%
+\contentsline {subsection}{\numberline {6.6.3}\textbf {Transformer Encoder Block (Pre-LN)}}{27}{subsection.6.6.3}%
 \contentsline {section}{\numberline {6.7}\textbf {Complete Vision Transformer Implementation}}{28}{section.6.7}%
 \contentsline {section}{\numberline {6.8}\textbf {Loss Function, Class Imbalance và Computational Complexity}}{29}{section.6.8}%
 \contentsline {subsection}{\numberline {6.8.1}\textbf {Multi-label BCEWithLogitsLoss}}{29}{subsection.6.8.1}%
@@ -110,89 +110,89 @@
 \contentsline {section}{\numberline {6.10}\textbf {Results Analysis và ROC Curves}}{30}{section.6.10}%
 \contentsline {subsection}{\numberline {6.10.1}\textbf {ROC Curves}}{30}{subsection.6.10.1}%
 \contentsline {subsection}{\numberline {6.10.2}\textbf {Discussion}}{30}{subsection.6.10.2}%
-\contentsline {section}{\numberline {6.11}\textbf {Per-Class Performance Analysis}}{31}{section.6.11}%
+\contentsline {section}{\numberline {6.11}\textbf {Per-Class Performance Analysis}}{30}{section.6.11}%
 \contentsline {subsection}{\numberline {6.11.1}\textbf {Động lực (Motivation)}}{31}{subsection.6.11.1}%
 \contentsline {subsection}{\numberline {6.11.2}\textbf {Per-Class AUC: Best Model (ViT Final)}}{32}{subsection.6.11.2}%
 \contentsline {subsection}{\numberline {6.11.3}\textbf {Phân tích chi tiết theo nhóm}}{32}{subsection.6.11.3}%
 \contentsline {subsubsection}{\textbf {Nhóm 1: Bệnh hiếm (Rare Diseases)}}{32}{subsubsection*.20}%
 \contentsline {subsubsection}{\textbf {Nhóm 2: Bệnh trung bình}}{33}{subsubsection*.21}%
 \contentsline {subsubsection}{\textbf {Nhóm 3: Bệnh phổ biến}}{33}{subsubsection*.22}%
-\contentsline {subsection}{\numberline {6.11.4}\textbf {So sánh với Literature}}{34}{subsection.6.11.4}%
+\contentsline {subsection}{\numberline {6.11.4}\textbf {So sánh với Literature}}{33}{subsection.6.11.4}%
 \contentsline {subsection}{\numberline {6.11.5}\textbf {Clinical Implications}}{34}{subsection.6.11.5}%
-\contentsline {section}{\numberline {6.12}\textbf {Key Takeaways}}{35}{section.6.12}%
-\contentsline {chapter}{\numberline {7}Experiments and Results}{36}{chapter.7}%
-\contentsline {section}{\numberline {7.1}\textbf {Experimental Setup}}{36}{section.7.1}%
-\contentsline {subsection}{\numberline {7.1.1}\textbf {Dataset and Data Splitting}}{36}{subsection.7.1.1}%
-\contentsline {subsection}{\numberline {7.1.2}\textbf {Training Configuration}}{36}{subsection.7.1.2}%
-\contentsline {section}{\numberline {7.2}\textbf {Evaluation Metrics}}{36}{section.7.2}%
-\contentsline {subsection}{\numberline {7.2.1}\textbf {AUC-ROC}}{36}{subsection.7.2.1}%
-\contentsline {section}{\numberline {7.3}\textbf {Main Results (Reported in the Original Paper)}}{37}{section.7.3}%
-\contentsline {subsection}{\numberline {7.3.1}\textbf {Key Observations (Paper Level)}}{37}{subsection.7.3.1}%
-\contentsline {section}{\numberline {7.4}\textbf {Reproduced and Audited Results}}{37}{section.7.4}%
-\contentsline {subsection}{\numberline {7.4.1}\textbf {Why Is AUC Lower Than the Paper?}}{38}{subsection.7.4.1}%
-\contentsline {section}{\numberline {7.5}\textbf {Discussion}}{38}{section.7.5}%
-\contentsline {section}{\numberline {7.6}\textbf {Clinical Perspective}}{38}{section.7.6}%
-\contentsline {section}{\numberline {7.7}\textbf {Limitations and Future Work}}{38}{section.7.7}%
-\contentsline {section}{\numberline {7.8}\textbf {Replication Study and Detailed Codebase Audit}}{39}{section.7.8}%
-\contentsline {subsection}{\numberline {7.8.1}\textbf {Evaluation Framework for File Review}}{39}{subsection.7.8.1}%
-\contentsline {subsection}{\numberline {7.8.2}\textbf {Configuration Management: \texttt {config.py}}}{39}{subsection.7.8.2}%
-\contentsline {subsection}{\numberline {7.8.3}\textbf {Data Acquisition: \texttt {data\_download.ipynb}}}{39}{subsection.7.8.3}%
-\contentsline {subsection}{\numberline {7.8.4}\textbf {Data Processing Pipeline: \texttt {data.ipynb}}}{40}{subsection.7.8.4}%
-\contentsline {subsection}{\numberline {7.8.5}\textbf {CNN Baseline: \texttt {cnn.ipynb}}}{40}{subsection.7.8.5}%
-\contentsline {subsection}{\numberline {7.8.6}\textbf {Residual Network: \texttt {resnet.ipynb}}}{40}{subsection.7.8.6}%
-\contentsline {subsection}{\numberline {7.8.7}\textbf {Vision Transformer from Scratch: \texttt {ViT-v1}} và \texttt {ViT-v2}}{41}{subsection.7.8.7}%
-\contentsline {subsection}{\numberline {7.8.8}\textbf {Hybrid and Pretrained Models: \texttt {ViT-ResNet.ipynb}}}{41}{subsection.7.8.8}%
-\contentsline {subsection}{\numberline {7.8.9}\textbf {Overall Findings from Replication}}{41}{subsection.7.8.9}%
-\contentsline {section}{\numberline {7.9}\textbf {Tổng hợp Kết quả Trực quan}}{42}{section.7.9}%
-\contentsline {section}{\numberline {7.10}\textbf {Visualizations bổ sung cần thiết}}{42}{section.7.10}%
-\contentsline {subsection}{\numberline {7.10.1}\textbf {Timeline Implementation}}{45}{subsection.7.10.1}%
-\contentsline {chapter}{\numberline {8}PyTorch Implementation Details}{46}{chapter.8}%
-\contentsline {section}{\numberline {8.1}\textbf {Migration Overview}}{46}{section.8.1}%
-\contentsline {section}{\numberline {8.2}\textbf {Critical Bug Fix: AUC NaN Issue}}{46}{section.8.2}%
-\contentsline {subsection}{\numberline {8.2.1}\textbf {Solution}}{46}{subsection.8.2.1}%
-\contentsline {section}{\numberline {8.3}\textbf {Complete Training Script}}{47}{section.8.3}%
-\contentsline {section}{\numberline {8.4}\textbf {Repository Structure}}{48}{section.8.4}%
-\contentsline {chapter}{\numberline {9}Các Cải Tiến Nâng Cao (Advanced Improvements)}{49}{chapter.9}%
-\contentsline {section}{\numberline {9.1}\textbf {Tổng quan (Overview)}}{49}{section.9.1}%
-\contentsline {subsection}{\numberline {9.1.1}\textbf {Kết quả tổng hợp (Summary Results)}}{49}{subsection.9.1.1}%
-\contentsline {section}{\numberline {9.2}\textbf {Giai đoạn 1: Các cải tiến nhanh (Phase 1: Quick Wins)}}{49}{section.9.2}%
-\contentsline {subsection}{\numberline {9.2.1}\textbf {Transfer Learning với pre-trained weights}}{49}{subsection.9.2.1}%
-\contentsline {subsubsection}{\textbf {Động lực (Motivation)}}{49}{subsubsection*.30}%
-\contentsline {subsubsection}{\textbf {Triển khai (Implementation)}}{50}{subsubsection*.31}%
-\contentsline {subsubsection}{\textbf {Kết quả (Results)}}{50}{subsubsection*.32}%
-\contentsline {subsection}{\numberline {9.2.2}\textbf {Xử lý mất cân bằng lớp (Class Imbalance Handling)}}{51}{subsection.9.2.2}%
-\contentsline {subsubsection}{\textbf {Vấn đề (Problem)}}{51}{subsubsection*.34}%
-\contentsline {subsubsection}{\textbf {Giải pháp: Focal Loss}}{51}{subsubsection*.35}%
-\contentsline {subsubsection}{\textbf {Asymmetric Loss (ASL)}}{53}{subsubsection*.36}%
-\contentsline {subsubsection}{\textbf {Kết quả so sánh các hàm mất mát}}{54}{subsubsection*.37}%
-\contentsline {subsection}{\numberline {9.2.3}\textbf {Tăng cường dữ liệu nâng cao (Advanced Data Augmentation)}}{54}{subsection.9.2.3}%
-\contentsline {subsubsection}{\textbf {Vấn đề với tăng cường dữ liệu cơ bản}}{54}{subsubsection*.40}%
-\contentsline {subsubsection}{\textbf {Pipeline tăng cường dữ liệu chuyên biệt cho ảnh y khoa}}{54}{subsubsection*.41}%
-\contentsline {subsubsection}{\textbf {Ablation study về tác động của tăng cường dữ liệu}}{56}{subsubsection*.42}%
-\contentsline {section}{\numberline {9.3}\textbf {Giai đoạn 2: Cải tiến kiến trúc (Phase 2: Architecture Improvements)}}{56}{section.9.3}%
-\contentsline {subsection}{\numberline {9.3.1}\textbf {Swin Transformer}}{56}{subsection.9.3.1}%
-\contentsline {subsubsection}{\textbf {Kiến trúc (Architecture)}}{56}{subsubsection*.44}%
-\contentsline {subsubsection}{\textbf {Kết quả}}{57}{subsubsection*.45}%
-\contentsline {subsection}{\numberline {9.3.2}\textbf {Hợp nhất đặc trưng đa tỷ lệ (Multi-Scale Feature Fusion)}}{57}{subsection.9.3.2}%
-\contentsline {subsubsection}{\textbf {Động lực}}{57}{subsubsection*.47}%
-\contentsline {subsubsection}{\textbf {Kiến trúc Multi-Scale ViT}}{58}{subsubsection*.48}%
-\contentsline {subsubsection}{\textbf {Kết quả theo từng bệnh (Per-disease)}}{59}{subsubsection*.49}%
-\contentsline {section}{\numberline {9.4}\textbf {Giai đoạn 3: Kỹ thuật nâng cao (Phase 3: Advanced Techniques)}}{59}{section.9.4}%
-\contentsline {subsection}{\numberline {9.4.1}\textbf {Model ensemble}}{59}{subsection.9.4.1}%
-\contentsline {subsubsection}{\textbf {Chiến lược ensemble}}{59}{subsubsection*.51}%
-\contentsline {subsubsection}{\textbf {Kết quả ensemble}}{60}{subsubsection*.52}%
-\contentsline {subsection}{\numberline {9.4.2}\textbf {Định lượng bất định (Uncertainty quantification)}}{60}{subsection.9.4.2}%
-\contentsline {subsubsection}{\textbf {Monte Carlo Dropout}}{60}{subsubsection*.54}%
-\contentsline {section}{\numberline {9.5}\textbf {Kết luận và khuyến nghị cho các cải tiến (Conclusion)}}{61}{section.9.5}%
-\contentsline {subsection}{\numberline {9.5.1}\textbf {Tóm tắt các kết quả chính}}{61}{subsection.9.5.1}%
-\contentsline {subsection}{\numberline {9.5.2}\textbf {Best practices tổng hợp}}{62}{subsection.9.5.2}%
-\contentsline {subsection}{\numberline {9.5.3}\textbf {Hướng phát triển tiếp theo}}{62}{subsection.9.5.3}%
-\contentsline {chapter}{\numberline {10}Conclusion}{63}{chapter.10}%
-\contentsline {section}{\numberline {10.1}\textbf {Overall Summary}}{63}{section.10.1}%
-\contentsline {section}{\numberline {10.2}\textbf {Key Empirical Findings}}{63}{section.10.2}%
-\contentsline {section}{\numberline {10.3}\textbf {Architectural Insights and Theoretical Implications}}{63}{section.10.3}%
-\contentsline {section}{\numberline {10.4}\textbf {Methodological Contributions}}{64}{section.10.4}%
-\contentsline {section}{\numberline {10.5}\textbf {Clinical and Practical Implications}}{64}{section.10.5}%
-\contentsline {section}{\numberline {10.6}\textbf {Limitations}}{64}{section.10.6}%
-\contentsline {section}{\numberline {10.7}\textbf {Future Directions}}{65}{section.10.7}%
-\contentsline {section}{\numberline {10.8}\textbf {Final Remarks}}{65}{section.10.8}%
+\contentsline {section}{\numberline {6.12}\textbf {Key Takeaways}}{34}{section.6.12}%
+\contentsline {chapter}{\numberline {7}Experiments and Results}{35}{chapter.7}%
+\contentsline {section}{\numberline {7.1}\textbf {Experimental Setup}}{35}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}\textbf {Dataset and Data Splitting}}{35}{subsection.7.1.1}%
+\contentsline {subsection}{\numberline {7.1.2}\textbf {Training Configuration}}{35}{subsection.7.1.2}%
+\contentsline {section}{\numberline {7.2}\textbf {Evaluation Metrics}}{35}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}\textbf {AUC-ROC}}{35}{subsection.7.2.1}%
+\contentsline {section}{\numberline {7.3}\textbf {Main Results (Reported in the Original Paper)}}{36}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}\textbf {Key Observations (Paper Level)}}{36}{subsection.7.3.1}%
+\contentsline {section}{\numberline {7.4}\textbf {Reproduced and Audited Results}}{36}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}\textbf {Why Is AUC Lower Than the Paper?}}{37}{subsection.7.4.1}%
+\contentsline {section}{\numberline {7.5}\textbf {Discussion}}{37}{section.7.5}%
+\contentsline {section}{\numberline {7.6}\textbf {Clinical Perspective}}{37}{section.7.6}%
+\contentsline {section}{\numberline {7.7}\textbf {Limitations and Future Work}}{37}{section.7.7}%
+\contentsline {section}{\numberline {7.8}\textbf {Replication Study and Detailed Codebase Audit}}{38}{section.7.8}%
+\contentsline {subsection}{\numberline {7.8.1}\textbf {Evaluation Framework for File Review}}{38}{subsection.7.8.1}%
+\contentsline {subsection}{\numberline {7.8.2}\textbf {Configuration Management: \texttt {config.py}}}{38}{subsection.7.8.2}%
+\contentsline {subsection}{\numberline {7.8.3}\textbf {Data Acquisition: \texttt {data\_download.ipynb}}}{38}{subsection.7.8.3}%
+\contentsline {subsection}{\numberline {7.8.4}\textbf {Data Processing Pipeline: \texttt {data.ipynb}}}{39}{subsection.7.8.4}%
+\contentsline {subsection}{\numberline {7.8.5}\textbf {CNN Baseline: \texttt {cnn.ipynb}}}{39}{subsection.7.8.5}%
+\contentsline {subsection}{\numberline {7.8.6}\textbf {Residual Network: \texttt {resnet.ipynb}}}{39}{subsection.7.8.6}%
+\contentsline {subsection}{\numberline {7.8.7}\textbf {Vision Transformer from Scratch: \texttt {ViT-v1}} và \texttt {ViT-v2}}{40}{subsection.7.8.7}%
+\contentsline {subsection}{\numberline {7.8.8}\textbf {Hybrid and Pretrained Models: \texttt {ViT-ResNet.ipynb}}}{40}{subsection.7.8.8}%
+\contentsline {subsection}{\numberline {7.8.9}\textbf {Overall Findings from Replication}}{40}{subsection.7.8.9}%
+\contentsline {section}{\numberline {7.9}\textbf {Tổng hợp Kết quả Trực quan}}{41}{section.7.9}%
+\contentsline {section}{\numberline {7.10}\textbf {Visualizations bổ sung cần thiết}}{41}{section.7.10}%
+\contentsline {subsection}{\numberline {7.10.1}\textbf {Timeline Implementation}}{43}{subsection.7.10.1}%
+\contentsline {chapter}{\numberline {8}Chi tiết triển khai PyTorch (PyTorch Implementation Details)}{45}{chapter.8}%
+\contentsline {section}{\numberline {8.1}\textbf {Tổng quan chuyển đổi (Migration Overview)}}{45}{section.8.1}%
+\contentsline {section}{\numberline {8.2}\textbf {Sửa lỗi nghiêm trọng: Vấn đề AUC trả về NaN}}{45}{section.8.2}%
+\contentsline {subsection}{\numberline {8.2.1}\textbf {Giải pháp}}{45}{subsection.8.2.1}%
+\contentsline {section}{\numberline {8.3}\textbf {Mã nguồn huấn luyện đầy đủ}}{46}{section.8.3}%
+\contentsline {section}{\numberline {8.4}\textbf {Cấu trúc thư mục dự án (Repository Structure)}}{47}{section.8.4}%
+\contentsline {chapter}{\numberline {9}Các Cải Tiến Nâng Cao (Advanced Improvements)}{48}{chapter.9}%
+\contentsline {section}{\numberline {9.1}\textbf {Tổng quan (Overview)}}{48}{section.9.1}%
+\contentsline {subsection}{\numberline {9.1.1}\textbf {Kết quả tổng hợp (Summary Results)}}{48}{subsection.9.1.1}%
+\contentsline {section}{\numberline {9.2}\textbf {Giai đoạn 1: Các cải tiến nhanh (Phase 1: Quick Wins)}}{48}{section.9.2}%
+\contentsline {subsection}{\numberline {9.2.1}\textbf {Transfer Learning với pre-trained weights}}{48}{subsection.9.2.1}%
+\contentsline {subsubsection}{\textbf {Động lực (Motivation)}}{48}{subsubsection*.30}%
+\contentsline {subsubsection}{\textbf {Triển khai (Implementation)}}{49}{subsubsection*.31}%
+\contentsline {subsubsection}{\textbf {Kết quả (Results)}}{49}{subsubsection*.32}%
+\contentsline {subsection}{\numberline {9.2.2}\textbf {Xử lý mất cân bằng lớp (Class Imbalance Handling)}}{50}{subsection.9.2.2}%
+\contentsline {subsubsection}{\textbf {Vấn đề (Problem)}}{50}{subsubsection*.34}%
+\contentsline {subsubsection}{\textbf {Giải pháp: Focal Loss}}{50}{subsubsection*.35}%
+\contentsline {subsubsection}{\textbf {Asymmetric Loss (ASL)}}{51}{subsubsection*.36}%
+\contentsline {subsubsection}{\textbf {Kết quả so sánh các hàm mất mát}}{53}{subsubsection*.37}%
+\contentsline {subsection}{\numberline {9.2.3}\textbf {Tăng cường dữ liệu nâng cao (Advanced Data Augmentation)}}{53}{subsection.9.2.3}%
+\contentsline {subsubsection}{\textbf {Vấn đề với tăng cường dữ liệu cơ bản}}{53}{subsubsection*.40}%
+\contentsline {subsubsection}{\textbf {Pipeline tăng cường dữ liệu chuyên biệt cho ảnh y khoa}}{53}{subsubsection*.41}%
+\contentsline {subsubsection}{\textbf {Ablation study về tác động của tăng cường dữ liệu}}{54}{subsubsection*.42}%
+\contentsline {section}{\numberline {9.3}\textbf {Giai đoạn 2: Cải tiến kiến trúc (Phase 2: Architecture Improvements)}}{54}{section.9.3}%
+\contentsline {subsection}{\numberline {9.3.1}\textbf {Swin Transformer}}{54}{subsection.9.3.1}%
+\contentsline {subsubsection}{\textbf {Kiến trúc (Architecture)}}{55}{subsubsection*.44}%
+\contentsline {subsubsection}{\textbf {Kết quả}}{55}{subsubsection*.45}%
+\contentsline {subsection}{\numberline {9.3.2}\textbf {Hợp nhất đặc trưng đa tỷ lệ (Multi-Scale Feature Fusion)}}{56}{subsection.9.3.2}%
+\contentsline {subsubsection}{\textbf {Động lực}}{56}{subsubsection*.47}%
+\contentsline {subsubsection}{\textbf {Kiến trúc Multi-Scale ViT}}{56}{subsubsection*.48}%
+\contentsline {subsubsection}{\textbf {Kết quả theo từng bệnh (Per-disease)}}{57}{subsubsection*.49}%
+\contentsline {section}{\numberline {9.4}\textbf {Giai đoạn 3: Kỹ thuật nâng cao (Phase 3: Advanced Techniques)}}{57}{section.9.4}%
+\contentsline {subsection}{\numberline {9.4.1}\textbf {Model ensemble}}{57}{subsection.9.4.1}%
+\contentsline {subsubsection}{\textbf {Chiến lược ensemble}}{57}{subsubsection*.51}%
+\contentsline {subsubsection}{\textbf {Kết quả ensemble}}{59}{subsubsection*.52}%
+\contentsline {subsection}{\numberline {9.4.2}\textbf {Định lượng bất định (Uncertainty quantification)}}{59}{subsection.9.4.2}%
+\contentsline {subsubsection}{\textbf {Monte Carlo Dropout}}{59}{subsubsection*.54}%
+\contentsline {section}{\numberline {9.5}\textbf {Kết luận và khuyến nghị cho các cải tiến (Conclusion)}}{60}{section.9.5}%
+\contentsline {subsection}{\numberline {9.5.1}\textbf {Tóm tắt các kết quả chính}}{60}{subsection.9.5.1}%
+\contentsline {subsection}{\numberline {9.5.2}\textbf {Best practices tổng hợp}}{60}{subsection.9.5.2}%
+\contentsline {subsection}{\numberline {9.5.3}\textbf {Hướng phát triển tiếp theo}}{60}{subsection.9.5.3}%
+\contentsline {chapter}{\numberline {10}Kết luận (Conclusion)}{61}{chapter.10}%
+\contentsline {section}{\numberline {10.1}\textbf {Tóm tắt tổng quan}}{61}{section.10.1}%
+\contentsline {section}{\numberline {10.2}\textbf {Những phát hiện thực nghiệm chính}}{61}{section.10.2}%
+\contentsline {section}{\numberline {10.3}\textbf {Nhận định về kiến trúc và Ý nghĩa lý thuyết}}{61}{section.10.3}%
+\contentsline {section}{\numberline {10.4}\textbf {Đóng góp về mặt phương pháp luận (Methodological Contributions)}}{62}{section.10.4}%
+\contentsline {section}{\numberline {10.5}\textbf {Ý nghĩa lâm sàng và thực tiễn (Clinical and Practical Implications)}}{62}{section.10.5}%
+\contentsline {section}{\numberline {10.6}\textbf {Hạn chế của nghiên cứu (Limitations)}}{62}{section.10.6}%
+\contentsline {section}{\numberline {10.7}\textbf {Hướng phát triển trong tương lai (Future Directions)}}{63}{section.10.7}%
+\contentsline {section}{\numberline {10.8}\textbf {Lời kết (Final Remarks)}}{63}{section.10.8}%

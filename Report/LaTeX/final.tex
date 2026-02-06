@@ -44,7 +44,7 @@
 % =========================
 % Page / Typography
 % =========================
-\usepackage[a4paper,top=1.5cm,bottom=1.5cm,left=1cm,right=1cm]{geometry}
+\usepackage[a4paper,top=1cm,bottom=1.5cm,left=1cm,right=1cm]{geometry}
 \usepackage{setspace}
 \onehalfspacing
 \usepackage{parskip}
@@ -1431,7 +1431,7 @@ Scalability & Limited & \checkmark Scales well \\
 % ============================================================
 % SECTION 2: ARCHITECTURE OVERVIEW
 % ============================================================
-\section{\textbf{ViT Architecture Overview}}
+\section{\textbf{Tổng quan kiến trúc ViT}}
 
 Vision Transformer chuyển bài toán ảnh thành bài toán chuỗi:
 \begin{enumerate}
@@ -1943,19 +1943,19 @@ No Finding & -- & -- & -- & 0.856 \\
 \end{tcolorbox}
 
 % ============================================================
-% CHAPTER 6: EXPERIMENTS AND RESULTS
+% CHAPTER 6: THỰC NGHIỆM VÀ KẾT QUẢ
 % ============================================================
-\chapter{Experiments and Results}
+\chapter{Thực nghiệm và Kết quả (Experiments and Results)}
 \label{chap:experiments}
 
 \paperref{Section 4--6}
 
 % ============================================================
-% 6.1 Experimental Setup
+% 6.1 Thiết lập thực nghiệm 
 % ============================================================
-\section{\textbf{Experimental Setup}}
+\section{\textbf{Thiết lập thực nghiệm (Experimental Setup)}}
 
-\subsection{\textbf{Dataset and Data Splitting}}
+\subsection{\textbf{Bộ dữ liệu và Chiến lược chia dữ liệu (Dataset and Data Splitting)}}
 
 Tất cả các thí nghiệm được thực hiện trên bộ dữ liệu \textbf{NIH ChestX-ray14}, gồm 112,120 ảnh X-quang ngực với 14 bệnh lý và nhãn \textit{No Finding}. Đây là bài toán \textbf{multi-label classification}, trong đó mỗi ảnh có thể mang nhiều nhãn bệnh đồng thời.
 
@@ -1995,45 +1995,45 @@ Tất cả các mô hình sử dụng:
 \end{itemize}
 
 % ============================================================
-% 6.2 Evaluation Metrics
+% 6.2 Chỉ số đánh giá
 % ============================================================
-\section{\textbf{Evaluation Metrics}}
+\section{\textbf{Chỉ số đánh giá (Evaluation Metrics)}}
 
 \subsection{\textbf{AUC-ROC}}
 
-Chỉ số chính được sử dụng là \textbf{Area Under the ROC Curve (AUC)} do đặc thù:
+Chỉ số chính được sử dụng là \textbf{Diện tích dưới đường cong ROC (AUC)} do các đặc thù sau:
 \begin{itemize}[noitemsep]
-    \item Bài toán multi-label.
-    \item Dữ liệu mất cân bằng mạnh giữa các bệnh.
+    \item Phù hợp với bài toán phân loại đa nhãn. Bài toán multi-lable classification yêu cầu đánh giá riêng biệt cho từng lớp bệnh.
+    \item Phản ánh đúng hiệu năng khi dữ liệu bị mất cân bằng mạnh giữa các lớp bệnh.
 \end{itemize}
 
 \begin{equation}
 \text{AUC} = \int_0^1 \text{TPR}(\text{FPR}) \, d(\text{FPR})
 \end{equation}
 
-\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=AUC Interpretation]
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Giải thích ý nghĩa AUC (AUC Interpretation)]
 \begin{itemize}
-    \item \textbf{0.5}: Random guessing
-    \item \textbf{0.7--0.8}: Acceptable
-    \item \textbf{0.8--0.9}: Good
-    \item \textbf{$>$0.9}: Excellent
+    \item \textbf{0.5}: Dự đoán ngẫu nhiên (Random guessing)
+    \item \textbf{0.7--0.8}: Chấp nhận được (Acceptable)
+    \item \textbf{0.8--0.9}: Tốt (Good)
+    \item \textbf{$>$0.9}: Xuất sắc (Excellent)
 \end{itemize}
 \end{tcolorbox}
 
-\textbf{Macro-AUC} được tính trên các lớp có đủ nhãn 0 và 1 để tránh NaN.
+\textbf{Macro-AUC} được tính toán trên các lớp bệnh có đầy đủ nhãn 0 và 1 để tránh lỗi giá trị không xác định (NaN).
 
 % ============================================================
-% 6.3 Main Results (Paper-level)
+% 6.3 Kết quả chính theo bài báo
 % ============================================================
-\section{\textbf{Main Results (Reported in the Original Paper)}}
+\section{\textbf{Kết quả chính (Báo cáo trong bài báo gốc)}}
 
 \begin{table}[H]
 \centering
-\caption[Performance comparison kết quả bài báo gốc]{Performance comparison – kết quả báo cáo trong bài báo gốc}
+\caption[So sánh hiệu năng theo kết quả bài báo gốc]{So sánh hiệu năng – Các kết quả báo cáo trong bài báo gốc (Reported in the Original Paper)}
 \label{tab:paper_results}
 \begin{tabular}{lcccccc}
 \toprule
-\textbf{Model} & \textbf{Train Acc} & \textbf{Train AUC} & \textbf{Val Acc} & \textbf{Val AUC} & \textbf{Test Acc} & \textbf{Test AUC} \\
+\textbf{Mô hình} & \textbf{Train Acc} & \textbf{Train AUC} & \textbf{Val Acc} & \textbf{Val AUC} & \textbf{Test Acc} & \textbf{Test AUC} \\
 \midrule
 CNN & 91.0\% & 0.82 & -- & 0.82 & -- & 0.82 \\
 ResNet-34 & 93.0\% & 0.90 & -- & 0.86 & -- & 0.86 \\
@@ -2044,98 +2044,98 @@ ViT-ResNet/16 & \textbf{93.9\%} & \textbf{0.92} & -- & 0.85 & -- & \textbf{0.85}
 \end{tabular}
 \end{table}
 
-\subsection{\textbf{Key Observations (Paper Level)}}
+\subsection{\textbf{Quan sát then chốt (Cấp độ bài báo)}}
 
-\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Key Observations]
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Các quan sát quan trọng (Key Observations)]
 \begin{enumerate}
-    \item ViT-ResNet đạt training accuracy cao nhất nhờ kiến trúc lai.
-    \item ResNet-34 đạt AUC validation/test cao nhất (0.86).
-    \item CNN baseline kém nhất do kiến trúc nông.
-    \item ViT-v2 không cải thiện rõ so với ViT-v1 dù train lâu hơn.
+    \item Kiến trúc lai ViT-ResNet đạt độ chính xác tập huấn luyện cao nhất.
+    \item ResNet-34 đạt chỉ số AUC tập validation/test cao nhất (0.86).
+    \item CNN baseline cho kết quả kém nhất do kiến trúc mạng nông.
+    \item ViT-v2 không cải thiện rõ rệt so với ViT-v1 mặc dù thời gian huấn luyện dài hơn.
 \end{enumerate}
 \end{tcolorbox}
 
 % ============================================================
-% 6.4 Reproduced Results (This Project)
+% 6.4 Kết quả tái hiện và Kiểm định
 % ============================================================
-\section{\textbf{Reproduced and Audited Results}}
+\section{\textbf{Kết quả tái hiện và Kiểm định (Reproduced and Audited Results)}}
 
 Khác với bài báo gốc, dự án này:
 \begin{itemize}[noitemsep]
-    \item Chia dữ liệu theo \textbf{bệnh nhân}.
-    \item Đánh giá nghiêm ngặt bằng macro-AUC.
-    \item Huấn luyện trên toàn bộ dataset.
+    \item Chia toàn bộ dữ liệu theo \textbf{từng bệnh nhân riêng biệt}.
+    \item Đánh giá khắt khe thông qua chỉ số macro-AUC.
+    \item Huấn luyện đồng nhất trên toàn bộ tập dữ liệu NIH.
 \end{itemize}
 
 \begin{table}[H]
 \centering
-\caption[Final metrics sau khi rà soát và chuẩn hoá]{Final metrics sau khi rà soát và chuẩn hoá pipeline}
+\caption[Các chỉ số cuối cùng sau khi chuẩn hoá quy trình]{Các chỉ số cuối cùng sau khi rà soát và chuẩn hoá quy trình huấn luyện}
 \label{tab:final_results}
 \begin{tabular}{lccccc}
 \toprule
-\textbf{Model} & \textbf{Params} & \textbf{Best Val AUC} & \textbf{Test AUC} & \textbf{Test Acc (\%)} & \textbf{Notes} \\
+\textbf{Mô hình} & \textbf{Tham số} & \textbf{Best Val AUC} & \textbf{Test AUC} & \textbf{Test Acc (\%)} & \textbf{Ghi chú} \\
 \midrule
-CNN Baseline & 95M & 0.5998 & 0.58 & 89.0 & Overfitting nặng \\
-ResNet-34 (scratch) & 21M & 0.5293 & 0.53 & 91.0 & Không pretrained \\
-ViT-v1 (scratch) & 9M & 0.6431 & 0.5854 & 91.33 & Patch 32 \\
-ViT-v2 (scratch) & 9M & 0.5947 & 0.6303 & 89.67 & Scheduler \\
-ViT pretrained & 86M & -- & 0.6694 & 87.00 & ImageNet pretrained \\
-\textbf{ViT Final (scratch)} & \textbf{9M} & \textbf{0.7272} & \textbf{0.7225} & \textbf{92.91} & \textbf{Patient-level split} \\
+CNN Baseline & 95M & 0.5998 & 0.58 & 89.0 & Quá khớp (Overfitting) nặng \\
+ResNet-34 (scratch) & 21M & 0.5293 & 0.53 & 91.0 & Không dùng pretrain \\
+ViT-v1 (scratch) & 9M & 0.6431 & 0.5854 & 91.33 & Patch size 32 \\
+ViT-v2 (scratch) & 9M & 0.5947 & 0.6303 & 89.67 & Có dùng Scheduler \\
+ViT pretrained & 86M & -- & 0.6694 & 87.00 & Dùng ImageNet pretrain \\
+\textbf{ViT Final (scratch)} & \textbf{9M} & \textbf{0.7272} & \textbf{0.7225} & \textbf{92.91} & \textbf{Chia theo bệnh nhân} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{\textbf{Why Is AUC Lower Than the Paper?}}
+\subsection{\textbf{Vì sao kết quả AUC lại thấp hơn so với bài báo gốc?}}
 
 \begin{enumerate}[noitemsep]
-    \item Chia theo bệnh nhân loại bỏ rò rỉ dữ liệu.
-    \item Macro-AUC khắt khe hơn Accuracy.
-    \item Đánh giá phản ánh đúng khả năng tổng quát hóa lâm sàng.
+    \item Việc chia theo ID bệnh nhân giúp loại bỏ hoàn toàn hiện tượng rò rỉ thông tin giữa các tập dữ liệu.
+    \item Chỉ số Macro-AUC đánh giá khắt khe hơn đáng kể so với Accuracy đơn thuần.
+    \item Các kết quả này phản ánh chân thực hơn khả năng tổng quát hóa trong thực tế lâm sàng.
 \end{enumerate}
 
-% ============================================================
-% 6.5 Discussion
-% ============================================================
-\section{\textbf{Discussion}}
+% = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+% 6.5 Thảo luận
+% = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+\section{\textbf{Thảo luận (Discussion)}}
 
-\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Discussion Summary]
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Tóm tắt thảo luận (Discussion Summary)]
 \begin{itemize}
-    \item ResNet thể hiện inductive bias mạnh cho ảnh y khoa.
-    \item ViT thuần cần nhiều dữ liệu hoặc pretraining.
-    \item ViT-ResNet kết hợp tốt local + global features.
-    \item Kết quả nghiêm ngặt hơn nhưng đáng tin cậy hơn.
+    \item ResNet thể hiện thiên lệch quy nạp (inductive bias) mạnh mẽ cho ảnh y khoa.
+    \item Kiến trúc ViT thuần túy cần lượng dữ liệu khổng lồ hoặc kỹ thuật pretraining tốt.
+    \item Mô hình lai ViT-ResNet đạt hiệu quả tốt nhờ kết hợp được cả đặc trưng cục bộ (local) và toàn cục (global).
+    \item Kết quả của chúng tôi tuy thấp hơn nhưng đảm bảo độ tin cậy khoa học cao hơn.
 \end{itemize}
 \end{tcolorbox}
 
 % ============================================================
-% 6.6 Clinical Perspective
+% 6.6 Góc nhìn lâm sàng
 % ============================================================
-\section{\textbf{Clinical Perspective}}
+\section{\textbf{Góc nhìn lâm sàng (Clinical Perspective)}}
 
-Mô hình phù hợp nhất cho ứng dụng thực tế là:
+Mô hình phù hợp nhất để triển khai trong thực tiễn là:
 \begin{itemize}[noitemsep]
-    \item ViT-ResNet (hiệu năng tốt).
-    \item ViT nhỏ (9M tham số) cho triển khai hạn chế tài nguyên.
+    \item ViT-ResNet (cho hiệu năng ổn định và tốt nhất).
+    \item Phiên bản ViT nhỏ (9M tham số) nếu cần triển khai trên các thiết bị có tài nguyên hạn chế.
 \end{itemize}
 
-Mô hình đóng vai trò \textbf{Clinical Decision Support (CAD)}, không thay thế bác sĩ.
+Lưu ý rằng mô hình đóng vai trò là \textbf{Hệ thống hỗ trợ quyết định lâm sàng (CAD)}, giúp bác sĩ chẩn đoán nhanh hơn, chứ không dùng để thay thế hoàn toàn bác sĩ.
 
-% ============================================================
-% 6.7 Limitations and Future Work
-% ============================================================
-\section{\textbf{Limitations and Future Work}}
+% = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+% 6.7 Hạn chế và Hướng phát triển
+% = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+\section{\textbf{Hạn chế và Hướng phát triển (Limitations and Future Work)}}
 
 \begin{itemize}[noitemsep]
-    \item Mất cân bằng lớp chưa xử lý triệt để.
-    \item Chưa đánh giá multi-center.
-    \item Chưa tích hợp dữ liệu phi ảnh.
+    \item Vấn đề mất cân bằng lớp (class imbalance) vẫn chưa được xử lý một cách triệt để.
+    \item Hiện tại chỉ mới đánh giá trên một tập dữ liệu duy nhất.
+    \item Chưa khai thác các dữ liệu phi hình ảnh (clinical metadata).
 \end{itemize}
 
-Hướng mở rộng:
+Các hướng mở rộng tiềm năng:
 \begin{itemize}[noitemsep]
-    \item Focal loss, class-balanced loss.
-    \item Swin Transformer, ConvNeXt.
-    \item Explainability: Grad-CAM vs Attention map.
+    \item Áp dụng các hàm mất mát tiên tiến hơn như Focal loss hoặc Class-balanced loss.
+    \item Thử nghiệm các kiến trúc mới (Swin Transformer, ConvNeXt).
+    \item Phân tích sâu hơn về tính giải thích được (Explainability): Grad-CAM vs Attention map.
 \end{itemize}
 % ============================================================
 % 6.X Replication Study and Detailed Codebase Audit
@@ -3197,6 +3197,20 @@ Fibrosis & Nhỏ & 0.779 & \textbf{0.819} & +4.0\% \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+%==============================================================================
+\section{\textbf{Tổng kết các cải tiến}}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Kết luận Chương 8 (Summary of Improvements)]
+Dựa trên các thực nghiệm mở rộng, chúng tôi rút ra các kết luận quan trọng cho việc xây dựng mô hình AI cho bài toán X-quang phổi:
+
+\begin{enumerate}
+    \item \textbf{Dữ liệu là quan trọng nhất}: Sử dụng transfer learning từ ImageNet giúp tăng ít nhất 3\% AUC và giảm một nửa thời gian huấn luyện.
+    \item \textbf{Cơ chế Attention cục bộ là thế mạnh}: Swin Transformer vượt trội hơn ViT truyền thống nhờ cấu trúc phân cấp và khả năng học các đặc trưng đa quy mô.
+    \item \textbf{Xử lý mất cân bằng lớp bằng Focal/Asymmetric Loss}: Đặc biệt quan trọng đối với các lớp bệnh lý hiếm vốn thường bị bỏ qua trong hàm mất mát BCE tiêu chuẩn.
+    \item \textbf{Sự kết hợp (Ensemble)}: Giúp mô hình đạt đến ngưỡng hiệu năng 0.92 AUC, tương đương với các công trình nghiên cứu hiện đại nhất hiện nay trên tập dữ liệu NIH ChestX-ray14.
+\end{enumerate}
+\end{tcolorbox}
 
 %==============================================================================
 \section{\textbf{Giai đoạn 3: Kỹ thuật nâng cao (Phase 3: Advanced Techniques)}}

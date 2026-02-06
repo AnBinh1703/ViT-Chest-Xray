@@ -399,9 +399,6 @@ INPUT C:\Program Files\MiKTeX\tex\latex\graphics\color.sty
 INPUT C:\Program Files\MiKTeX\tex\latex\listings\lstlang1.sty
 INPUT C:\Program Files\MiKTeX\tex\latex\listings\lstlang1.sty
 INPUT C:\Program Files\MiKTeX\tex\latex\listings\lstlang1.sty
-INPUT .\final.aux
-INPUT .\final.aux
-INPUT final.aux
 OUTPUT final.aux
 INPUT C:\Program Files\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
 INPUT C:\Program Files\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
@@ -539,7 +536,6 @@ INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\vntex\t5cmtt.fd
 INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vntt10.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\jknappen\ec\tctt1095.tfm
 INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\vntex\vnr\vnr12.tfm
-INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\tfm\public\tex-gyre\ts1-qtmb.tfm
 INPUT final.aux
 INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\newtx\ot1ntxtlf.fd
 INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\tex\latex\newtx\ot1ntxtlf.fd
@@ -575,8 +571,6 @@ INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\symbols\msam10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\symbols\msam10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\symbols\msbm10.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\public\amsfonts\symbols\msbm10.pfb
-INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\public\tex-gyre\qtmb.pfb
-INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\public\tex-gyre\qtmb.pfb
 INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\public\tex-gyre\qtmr.pfb
 INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\public\tex-gyre\qtmr.pfb
 INPUT C:\Users\dan13\AppData\Roaming\MiKTeX\fonts\type1\public\tex-gyre\qtmri.pfb

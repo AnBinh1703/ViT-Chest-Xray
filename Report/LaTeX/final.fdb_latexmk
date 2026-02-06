@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1770393031.78382 "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" "final.pdf" "final" 1770393037.17704 2
+["pdflatex"] 1770393633.01785 "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" "final.pdf" "final" 1770393637.89207 2
   "../../image/Logo-FSB.png" 1770320501 20888 4af56de24083c5c66e74a1a1ac603e22 ""
   "../../image/output-resnet.png" 1770234016 57005 20a8e802fa55a42f9fa5ca55be0497ce ""
   "../../image/output-roc-vit-v1.png" 1770234046 53893 ee14a03758310edbae7f0740210e9cdb ""
@@ -198,7 +198,6 @@
   "C:/Users/dan13/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1770057644 13323794 45fcd2467a55b404e97141f6e8827db9 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/enc/dvips/tex-gyre/q-ts1.enc" 1525740614 3124 3813fd4c981d99822890a2861b0d274c ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/tfm/public/newtx/ntx-Regular-tlf-ot1.tfm" 1736607165 3008 ca0c83ca288d9f1c5d2fca0e8e268f10 ""
-  "C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/tfm/public/tex-gyre/ts1-qtmb.tfm" 1254938640 1608 bde4475c6eb5aa292519d95aa26b6413 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/tfm/public/tex-gyre/ts1-qtmr.tfm" 1254938640 1600 20cdf11dab97d5d39e847571f9314407 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/tfm/public/tex-gyre/ts1-qtmri.tfm" 1254938640 1744 236018a0ac3444bdc221f881182030d8 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/tfm/public/txfonts/tcxtt.tfm" 977342760 1292 b1fa6b76e852700625b1941c32e1e42e ""
@@ -208,7 +207,6 @@
   "C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/tfm/vntex/vnr/vnr6.tfm" 1644004041 3988 1f6bc3097731d87cba5c55c000fe39f4 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/tfm/vntex/vnr/vnr8.tfm" 1644004041 3984 233206e6f80a2fd00ed2ee2bf783da65 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/tfm/vntex/vnr/vntt10.tfm" 1644004041 1340 1f050e88f9cfabe402b16c8ea7930ea1 ""
-  "C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/type1/public/tex-gyre/qtmb.pfb" 1254938640 131776 4be3e220f990dc716f91bb7965c09237 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/type1/public/tex-gyre/qtmr.pfb" 1254938640 133302 c4942f65edfb6dde8dac434e6a2388b0 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/type1/public/tex-gyre/qtmri.pfb" 1254938640 129669 8a9ef3a22a6054894318d5bed6d721d0 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/fonts/type1/public/txfonts/tcxtt.pfb" 977342760 19223 eef9d7a2591262b80fbbebb9e94dc374 ""
@@ -283,13 +281,13 @@
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/vntex/t5enc.dfu" 1368738347 13949 387dd4fa58aea5f873839c93430fffed ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/xpatch/xpatch.sty" 1585221260 8510 7803f78066c4f9d008405191a4b43073 ""
   "C:/Users/dan13/AppData/Roaming/MiKTeX/tex/latex/xstring/xstring.sty" 1693735632 123 a302f2c651a95033260db60e51527ae8 ""
-  "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" 1770393027 151871 a5002ea6359e8f0ea2b1a8cfddd89479 ""
-  "final.aux" 1770393036 46485 5d69e1abeaa322e2aed4725ca26d4331 "pdflatex"
-  "final.lof" 1770393036 848 4f912e4157d6b74ac06fa491f64f192f "pdflatex"
-  "final.lot" 1770393036 3150 751a083cb247b4ac6878116c1a3e410b "pdflatex"
-  "final.out" 1770393036 39318 b0614f9e0c785657ecc63b68ae96bba5 "pdflatex"
-  "final.tex" 1770393027 151871 a5002ea6359e8f0ea2b1a8cfddd89479 ""
-  "final.toc" 1770393036 21102 3d98c83f3123dc3aca5e652261544035 "pdflatex"
+  "d:/MSE/10.Deep Learning/Group_Final/ViT-Chest-Xray/Report/LaTeX/final.tex" 1770393626 152806 2b466daa91437f454e3494d14923524e ""
+  "final.aux" 1770393637 46504 4e9557f3eb281440f1a773626a1d5a06 "pdflatex"
+  "final.lof" 1770393637 848 e57a0def478edd71e98e788dc6e6ed18 "pdflatex"
+  "final.lot" 1770393637 3178 4b0440ee426f7441b28d78b6cf411547 "pdflatex"
+  "final.out" 1770393637 41131 2858d43bfd5d801d03c285ece419b2eb "pdflatex"
+  "final.tex" 1770393626 152806 2b466daa91437f454e3494d14923524e ""
+  "final.toc" 1770393637 21264 35488eae1906629ca75d2464613ddeab "pdflatex"
   (generated)
   "final.aux"
   "final.lof"

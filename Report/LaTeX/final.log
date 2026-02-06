@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.1) (preloaded format=pdflatex 2026.2.3)  6 FEB 2026 22:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.1) (preloaded format=pdflatex 2026.2.3)  6 FEB 2026 22:21
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1151,7 +1151,10 @@ LaTeX Font Info:    No file T5ntxtlf.fd. on input line 217.
 LaTeX Font Warning: Font shape `T5/ntxtlf/m/n' undefined
 (Font)              using `T5/cmr/m/n' instead on input line 217.
 
-No file final.aux.
+(final.aux
+Package babel Info: 'vietnamese' activates 'vietnamese' shorthands.
+(babel)             Reported on input line 8.
+)
 \openout1 = `final.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 217.
@@ -1174,9 +1177,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 217.
 LaTeX Font Info:    ... okay on input line 217.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 217.
 LaTeX Font Info:    ... okay on input line 217.
-Package babel Info: 'vietnamese' activates 'vietnamese' shorthands.
-(babel)             Reported on input line 217.
-(C:\Program Files\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
+ (C:\Program Files\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count395
 \scratchdimen=\dimen353
@@ -1206,15 +1207,15 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(28.45274pt, 540.60239pt, 28.45274pt)
-* v-part:(T,H,B)=(42.67912pt, 773.91498pt, 28.45274pt)
+* h-part:(L,W,R)=(42.67912pt, 526.376pt, 28.45274pt)
+* v-part:(T,H,B)=(71.13188pt, 731.23584pt, 42.67912pt)
 * \paperwidth=597.50787pt
 * \paperheight=845.04684pt
-* \textwidth=540.60239pt
-* \textheight=773.91498pt
-* \oddsidemargin=-43.81725pt
-* \evensidemargin=-43.81725pt
-* \topmargin=-66.59087pt
+* \textwidth=526.376pt
+* \textheight=731.23584pt
+* \oddsidemargin=-29.59087pt
+* \evensidemargin=-29.59087pt
+* \topmargin=-38.1381pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \topskip=12.0pt
@@ -1263,104 +1264,4 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package translations Info: no dictionary file `translations-basic-dictionary-vietnamese.trsl' found. on input line 217.
-Package hyperref Info: Link coloring ON on input line 217.
-\@outlinefile=\write4
-\openout4 = `final.out'.
-
-\c@lstlisting=\count403
-<../../image/Logo-FSB.png, id=6, 803.0pt x 302.12875pt>
-File: ../../image/Logo-FSB.png Graphic file (type png)
-<use ../../image/Logo-FSB.png>
-Package pdftex.def Info: ../../image/Logo-FSB.png  used on input line 228.
-(pdftex.def)             Requested size: 203.02267pt x 76.38486pt.
-
-Package microtype Warning: I cannot find a protrusion list for font
-(microtype)                `T5/ntxtlf/m/n/20.74'. Switching off
-(microtype)                protrusion for this font on input line 233.
-
-
-LaTeX Font Warning: Font shape `T5/ntxtlf/b/n' undefined
-(Font)              using `T5/ntxtlf/m/n' instead on input line 233.
-
-
-Package microtype Warning: I cannot find a protrusion list for font
-(microtype)                `T5/ntxtlf/m/n/17.28'. Switching off
-(microtype)                protrusion for this font on input line 237.
-
-
-Package microtype Warning: I cannot find a protrusion list for font
-(microtype)                `T5/ntxtlf/b/n/17.28'. Switching off
-(microtype)                protrusion for this font on input line 238.
-
-
-Package microtype Warning: I cannot find a protrusion list for font
-(microtype)                `T5/ntxtlf/m/n/14.4'. Switching off
-(microtype)                protrusion for this font on input line 244.
-
-
-Package microtype Warning: I cannot find a protrusion list for font
-(microtype)                `T5/ntxtlf/b/n/14.4'. Switching off
-(microtype)                protrusion for this font on input line 244.
-
-
-LaTeX Font Warning: Font shape `T5/ntxtlf/m/it' undefined
-(Font)              using `T5/ntxtlf/m/n' instead on input line 245.
-
-
-Package microtype Warning: I cannot find a protrusion list for font
-(microtype)                `T5/ntxtlf/m/n/10.95'. Switching off
-(microtype)                protrusion for this font on input line 246.
-
-(C:\Users\dan13\AppData\Roaming\MiKTeX\tex/latex/microtype\mt-cmr.cfg
-File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
-)
-LaTeX Font Info:    Trying to load font information for U+msa on input line 252.
- (C:\Program Files\MiKTeX\tex/latex/amsfonts\umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-) (C:\Users\dan13\AppData\Roaming\MiKTeX\tex/latex/microtype\mt-msa.cfg
-File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
-)
-LaTeX Font Info:    Trying to load font information for U+msb on input line 252.
- (C:\Program Files\MiKTeX\tex/latex/amsfonts\umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) (C:\Users\dan13\AppData\Roaming\MiKTeX\tex/latex/microtype\mt-msb.cfg
-File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-)
-
-Package microtype Warning: I cannot find a protrusion list for font
-(microtype)                `T5/ntxtlf/b/n/12'. Switching off
-(microtype)                protrusion for this font on input line 253.
-
-LaTeX Font Info:    Trying to load font information for T5+ntxtt on input line 253.
-LaTeX Font Info:    No file T5ntxtt.fd. on input line 253.
-
-LaTeX Font Warning: Font shape `T5/ntxtt/m/n' undefined
-(Font)              using `T5/cmr/m/n' instead on input line 253.
-
-
-Package microtype Warning: I cannot find a protrusion list for font
-(microtype)                `T5/ntxtt/m/n/12'. Switching off
-(microtype)                protrusion for this font on input line 257.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 265--271
-
- []
-
-[1
-
-{C:/Users/dan13/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <../../image/Logo-FSB.png>]
-
-Package microtype Warning: I cannot find a protrusion list for font
-(microtype)                `T5/ntxtlf/m/n/24.88'. Switching off
-(microtype)                protrusion for this font on input line 285.
-
-
-Package microtype Warning: I cannot find a protrusion list for font
-(microtype)                `T5/ntxtlf/b/n/24.88'. Switching off
-(microtype)                protrusion for this font on input line 285.
-
-
-Package microtype Warning: I cannot find a protrusion list for font
-(microtype)      
+Package translations Info: no dictionary file `translations-basic-dictionary-vietnamese.

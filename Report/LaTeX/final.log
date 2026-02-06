@@ -1151,7 +1151,7 @@ LaTeX Font Info:    No file T5ntxtlf.fd. on input line 217.
 LaTeX Font Warning: Font shape `T5/ntxtlf/m/n' undefined
 (Font)              using `T5/cmr/m/n' instead on input line 217.
 
-No file final.aux.
+(final.aux)
 \openout1 = `final.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 217.
@@ -1176,7 +1176,7 @@ LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 217.
 LaTeX Font Info:    ... okay on input line 217.
 Package babel Info: 'vietnamese' activates 'vietnamese' shorthands.
 (babel)             Reported on input line 217.
-(C:\Program Files\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
+ (C:\Program Files\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count395
 \scratchdimen=\dimen353
@@ -7489,10 +7489,10 @@ Package rerunfilecheck Info: Checksums for `final.out':
 (rerunfilecheck)             After:  D5D4B584997DDF84A8FCB299B605589F;37330.
  ) 
 Here is how much of TeX's memory you used:
- 43779 strings out of 467866
- 894823 string characters out of 5428393
+ 43782 strings out of 467866
+ 894927 string characters out of 5428393
  1910901 words of memory out of 5000000
- 70727 multiletter control sequences out of 15000+600000
+ 70728 multiletter control sequences out of 15000+600000
  664214 words of font info for 168 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,12n,131p,1260b,2741s stack positions out of 10000i,1000n,20000p,200000b,200000s

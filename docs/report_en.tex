@@ -1,0 +1,657 @@
+% ============================================================
+%  COMPREHENSIVE ANALYSIS REPORT — ENGLISH VERSION
+%  Paper: A Comparative Study of CNN, ResNet, and Vision Transformers
+%         for Multi-Classification of Chest Diseases
+%  Compile: pdfLaTeX, UTF-8
+% ============================================================
+
+\documentclass[12pt,a4paper]{report}
+
+% === Encoding & Language ===
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+% === Fonts ===
+\usepackage{newtxtext}
+
+% === Page layout ===
+\usepackage[a4paper,top=2cm,bottom=2cm,left=2.5cm,right=2cm]{geometry}
+\usepackage{setspace}\onehalfspacing
+\usepackage{parskip}
+\usepackage{indentfirst}
+\usepackage{microtype}
+
+% === Section formatting ===
+\usepackage{titlesec}
+\titleformat{\chapter}{\normalfont\huge\bfseries\color{blue!70!black}}{\thechapter.}{0.5em}{\Huge\color{blue!70!black}}
+\titlespacing*{\chapter}{0pt}{-10pt}{10pt}
+\titleformat{\section}{\normalfont\Large\bfseries\color{blue!60!black}}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries\color{blue!50!black}}{\thesubsection}{1em}{}
+
+% === Math / Tables / Figures ===
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,longtable,array,multirow}
+\usepackage{graphicx,float,subcaption}
+\usepackage{caption}
+\captionsetup{font={small,it},labelfont={bf,color=blue!70!black}}
+\usepackage{algorithm,algorithmic}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg}
+
+% === TikZ ===
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,calc}
+
+% === Links ===
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,citecolor=green!50!black,urlcolor=blue}
+
+% === Headers ===
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\leftmark}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% === Lists / Code ===
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\tcbuselibrary{listings,skins,breakable}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{pythonstyle}{
+  backgroundcolor=\color{backcolour},
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{blue},
+  stringstyle=\color{codepurple},
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  numbers=left,
+  numberstyle=\tiny\color{codegray},
+  frame=single,
+  language=Python
+}
+\lstset{style=pythonstyle}
+
+% === Macros ===
+\newcommand{\paperref}[1]{\textcolor{blue!70!black}{[Paper: #1]}}
+
+% ============================================================
+\begin{document}
+
+% === TITLE PAGE ===
+\begin{titlepage}
+\centering
+\vspace*{1cm}
+{\Large\textbf{FPT UNIVERSITY -- GRADUATE SCHOOL}}\\[0.3cm]
+{\large Master of Software Engineering}\\[2cm]
+
+{\Huge\bfseries\color{blue!70!black}
+A Comparative Study of CNN, ResNet,\\and Vision Transformers\\for Multi-label Classification\\of Chest X-ray Diseases}\\[1.5cm]
+
+{\Large Course: \textbf{DLE501 -- Deep Learning}}\\[0.5cm]
+{\large Instructor: \textbf{Dr. [Instructor Name]}}\\[1cm]
+
+\begin{tabular}{ll}
+\textbf{Group 1:} & \\
+& [Member 1] \\
+& [Member 2] \\
+& [Member 3] \\
+\end{tabular}\\[2cm]
+
+{\large\textbf{Ho Chi Minh City -- 2026}}
+\end{titlepage}
+
+% === ABSTRACT ===
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+\begin{tcolorbox}[enhanced,colback=blue!3!white,colframe=blue!60!black,boxrule=1pt,arc=3mm,title={\textbf{\large Overview}}]
+The paper \textit{``A Comparative Study of CNN, ResNet, and Vision Transformers for Multi-Classification of Chest Diseases''} (arXiv:2406.00237) compares the performance of three deep learning architectures for multi-label chest X-ray disease classification using the \textbf{NIH ChestX-ray14} dataset.
+
+Models studied: CNN baseline, ResNet-34, ViT-v1 (from scratch), ViT-v2 (improved), and ViT-ResNet (pretrained).
+\end{tcolorbox}
+
+\vspace{0.5cm}
+
+\begin{tcolorbox}[enhanced,colback=green!3!white,colframe=green!60!black,boxrule=1pt,arc=3mm,title={\textbf{\large Key Experimental Results}}]
+\begin{table}[H]
+\centering\small
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Model} & \textbf{Params} & \textbf{Test AUC} & \textbf{Test Acc} & \textbf{Epochs} & \textbf{Notes} \\
+\midrule
+CNN & $\sim$95.6M & 0.5777 & -- & 10 & Severe overfitting \\
+ResNet-34 & $\sim$21.3M & 0.4462 & -- & 10 & Underfitting \\
+ViT-v1 & 9.0M & 0.5854 & 91.33\% & 10 & Trained from scratch \\
+ViT-v2 & 9.0M & 0.6303 & 89.67\% & 9 & SGD + Early stopping \\
+ViT-ResNet & 85.8M & 0.6694 & 87.00\% & 10 & ImageNet pretrained \\
+\midrule
+\textbf{ViT Final} & \textbf{9.0M} & \textbf{0.7225} & \textbf{92.91\%} & \textbf{10} & \textbf{Full dataset 112K} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textit{On a small subset (60 training images), the pretrained ViT-ResNet achieved the highest AUC (0.6694). When trained on the full 112,120 images with patient-level splitting, ViT achieved AUC 0.7225.}
+\end{tcolorbox}
+
+% === TOC ===
+\tableofcontents\clearpage
+\listoffigures\clearpage
+\listoftables\clearpage
+
+\pagenumbering{arabic}\setcounter{page}{1}
+
+% ============================================================
+% CHAPTER 1: INTRODUCTION
+% ============================================================
+\chapter{Introduction}
+\label{chap:intro}
+
+\section{Clinical Background}
+Pulmonary and cardiopulmonary diseases are among the leading causes of death globally. Chest X-ray imaging remains the most widely used diagnostic tool due to its low cost, speed, and ability to detect a wide range of pathologies.
+
+\section{Challenges}
+\begin{itemize}
+  \item Shortage of radiologists, particularly in rural and developing regions.
+  \item Inter-observer variability in image interpretation.
+  \item Multi-label nature: a single image may contain multiple coexisting diseases.
+  \item Subtle disease signs that are difficult to detect in early stages.
+\end{itemize}
+
+\section{Research Objectives}
+This paper compares CNN, ResNet-34, and Vision Transformer on the NIH ChestX-ray14 dataset (112,120 images, 14 pathologies). Research questions:
+\begin{enumerate}
+  \item[\textbf{RQ1}] How do CNN, ResNet, and ViT compare in performance?
+  \item[\textbf{RQ2}] How much does transfer learning improve over training from scratch?
+  \item[\textbf{RQ3}] What matters more: architecture or data scale?
+\end{enumerate}
+
+% ============================================================
+% CHAPTER 2: DATASET
+% ============================================================
+\chapter{NIH ChestX-ray14 Dataset}
+\label{chap:dataset}
+
+\section{Overview}
+
+\begin{table}[H]
+\centering
+\caption{NIH ChestX-ray14 Dataset Summary}
+\begin{tabular}{ll}
+\toprule
+\textbf{Attribute} & \textbf{Value} \\
+\midrule
+Total images & 112,120 \\
+Unique patients & 30,805 \\
+Number of classes & 14 + No Finding = 15 \\
+Original resolution & 1024 $\times$ 1024 pixels \\
+Format & PNG (grayscale $\to$ RGB) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Disease Classes}
+
+\begin{table}[H]
+\centering
+\caption{15 Classes in NIH ChestX-ray14}
+\label{tab:15classes}
+\begin{tabular}{clcl}
+\toprule
+\textbf{ID} & \textbf{Disease} & \textbf{Prevalence (\%)} & \textbf{Description} \\
+\midrule
+0 & Cardiomegaly & 2.48 & Enlarged heart \\
+1 & Emphysema & 2.24 & Air trapping \\
+2 & Effusion & 11.88 & Pleural fluid \\
+3 & Hernia & 0.20 & Diaphragmatic hernia \\
+4 & Nodule & 5.65 & Lung nodule \\
+5 & Pneumothorax & 4.73 & Collapsed lung \\
+6 & Atelectasis & 10.31 & Lung collapse \\
+7 & Pleural\_Thickening & 3.02 & Pleural thickening \\
+8 & Mass & 5.16 & Lung mass \\
+9 & Edema & 2.05 & Pulmonary edema \\
+10 & Consolidation & 4.16 & Lung consolidation \\
+11 & Infiltration & 17.74 & Lung infiltration \\
+12 & Fibrosis & 1.50 & Pulmonary fibrosis \\
+13 & Pneumonia & 1.28 & Pneumonia \\
+14 & No Finding & 53.84 & Normal \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Class Imbalance}
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Class Imbalance Problem]
+\begin{itemize}
+  \item ``No Finding'' accounts for \textbf{53.84\%} --- more than half the dataset.
+  \item ``Hernia'' accounts for only \textbf{0.20\%} --- the rarest class.
+  \item Maximum/minimum prevalence ratio = 53.84 / 0.20 = \textbf{269$\times$}.
+\end{itemize}
+\end{tcolorbox}
+
+\section{Multi-label Classification}
+Each image may carry multiple disease labels simultaneously. Therefore, \textbf{Sigmoid} activation (not Softmax) and \textbf{BCEWithLogitsLoss} are used.
+
+\section{Data Splitting}
+
+\textbf{Experiment 1 (Small-scale):} 60 train / 20 val / 20 test images.
+
+\textbf{Experiment 2 (Full-scale):} 112,120 images split by Patient ID:
+\begin{itemize}
+  \item Train: 78,614 images (21,563 patients)
+  \item Val: 11,212 images (3,081 patients)
+  \item Test: 22,294 images (6,161 patients)
+\end{itemize}
+
+% ============================================================
+% CHAPTER 3: CNN
+% ============================================================
+\chapter{Convolutional Neural Network (CNN)}
+\label{chap:cnn}
+
+\section{Architecture}
+The CNN baseline consists of 2 convolutional layers (32 and 64 filters, $3\times3$ kernel), each followed by ReLU and $2\times2$ MaxPool, then Flatten, FC with 512 units, Dropout 0.5, and a 15-unit output layer.
+
+\section{Parameter Analysis}
+\begin{table}[H]
+\centering
+\caption{CNN Baseline Parameters}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Layer} & \textbf{Parameters} & \textbf{Ratio} \\
+\midrule
+Conv layers & $\sim$19,400 & 0.02\% \\
+FC layers & $\sim$95,560,000 & 99.98\% \\
+\midrule
+\textbf{Total} & $\sim$\textbf{95.6M} & 100\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Issue]
+99\% of parameters reside in the FC layer $\Rightarrow$ severe overfitting. Train AUC = 0.9116 but Test AUC only reaches 0.5777.
+\end{tcolorbox}
+
+\section{Experimental Results}
+
+\begin{table}[H]
+\centering
+\caption{CNN Results (small-scale, 60 training images)}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metric} & \textbf{Train} & \textbf{Val} & \textbf{Test} \\
+\midrule
+Loss & 0.2034 & 0.2668 & -- \\
+AUC & 0.9116 & 0.5777 & \textbf{0.5777} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{../assets/image/output_cnn.png}
+\caption{CNN training history: clear overfitting}
+\label{fig:cnn}
+\end{figure}
+
+% ============================================================
+% CHAPTER 4: RESNET
+% ============================================================
+\chapter{Residual Network (ResNet-34)}
+\label{chap:resnet}
+
+\section{Core Idea: Skip Connections}
+ResNet addresses the degradation problem through residual learning:
+\[y = F(x) + x\]
+The gradient always has a ``1'' component flowing through the skip connection, preventing vanishing gradients.
+
+\section{ResNet-34 Architecture}
+\begin{table}[H]
+\centering
+\caption{ResNet-34 Architecture}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Stage} & \textbf{Output} & \textbf{Channels} & \textbf{Blocks} & \textbf{Stride} \\
+\midrule
+Conv1 & $112\times112$ & 64 & -- & 2 \\
+MaxPool & $56\times56$ & 64 & -- & 2 \\
+Layer1 & $56\times56$ & 64 & 3 & 1 \\
+Layer2 & $28\times28$ & 128 & 4 & 2 \\
+Layer3 & $14\times14$ & 256 & 6 & 2 \\
+Layer4 & $7\times7$ & 512 & 3 & 2 \\
+AvgPool + FC & -- & 15 & -- & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Total: $\sim$21.3M parameters (much less than CNN's 95.6M).
+
+\section{Experimental Results}
+
+\begin{table}[H]
+\centering
+\caption{ResNet-34 Results (small-scale, 60 training images)}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metric} & \textbf{Train} & \textbf{Val} & \textbf{Test} \\
+\midrule
+Loss & 0.3065 & 0.3742 & -- \\
+AUC & 0.7342 & 0.4462 & \textbf{0.4462} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{../assets/image/output-resnet.png}
+\caption{ResNet-34 training history}
+\label{fig:resnet}
+\end{figure}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=orange!75!black,title=Analysis]
+ResNet-34 trained from scratch on small data yields poor results (AUC 0.4462). Deep architectures require pretrained weights or large-scale data to be effective.
+\end{tcolorbox}
+
+% ============================================================
+% CHAPTER 5: VISION TRANSFORMER
+% ============================================================
+\chapter{Vision Transformer (ViT)}
+\label{chap:vit}
+
+\section{Architecture Overview}
+ViT converts image classification into a sequence problem:
+\begin{enumerate}
+  \item Split $224\times224$ image into $32\times32$ patches $\Rightarrow$ 49 patches.
+  \item Linear projection to embedding dimension 64.
+  \item Add positional embedding + [CLS] token.
+  \item Pass through 8 Transformer Encoder blocks (4 attention heads).
+  \item MLP Head: [CLS] output $\to$ 15 classes (sigmoid).
+\end{enumerate}
+
+Total: \textbf{9,005,839 parameters}.
+
+\section{ViT-v1: Training from Scratch}
+
+Configuration: Adam optimizer, lr = $10^{-4}$, weight decay = $10^{-6}$, 10 epochs.
+
+\begin{table}[H]
+\centering
+\caption{ViT-v1 Results (small-scale)}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metric} & \textbf{Train} & \textbf{Val} & \textbf{Test} \\
+\midrule
+Loss & 0.2569 & 0.2717 & 0.2534 \\
+Accuracy & 90.56\% & 90.00\% & \textbf{91.33\%} \\
+AUC & 0.5883 & 0.5868 & \textbf{0.5854} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{../assets/image/output-roc-vit-v1.png}
+\caption{ViT-v1 per-class ROC curves}
+\label{fig:vit_v1_roc}
+\end{figure}
+
+\section{ViT-v2: Improved with SGD and Early Stopping}
+
+Changes from v1: SGD optimizer, weight decay = $10^{-5}$, early stopping patience = 3.
+
+\begin{table}[H]
+\centering
+\caption{ViT-v2 Results (small-scale)}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metric} & \textbf{Train} & \textbf{Val} & \textbf{Test} \\
+\midrule
+Loss & 0.2657 & 0.2413 & 0.2749 \\
+Accuracy & 89.78\% & 91.67\% & \textbf{89.67\%} \\
+AUC & 0.5630 & 0.5947 & \textbf{0.6303} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{../assets/image/output-roc-vit-v2.png}
+\caption{ViT-v2 per-class ROC curves}
+\label{fig:vit_v2_roc}
+\end{figure}
+
+\section{ViT-ResNet: Pretrained (timm vit\_base\_patch16\_224)}
+
+Using \texttt{vit\_base\_patch16\_224} pretrained on ImageNet. Total: \textbf{85,810,191 parameters}.
+
+\begin{table}[H]
+\centering
+\caption{ViT-ResNet Pretrained Results (small-scale)}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metric} & \textbf{Train} & \textbf{Val} & \textbf{Test} \\
+\midrule
+Loss & 0.2425 & 0.3232 & 0.3768 \\
+Accuracy & 90.22\% & 86.67\% & \textbf{87.00\%} \\
+AUC & 0.8820 & 0.6673 & \textbf{0.6694} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{../assets/image/output-vit-resnet.png}
+\caption{ViT-ResNet pretrained training history}
+\label{fig:vit_resnet}
+\end{figure}
+
+% ============================================================
+% CHAPTER 6: FULL-SCALE EXPERIMENT
+% ============================================================
+\chapter{Full-scale Experiment: ViT on 112,120 Images}
+\label{chap:fullscale}
+
+\section{Configuration}
+\begin{itemize}
+  \item \textbf{Dataset:} 112,120 images, split by Patient ID
+  \item \textbf{Split:} Train 78,614 / Val 11,212 / Test 22,294
+  \item \textbf{Patients:} 21,563 / 3,081 / 6,161
+  \item \textbf{Model:} ViT (patch 32, proj\_dim 64, 4 heads, 8 layers)
+  \item \textbf{Epochs:} 10, Batch size: 32
+\end{itemize}
+
+\section{Results}
+
+\begin{table}[H]
+\centering
+\caption{ViT Full-scale Results (112K images)}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metric} & \textbf{Train} & \textbf{Val} & \textbf{Test} \\
+\midrule
+Loss & 0.1985 & 0.1967 & \textbf{0.2001} \\
+Accuracy & 92.93\% & 93.01\% & \textbf{92.91\%} \\
+AUC (Macro) & 0.7195 & 0.7264 & \textbf{0.7225} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Per-class AUC}
+
+\begin{table}[H]
+\centering
+\caption{Per-class Test AUC (ViT Full-scale)}
+\label{tab:perclass_auc}
+\begin{tabular}{lclc}
+\toprule
+\textbf{Disease} & \textbf{AUC} & \textbf{Disease} & \textbf{AUC} \\
+\midrule
+Edema & \textbf{0.8422} & Pleural\_Thick. & 0.6997 \\
+Cardiomegaly & 0.7996 & Fibrosis & 0.6977 \\
+Effusion & 0.7880 & Mass & 0.6762 \\
+Consolidation & 0.7615 & Pneumonia & 0.6710 \\
+Pneumothorax & 0.7540 & Infiltration & 0.6614 \\
+Hernia & 0.7460 & Nodule & 0.5747 \\
+Emphysema & 0.7375 & & \\
+Atelectasis & 0.7170 & \textbf{Macro Avg} & \textbf{0.7225} \\
+No Finding & 0.7114 & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+% CHAPTER 7: COMPARISON & ANALYSIS
+% ============================================================
+\chapter{Comparison and Analysis}
+\label{chap:comparison}
+
+\section{Summary Comparison}
+
+\begin{table}[H]
+\centering
+\caption{All Models Comparison}
+\label{tab:comparison}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Model} & \textbf{Data} & \textbf{Params} & \textbf{Test AUC} & \textbf{Test Acc} & \textbf{Test Loss} & \textbf{Epochs} \\
+\midrule
+CNN & 60 & 95.6M & 0.5777 & -- & -- & 10 \\
+ResNet-34 & 60 & 21.3M & 0.4462 & -- & -- & 10 \\
+ViT-v1 & 60 & 9.0M & 0.5854 & 91.33\% & 0.2534 & 10 \\
+ViT-v2 & 60 & 9.0M & 0.6303 & 89.67\% & 0.2749 & 9 \\
+ViT-ResNet & 60 & 85.8M & 0.6694 & 87.00\% & 0.3768 & 10 \\
+\midrule
+\textbf{ViT Final} & \textbf{112K} & \textbf{9.0M} & \textbf{0.7225} & \textbf{92.91\%} & \textbf{0.2001} & \textbf{10} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Key Findings}
+
+\begin{enumerate}
+  \item \textbf{Data scale is decisive:} Same ViT architecture, AUC increased from 0.5854 (60 images) to \textbf{0.7225} (112K images) --- a 23.4\% improvement.
+
+  \item \textbf{Transfer learning is effective:} Pretrained ViT-ResNet achieved AUC 0.6694 with only 60 images, outperforming all from-scratch models on small data.
+
+  \item \textbf{CNN is unsuitable for limited data:} 99\% of parameters in the FC layer leads to severe overfitting (train AUC 0.91 vs test 0.58).
+
+  \item \textbf{ResNet needs large data:} Training from scratch on 60 images yields the lowest AUC (0.4462).
+
+  \item \textbf{ViT-v2 improves over v1:} SGD + early stopping increases AUC from 0.5854 to 0.6303.
+\end{enumerate}
+
+% ============================================================
+% CHAPTER 8: CONCLUSION
+% ============================================================
+\chapter{Conclusion and Future Work}
+\label{chap:conclusion}
+
+\section{Conclusions}
+\begin{enumerate}
+  \item Vision Transformer achieves the best performance on the full dataset (AUC 0.7225, Acc 92.91\%).
+  \item Transfer learning is critical when data is limited.
+  \item Data scale matters more than model architecture.
+  \item Simple CNN suffers from overfitting due to oversized FC layers.
+\end{enumerate}
+
+\section{Future Directions}
+\begin{itemize}
+  \item Apply Focal Loss / Asymmetric Loss to handle class imbalance.
+  \item Experiment with Swin Transformer for multi-scale features.
+  \item Build ensemble models for improved performance.
+  \item Increase training epochs and use learning rate scheduling.
+  \item Evaluate on CheXpert and MIMIC-CXR to verify generalizability.
+\end{itemize}
+
+% ============================================================
+% CHAPTER 9: TRAINING CONFIGURATION
+% ============================================================
+\chapter{Training Configuration}
+\label{chap:config}
+
+\begin{table}[H]
+\centering
+\caption{Common Training Configuration}
+\begin{tabular}{ll}
+\toprule
+\textbf{Parameter} & \textbf{Value} \\
+\midrule
+Image size & $224 \times 224$ \\
+Batch size & 32 (16 for ViT-ResNet) \\
+Number of classes & 15 \\
+Loss function & BCEWithLogitsLoss \\
+Learning rate & $1 \times 10^{-4}$ \\
+Weight decay & $1 \times 10^{-6}$ ($10^{-5}$ for ViT-v2) \\
+Optimizer & AdamW (SGD for ViT-v2) \\
+Epochs & 10 \\
+GPU & NVIDIA GeForce RTX 3060 Laptop (6.4 GB) \\
+CUDA & 12.6 \\
+Framework & PyTorch 2.x \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+% REFERENCES
+% ============================================================
+\begin{thebibliography}{20}
+
+\bibitem{jain2024comparative}
+Jain, M. et al. (2024).
+\textit{A Comparative Study of CNN, ResNet, and Vision Transformers for Multi-Classification of Chest Diseases}.
+arXiv:2406.00237.
+
+\bibitem{wang2017chestxray14}
+Wang, X. et al. (2017).
+\textit{ChestX-ray8: Hospital-scale Chest X-ray Database and Benchmarks}.
+CVPR.
+
+\bibitem{dosovitskiy2020vit}
+Dosovitskiy, A. et al. (2020).
+\textit{An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale}.
+ICLR.
+
+\bibitem{he2016resnet}
+He, K. et al. (2016).
+\textit{Deep Residual Learning for Image Recognition}.
+CVPR.
+
+\bibitem{rajpurkar2017chexnet}
+Rajpurkar, P. et al. (2017).
+\textit{CheXNet: Radiologist-Level Pneumonia Detection on Chest X-Rays with Deep Learning}.
+arXiv:1711.05225.
+
+\bibitem{lin2017focal}
+Lin, T.-Y. et al. (2017).
+\textit{Focal Loss for Dense Object Detection}.
+ICCV.
+
+\bibitem{ridnik2021asymmetric}
+Ridnik, T. et al. (2021).
+\textit{Asymmetric Loss For Multi-Label Classification}.
+ICCV.
+
+\bibitem{vaswani2017attention}
+Vaswani, A. et al. (2017).
+\textit{Attention Is All You Need}.
+NeurIPS.
+
+\bibitem{liu2021swin}
+Liu, Z. et al. (2021).
+\textit{Swin Transformer: Hierarchical Vision Transformer using Shifted Windows}.
+ICCV.
+
+\bibitem{irvin2019chexpert}
+Irvin, J. et al. (2019).
+\textit{CheXpert: A Large Chest Radiograph Dataset with Uncertainty Labels and Expert Comparison}.
+AAAI.
+
+\end{thebibliography}
+
+\end{document}

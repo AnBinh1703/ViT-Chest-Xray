@@ -1,0 +1,665 @@
+% ============================================================
+%  BÁO CÁO PHÂN TÍCH CHUYÊN SÂU — TIẾNG VIỆT
+%  Paper: A Comparative Study of CNN, ResNet, and Vision Transformers
+%         for Multi-Classification of Chest Diseases
+%  Biên dịch: pdfLaTeX, UTF-8
+% ============================================================
+
+\documentclass[12pt,a4paper]{report}
+
+% === Encoding & Language ===
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage[vietnamese]{babel}
+\addto\captionsvietnamese{
+  \renewcommand{\contentsname}{MỤC LỤC}
+  \renewcommand{\listfigurename}{DANH SÁCH HÌNH}
+  \renewcommand{\listtablename}{DANH SÁCH BẢNG}
+  \renewcommand{\chaptername}{Chương}
+  \renewcommand{\figurename}{Hình}
+  \renewcommand{\tablename}{Bảng}
+}
+
+% === Fonts ===
+\usepackage{newtxtext}
+
+% === Page layout ===
+\usepackage[a4paper,top=2cm,bottom=2cm,left=2.5cm,right=2cm]{geometry}
+\usepackage{setspace}\onehalfspacing
+\usepackage{parskip}
+\usepackage{indentfirst}
+\usepackage{microtype}
+
+% === Section formatting ===
+\usepackage{titlesec}
+\titleformat{\chapter}{\normalfont\huge\bfseries\color{blue!70!black}}{\thechapter.}{0.5em}{\Huge\color{blue!70!black}}
+\titlespacing*{\chapter}{0pt}{-10pt}{10pt}
+\titleformat{\section}{\normalfont\Large\bfseries\color{blue!60!black}}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries\color{blue!50!black}}{\thesubsection}{1em}{}
+
+% === Math / Tables / Figures ===
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,longtable,array,multirow}
+\usepackage{graphicx,float,subcaption}
+\usepackage{caption}
+\captionsetup{font={small,it},labelfont={bf,color=blue!70!black}}
+\usepackage{algorithm,algorithmic}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg}
+
+% === TikZ ===
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,calc}
+
+% === Links ===
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,citecolor=green!50!black,urlcolor=blue}
+
+% === Headers ===
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\leftmark}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% === Lists / Code ===
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\tcbuselibrary{listings,skins,breakable}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{pythonstyle}{
+  backgroundcolor=\color{backcolour},
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{blue},
+  stringstyle=\color{codepurple},
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  numbers=left,
+  numberstyle=\tiny\color{codegray},
+  frame=single,
+  language=Python
+}
+\lstset{style=pythonstyle}
+
+% === Macros ===
+\newcommand{\paperref}[1]{\textcolor{blue!70!black}{[Paper: #1]}}
+
+% ============================================================
+\begin{document}
+
+% === TITLE PAGE ===
+\begin{titlepage}
+\centering
+\vspace*{1cm}
+{\Large\textbf{ĐẠI HỌC FPT -- VIỆN ĐÀO TẠO SAU ĐẠI HỌC}}\\[0.3cm]
+{\large Chương trình Thạc sĩ Kỹ thuật Phần mềm}\\[2cm]
+
+{\Huge\bfseries\color{blue!70!black}
+Nghiên cứu So sánh CNN, ResNet\\và Vision Transformer\\cho Phân loại Đa nhãn\\Bệnh lý X-quang Ngực}\\[1.5cm]
+
+{\Large Môn học: \textbf{DLE501 -- Deep Learning}}\\[0.5cm]
+{\large Giảng viên: \textbf{TS. [Tên giảng viên]}}\\[1cm]
+
+\begin{tabular}{ll}
+\textbf{Nhóm 1:} & \\
+& [Thành viên 1] \\
+& [Thành viên 2] \\
+& [Thành viên 3] \\
+\end{tabular}\\[2cm]
+
+{\large\textbf{Thành phố Hồ Chí Minh -- 2026}}
+\end{titlepage}
+
+% === ABSTRACT ===
+\chapter*{Tóm tắt nghiên cứu}
+\addcontentsline{toc}{chapter}{Tóm tắt nghiên cứu}
+
+\begin{tcolorbox}[enhanced,colback=blue!3!white,colframe=blue!60!black,boxrule=1pt,arc=3mm,title={\textbf{\large Tổng quan}}]
+Bài báo \textit{``A Comparative Study of CNN, ResNet, and Vision Transformers for Multi-Classification of Chest Diseases''} (arXiv:2406.00237) so sánh hiệu năng của ba nhóm kiến trúc học sâu trong bài toán phân loại đa nhãn bệnh lý trên ảnh X-quang ngực sử dụng bộ dữ liệu \textbf{NIH ChestX-ray14}.
+
+Các mô hình được nghiên cứu: CNN baseline, ResNet-34, ViT-v1 (từ đầu), ViT-v2 (cải tiến), và ViT-ResNet (pretrained).
+\end{tcolorbox}
+
+\vspace{0.5cm}
+
+\begin{tcolorbox}[enhanced,colback=green!3!white,colframe=green!60!black,boxrule=1pt,arc=3mm,title={\textbf{\large Kết quả thực nghiệm chính}}]
+\begin{table}[H]
+\centering\small
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Mô hình} & \textbf{Params} & \textbf{Test AUC} & \textbf{Test Acc} & \textbf{Epochs} & \textbf{Ghi chú} \\
+\midrule
+CNN & $\sim$95.6M & 0.5777 & -- & 10 & Overfitting nghiêm trọng \\
+ResNet-34 & $\sim$21.3M & 0.4462 & -- & 10 & Underfitting \\
+ViT-v1 & 9.0M & 0.5854 & 91.33\% & 10 & Huấn luyện từ đầu \\
+ViT-v2 & 9.0M & 0.6303 & 89.67\% & 9 & SGD + Early stopping \\
+ViT-ResNet & 85.8M & 0.6694 & 87.00\% & 10 & Pretrained ImageNet \\
+\midrule
+\textbf{ViT Final} & \textbf{9.0M} & \textbf{0.7225} & \textbf{92.91\%} & \textbf{10} & \textbf{Full dataset 112K} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textit{Kết quả trên tập con nhỏ (60 ảnh train) cho thấy ViT-ResNet pretrained đạt AUC cao nhất (0.6694). Khi chạy trên toàn bộ 112,120 ảnh với patient-level split, ViT đạt AUC 0.7225.}
+\end{tcolorbox}
+
+% === TOC ===
+\tableofcontents\clearpage
+\listoffigures\clearpage
+\listoftables\clearpage
+
+\pagenumbering{arabic}\setcounter{page}{1}
+
+% ============================================================
+% CHAPTER 1: INTRODUCTION
+% ============================================================
+\chapter{Giới thiệu}
+\label{chap:intro}
+
+\section{Bối cảnh lâm sàng}
+Bệnh lý phổi và tim--phổi là nguyên nhân hàng đầu gây tử vong toàn cầu. X-quang ngực là phương tiện chẩn đoán phổ biến nhất nhờ chi phí thấp, tốc độ nhanh, và khả năng phát hiện đa dạng bệnh lý.
+
+\section{Thách thức}
+\begin{itemize}
+  \item Thiếu hụt bác sĩ chẩn đoán hình ảnh, đặc biệt tại vùng sâu vùng xa.
+  \item Biến thiên giữa các bác sĩ trong đánh giá cùng một ảnh.
+  \item Bản chất đa nhãn: một ảnh có thể mang nhiều bệnh đồng thời.
+  \item Dấu hiệu bệnh tinh vi, nhiều tổn thương giai đoạn sớm rất khó phát hiện.
+\end{itemize}
+
+\section{Mục tiêu nghiên cứu}
+Bài báo tập trung so sánh CNN, ResNet-34, và Vision Transformer trên bộ dữ liệu NIH ChestX-ray14 với 112,120 ảnh và 14 bệnh lý. Các câu hỏi nghiên cứu:
+\begin{enumerate}
+  \item[\textbf{RQ1}] Hiệu năng CNN, ResNet và ViT khác nhau thế nào?
+  \item[\textbf{RQ2}] Transfer learning cải thiện bao nhiêu so với huấn luyện từ đầu?
+  \item[\textbf{RQ3}] Yếu tố nào quyết định hiệu năng: kiến trúc hay dữ liệu?
+\end{enumerate}
+
+% ============================================================
+% CHAPTER 2: DATASET
+% ============================================================
+\chapter{Bộ dữ liệu NIH ChestX-ray14}
+\label{chap:dataset}
+
+\section{Thông tin tổng quan}
+
+\begin{table}[H]
+\centering
+\caption{Thông tin bộ dữ liệu NIH ChestX-ray14}
+\begin{tabular}{ll}
+\toprule
+\textbf{Thuộc tính} & \textbf{Giá trị} \\
+\midrule
+Tổng số ảnh & 112,120 \\
+Số bệnh nhân & 30,805 \\
+Số lớp bệnh & 14 + No Finding = 15 \\
+Kích thước gốc & 1024 $\times$ 1024 pixels \\
+Format & PNG (grayscale $\to$ RGB) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{15 lớp bệnh lý}
+
+\begin{table}[H]
+\centering
+\caption{15 Classes trong NIH ChestX-ray14}
+\label{tab:15classes}
+\begin{tabular}{clcl}
+\toprule
+\textbf{ID} & \textbf{Tên bệnh} & \textbf{Tỷ lệ (\%)} & \textbf{Mô tả} \\
+\midrule
+0 & Cardiomegaly & 2.48 & Tim to \\
+1 & Emphysema & 2.24 & Khí phế thũng \\
+2 & Effusion & 11.88 & Tràn dịch màng phổi \\
+3 & Hernia & 0.20 & Thoát vị \\
+4 & Nodule & 5.65 & Nốt phổi \\
+5 & Pneumothorax & 4.73 & Tràn khí màng phổi \\
+6 & Atelectasis & 10.31 & Xẹp phổi \\
+7 & Pleural\_Thickening & 3.02 & Dày màng phổi \\
+8 & Mass & 5.16 & Khối u \\
+9 & Edema & 2.05 & Phù phổi \\
+10 & Consolidation & 4.16 & Đông đặc phổi \\
+11 & Infiltration & 17.74 & Thâm nhiễm \\
+12 & Fibrosis & 1.50 & Xơ phổi \\
+13 & Pneumonia & 1.28 & Viêm phổi \\
+14 & No Finding & 53.84 & Bình thường \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Mất cân bằng lớp}
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Vấn đề Class Imbalance]
+\begin{itemize}
+  \item ``No Finding'' chiếm \textbf{53.84\%} --- hơn một nửa dataset.
+  \item ``Hernia'' chỉ chiếm \textbf{0.20\%} --- hiếm nhất.
+  \item Tỷ lệ chênh lệch cao nhất/thấp nhất = 53.84 / 0.20 = \textbf{269 lần}.
+\end{itemize}
+\end{tcolorbox}
+
+\section{Multi-label Classification}
+Mỗi ảnh có thể mang nhiều nhãn bệnh đồng thời. Do đó sử dụng \textbf{Sigmoid} (thay vì Softmax) và \textbf{BCEWithLogitsLoss}.
+
+\section{Chia tập dữ liệu}
+
+\textbf{Thí nghiệm 1 (Small-scale):} 60 train / 20 val / 20 test ảnh.
+
+\textbf{Thí nghiệm 2 (Full-scale):} 112,120 ảnh chia theo Patient ID:
+\begin{itemize}
+  \item Train: 78,614 ảnh (21,563 bệnh nhân)
+  \item Val: 11,212 ảnh (3,081 bệnh nhân)
+  \item Test: 22,294 ảnh (6,161 bệnh nhân)
+\end{itemize}
+
+% ============================================================
+% CHAPTER 3: CNN
+% ============================================================
+\chapter{Convolutional Neural Network (CNN)}
+\label{chap:cnn}
+
+\section{Kiến trúc}
+CNN baseline gồm 2 lớp tích chập (32 và 64 filters, kernel $3\times3$), mỗi lớp đi kèm ReLU và MaxPool $2\times2$, sau đó Flatten, FC 512 nút, Dropout 0.5, và lớp đầu ra 15 nút.
+
+\section{Phân tích tham số}
+\begin{table}[H]
+\centering
+\caption{Tham số CNN baseline}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Lớp} & \textbf{Số tham số} & \textbf{Tỷ lệ} \\
+\midrule
+Conv layers & $\sim$19,400 & 0.02\% \\
+FC layers & $\sim$95,560,000 & 99.98\% \\
+\midrule
+\textbf{Tổng} & $\sim$\textbf{95.6M} & 100\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Vấn đề]
+99\% tham số nằm ở FC layer $\Rightarrow$ overfitting nghiêm trọng. Train AUC = 0.9116 nhưng Test AUC chỉ đạt 0.5777.
+\end{tcolorbox}
+
+\section{Kết quả thực nghiệm}
+
+\begin{table}[H]
+\centering
+\caption{Kết quả CNN (small-scale, 60 ảnh train)}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metric} & \textbf{Train} & \textbf{Val} & \textbf{Test} \\
+\midrule
+Loss & 0.2034 & 0.2668 & -- \\
+AUC & 0.9116 & 0.5777 & \textbf{0.5777} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{../assets/image/output_cnn.png}
+\caption{Diễn biến huấn luyện CNN: overfitting rõ rệt}
+\label{fig:cnn}
+\end{figure}
+
+% ============================================================
+% CHAPTER 4: RESNET
+% ============================================================
+\chapter{Residual Network (ResNet-34)}
+\label{chap:resnet}
+
+\section{Ý tưởng cốt lõi: Skip Connection}
+ResNet giải quyết degradation problem bằng residual learning:
+\[y = F(x) + x\]
+Gradient luôn có thành phần ``1'' đi qua skip connection, tránh vanishing gradient.
+
+\section{Kiến trúc ResNet-34}
+\begin{table}[H]
+\centering
+\caption{Kiến trúc ResNet-34}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Stage} & \textbf{Output} & \textbf{Channels} & \textbf{Blocks} & \textbf{Stride} \\
+\midrule
+Conv1 & $112\times112$ & 64 & -- & 2 \\
+MaxPool & $56\times56$ & 64 & -- & 2 \\
+Layer1 & $56\times56$ & 64 & 3 & 1 \\
+Layer2 & $28\times28$ & 128 & 4 & 2 \\
+Layer3 & $14\times14$ & 256 & 6 & 2 \\
+Layer4 & $7\times7$ & 512 & 3 & 2 \\
+AvgPool + FC & -- & 15 & -- & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Tổng: $\sim$21.3M tham số (ít hơn nhiều so với CNN 95.6M).
+
+\section{Kết quả thực nghiệm}
+
+\begin{table}[H]
+\centering
+\caption{Kết quả ResNet-34 (small-scale, 60 ảnh train)}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metric} & \textbf{Train} & \textbf{Val} & \textbf{Test} \\
+\midrule
+Loss & 0.3065 & 0.3742 & -- \\
+AUC & 0.7342 & 0.4462 & \textbf{0.4462} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{../assets/image/output-resnet.png}
+\caption{Diễn biến huấn luyện ResNet-34}
+\label{fig:resnet}
+\end{figure}
+
+\begin{tcolorbox}[colback=yellow!5!white,colframe=orange!75!black,title=Phân tích]
+ResNet-34 huấn luyện từ đầu trên dữ liệu nhỏ cho kết quả kém (AUC 0.4462). Kiến trúc sâu cần pretrained weights hoặc dữ liệu lớn để phát huy hiệu quả.
+\end{tcolorbox}
+
+% ============================================================
+% CHAPTER 5: VISION TRANSFORMER
+% ============================================================
+\chapter{Vision Transformer (ViT)}
+\label{chap:vit}
+
+\section{Kiến trúc tổng quan}
+ViT chuyển bài toán ảnh thành bài toán chuỗi:
+\begin{enumerate}
+  \item Chia ảnh $224\times224$ thành patches $32\times32$ $\Rightarrow$ 49 patches.
+  \item Linear projection sang embedding dimension 64.
+  \item Thêm positional embedding + [CLS] token.
+  \item Đưa qua 8 Transformer Encoder blocks (4 attention heads).
+  \item MLP Head: [CLS] output $\to$ 15 classes (sigmoid).
+\end{enumerate}
+
+Tổng: \textbf{9,005,839 tham số}.
+
+\section{ViT-v1: Huấn luyện từ đầu}
+
+Cấu hình: Adam optimizer, lr = $10^{-4}$, weight decay = $10^{-6}$, 10 epochs.
+
+\begin{table}[H]
+\centering
+\caption{Kết quả ViT-v1 (small-scale)}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metric} & \textbf{Train} & \textbf{Val} & \textbf{Test} \\
+\midrule
+Loss & 0.2569 & 0.2717 & 0.2534 \\
+Accuracy & 90.56\% & 90.00\% & \textbf{91.33\%} \\
+AUC & 0.5883 & 0.5868 & \textbf{0.5854} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{../assets/image/output-roc-vit-v1.png}
+\caption{ROC curves ViT-v1 theo từng lớp bệnh}
+\label{fig:vit_v1_roc}
+\end{figure}
+
+\section{ViT-v2: Cải tiến với SGD và Early Stopping}
+
+Thay đổi so với v1: SGD optimizer, weight decay = $10^{-5}$, early stopping patience = 3.
+
+\begin{table}[H]
+\centering
+\caption{Kết quả ViT-v2 (small-scale)}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metric} & \textbf{Train} & \textbf{Val} & \textbf{Test} \\
+\midrule
+Loss & 0.2657 & 0.2413 & 0.2749 \\
+Accuracy & 89.78\% & 91.67\% & \textbf{89.67\%} \\
+AUC & 0.5630 & 0.5947 & \textbf{0.6303} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{../assets/image/output-roc-vit-v2.png}
+\caption{ROC curves ViT-v2}
+\label{fig:vit_v2_roc}
+\end{figure}
+
+\section{ViT-ResNet: Pretrained (timm vit\_base\_patch16\_224)}
+
+Sử dụng \texttt{vit\_base\_patch16\_224} pretrained trên ImageNet. Tổng: \textbf{85,810,191 tham số}.
+
+\begin{table}[H]
+\centering
+\caption{Kết quả ViT-ResNet pretrained (small-scale)}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metric} & \textbf{Train} & \textbf{Val} & \textbf{Test} \\
+\midrule
+Loss & 0.2425 & 0.3232 & 0.3768 \\
+Accuracy & 90.22\% & 86.67\% & \textbf{87.00\%} \\
+AUC & 0.8820 & 0.6673 & \textbf{0.6694} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{../assets/image/output-vit-resnet.png}
+\caption{Diễn biến huấn luyện ViT-ResNet pretrained}
+\label{fig:vit_resnet}
+\end{figure}
+
+% ============================================================
+% CHAPTER 6: FULL-SCALE EXPERIMENT
+% ============================================================
+\chapter{Thí nghiệm Full-scale: ViT trên 112,120 ảnh}
+\label{chap:fullscale}
+
+\section{Cấu hình}
+\begin{itemize}
+  \item \textbf{Dataset:} 112,120 ảnh, chia theo Patient ID
+  \item \textbf{Split:} Train 78,614 / Val 11,212 / Test 22,294
+  \item \textbf{Patients:} 21,563 / 3,081 / 6,161
+  \item \textbf{Model:} ViT (patch 32, proj\_dim 64, 4 heads, 8 layers)
+  \item \textbf{Epochs:} 10, Batch size: 32
+\end{itemize}
+
+\section{Kết quả}
+
+\begin{table}[H]
+\centering
+\caption{Kết quả ViT Full-scale (112K ảnh)}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metric} & \textbf{Train} & \textbf{Val} & \textbf{Test} \\
+\midrule
+Loss & 0.1985 & 0.1967 & \textbf{0.2001} \\
+Accuracy & 92.93\% & 93.01\% & \textbf{92.91\%} \\
+AUC (Macro) & 0.7195 & 0.7264 & \textbf{0.7225} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{AUC theo từng lớp bệnh}
+
+\begin{table}[H]
+\centering
+\caption{Per-class AUC trên tập Test (ViT Full-scale)}
+\label{tab:perclass_auc}
+\begin{tabular}{lclc}
+\toprule
+\textbf{Bệnh} & \textbf{AUC} & \textbf{Bệnh} & \textbf{AUC} \\
+\midrule
+Edema & \textbf{0.8422} & Pleural\_Thick. & 0.6997 \\
+Cardiomegaly & 0.7996 & Fibrosis & 0.6977 \\
+Effusion & 0.7880 & Mass & 0.6762 \\
+Consolidation & 0.7615 & Pneumonia & 0.6710 \\
+Pneumothorax & 0.7540 & Infiltration & 0.6614 \\
+Hernia & 0.7460 & Nodule & 0.5747 \\
+Emphysema & 0.7375 & & \\
+Atelectasis & 0.7170 & \textbf{Macro Avg} & \textbf{0.7225} \\
+No Finding & 0.7114 & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+% CHAPTER 7: COMPARISON & ANALYSIS
+% ============================================================
+\chapter{So sánh và Phân tích}
+\label{chap:comparison}
+
+\section{Bảng so sánh tổng hợp}
+
+\begin{table}[H]
+\centering
+\caption{So sánh tất cả các mô hình}
+\label{tab:comparison}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Model} & \textbf{Data} & \textbf{Params} & \textbf{Test AUC} & \textbf{Test Acc} & \textbf{Test Loss} & \textbf{Epochs} \\
+\midrule
+CNN & 60 & 95.6M & 0.5777 & -- & -- & 10 \\
+ResNet-34 & 60 & 21.3M & 0.4462 & -- & -- & 10 \\
+ViT-v1 & 60 & 9.0M & 0.5854 & 91.33\% & 0.2534 & 10 \\
+ViT-v2 & 60 & 9.0M & 0.6303 & 89.67\% & 0.2749 & 9 \\
+ViT-ResNet & 60 & 85.8M & 0.6694 & 87.00\% & 0.3768 & 10 \\
+\midrule
+\textbf{ViT Final} & \textbf{112K} & \textbf{9.0M} & \textbf{0.7225} & \textbf{92.91\%} & \textbf{0.2001} & \textbf{10} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Phân tích chính}
+
+\begin{enumerate}
+  \item \textbf{Dữ liệu quyết định:} Cùng kiến trúc ViT, AUC tăng từ 0.5854 (60 ảnh) lên \textbf{0.7225} (112K ảnh) --- cải thiện 23.4\%.
+
+  \item \textbf{Transfer learning hiệu quả:} ViT-ResNet pretrained đạt AUC 0.6694 chỉ với 60 ảnh, vượt tất cả mô hình from-scratch trên dữ liệu nhỏ.
+
+  \item \textbf{CNN không phù hợp cho dữ liệu ít:} 99\% tham số ở FC layer dẫn đến overfitting (train AUC 0.91 vs test 0.58).
+
+  \item \textbf{ResNet cần dữ liệu lớn:} Huấn luyện từ đầu trên 60 ảnh cho AUC thấp nhất (0.4462).
+
+  \item \textbf{ViT-v2 cải thiện v1:} SGD + early stopping giúp tăng AUC từ 0.5854 lên 0.6303.
+\end{enumerate}
+
+% ============================================================
+% CHAPTER 8: CONCLUSION
+% ============================================================
+\chapter{Kết luận và Hướng phát triển}
+\label{chap:conclusion}
+
+\section{Kết luận}
+\begin{enumerate}
+  \item Vision Transformer đạt hiệu năng tốt nhất trên full dataset (AUC 0.7225, Acc 92.91\%).
+  \item Transfer learning là yếu tố then chốt khi dữ liệu hạn chế.
+  \item Quy mô dữ liệu quan trọng hơn kiến trúc mô hình.
+  \item CNN đơn giản bị overfitting do cấu trúc FC quá lớn.
+\end{enumerate}
+
+\section{Hướng phát triển}
+\begin{itemize}
+  \item Sử dụng Focal Loss / Asymmetric Loss để xử lý class imbalance.
+  \item Thử nghiệm Swin Transformer cho multi-scale features.
+  \item Ensemble nhiều mô hình để tăng hiệu năng.
+  \item Tăng epochs và sử dụng learning rate scheduling.
+  \item Đánh giá trên CheXpert và MIMIC-CXR để kiểm chứng tính tổng quát.
+\end{itemize}
+
+% ============================================================
+% CHAPTER 9: CONFIGURATION
+% ============================================================
+\chapter{Cấu hình Huấn luyện}
+\label{chap:config}
+
+\begin{table}[H]
+\centering
+\caption{Cấu hình huấn luyện chung}
+\begin{tabular}{ll}
+\toprule
+\textbf{Tham số} & \textbf{Giá trị} \\
+\midrule
+Image size & $224 \times 224$ \\
+Batch size & 32 (16 cho ViT-ResNet) \\
+Num classes & 15 \\
+Loss function & BCEWithLogitsLoss \\
+Learning rate & $1 \times 10^{-4}$ \\
+Weight decay & $1 \times 10^{-6}$ ($10^{-5}$ cho ViT-v2) \\
+Optimizer & AdamW (SGD cho ViT-v2) \\
+Epochs & 10 \\
+GPU & NVIDIA GeForce RTX 3060 Laptop (6.4 GB) \\
+CUDA & 12.6 \\
+Framework & PyTorch 2.x \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+% REFERENCES
+% ============================================================
+\begin{thebibliography}{20}
+
+\bibitem{jain2024comparative}
+Jain, M. et al. (2024).
+\textit{A Comparative Study of CNN, ResNet, and Vision Transformers for Multi-Classification of Chest Diseases}.
+arXiv:2406.00237.
+
+\bibitem{wang2017chestxray14}
+Wang, X. et al. (2017).
+\textit{ChestX-ray8: Hospital-scale Chest X-ray Database and Benchmarks}.
+CVPR.
+
+\bibitem{dosovitskiy2020vit}
+Dosovitskiy, A. et al. (2020).
+\textit{An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale}.
+ICLR.
+
+\bibitem{he2016resnet}
+He, K. et al. (2016).
+\textit{Deep Residual Learning for Image Recognition}.
+CVPR.
+
+\bibitem{rajpurkar2017chexnet}
+Rajpurkar, P. et al. (2017).
+\textit{CheXNet: Radiologist-Level Pneumonia Detection on Chest X-Rays with Deep Learning}.
+arXiv:1711.05225.
+
+\bibitem{lin2017focal}
+Lin, T.-Y. et al. (2017).
+\textit{Focal Loss for Dense Object Detection}.
+ICCV.
+
+\bibitem{ridnik2021asymmetric}
+Ridnik, T. et al. (2021).
+\textit{Asymmetric Loss For Multi-Label Classification}.
+ICCV.
+
+\bibitem{vaswani2017attention}
+Vaswani, A. et al. (2017).
+\textit{Attention Is All You Need}.
+NeurIPS.
+
+\bibitem{liu2021swin}
+Liu, Z. et al. (2021).
+\textit{Swin Transformer: Hierarchical Vision Transformer using Shifted Windows}.
+ICCV.
+
+\bibitem{irvin2019chexpert}
+Irvin, J. et al. (2019).
+\textit{CheXpert: A Large Chest Radiograph Dataset with Uncertainty Labels and Expert Comparison}.
+AAAI.
+
+\end{thebibliography}
+
+\end{document}

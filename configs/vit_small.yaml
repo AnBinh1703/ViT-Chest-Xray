@@ -1,0 +1,53 @@
+# ============================================
+# Vision Transformer (ViT) Configuration
+# ============================================
+# Inherits from base.yaml
+
+_base_: base.yaml
+
+experiment:
+  name: vit_small_chestxray
+
+model:
+  name: vit
+  variant: small  # small, base, large
+  num_classes: 15
+  
+  # Architecture parameters
+  image_size: 224
+  patch_size: 16
+  embed_dim: 384       # small=384, base=768, large=1024
+  depth: 12            # Number of transformer blocks
+  num_heads: 6         # small=6, base=12, large=16
+  mlp_ratio: 4.0
+  dropout: 0.1
+  attention_dropout: 0.1
+  
+  # Pretrained settings
+  pretrained: false
+  pretrained_weights: null  # Path to pretrained weights
+
+# ViT-specific training settings
+training:
+  epochs: 100
+  lr: 3e-4
+  weight_decay: 0.05
+  
+  # Warmup is important for ViT
+  scheduler: cosine
+  warmup_epochs: 10
+  
+  # ViT benefits from label smoothing
+  label_smoothing: 0.1
+
+# Use higher resolution for ViT
+data:
+  image_size: 224
+  batch_size: 32
+  augmentation: advanced
+
+loss:
+  name: combined
+  focal_weight: 0.5
+  bce_weight: 0.5
+  gamma: 2.0

@@ -1269,11 +1269,11 @@ class BasicBlock(nn.Module):
     def __init__(self, in_channels, out_channels, stride=1, downsample=None):
         super().__init__()
         self.conv1 = nn.Conv2d(in_channels, out_channels,
-                               kernel_size=3, stride=stride, padding=1, bias=False)
+                               kernel_size=3, stride=stride, padding=0, bias=False)
         self.bn1 = nn.BatchNorm2d(out_channels)
         self.relu = nn.ReLU(inplace=True)
         self.conv2 = nn.Conv2d(out_channels, out_channels,
-                               kernel_size=3, padding=1, bias=False)
+                               kernel_size=3, padding=0, bias=False)
         self.bn2 = nn.BatchNorm2d(out_channels)
         self.downsample = downsample
 
@@ -1330,9 +1330,8 @@ Initialization & Kaiming Normal \\
 \toprule
 Chỉ số & Train & Validation & Test \\
 \midrule
-Loss (epoch cuối) & 0.2786 & 0.3742 & -- \\
-AUC (epoch cuối) & 0.7768 & 0.5235 & $\sim$0.53 \\
-Best Val AUC & -- & 0.5293 (epoch 6) & -- \\
+ & 73.42  & 44.62 & 44.62 \\
+
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1344,7 +1343,7 @@ title=Analysis -- Vì sao ResNet-34 chưa đạt hiệu năng cao?]
 \begin{itemize}
   \item \textbf{Huấn luyện từ đầu}: Không dùng pretrained ImageNet.
   \item \textbf{Dữ liệu hiệu dụng nhỏ}: Một phần thí nghiệm dùng sample nhỏ.
-  \item \textbf{Overfitting}: Train AUC cao (0.78) nhưng Val AUC thấp (0.52).
+  \item \textbf{Overfitting}: Train AUC cao (0.73) nhưng Val AUC thấp (0.451).
 \end{itemize}
 \end{tcolorbox}
 
@@ -1398,7 +1397,20 @@ hết sức mạnh trong bài toán X-quang ngực, cần sử dụng pretrained
 \paperref{Section 3.3 - Vision Transformer}
 
 \begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Paper Quote - ViT Motivation]
-\textit{``Vision Transformer (ViT) follows an approach to image classification by treating an image as a sequence of patches and processing it using a standard Transformer encoder like the ones used in NLP.''}
+\textit{``Vision Transformers (ViTs) [1] utilize transformer architecture to advance image classification,
+processing 224 × 224 pixel images 2a into (32 × 32) 2b patches considered as tokens, which are then
+projected into a higher dimension with positional embedding. Our vision transformer models include
+multiple transformer blocks with layer normalization to stabilize input features, multi-head attention
+for segment focus, skip connections to aid gradient flow, a multi-layer perceptron (MLP) with GELU
+activation sequence to enhance learning, and a final layer normalization before dropout-enhanced
+MLP outputs through a sigmoid activation layer for multi-label classification, effectively leveraging
+the transformer’s strengths for complex spatial hierarchies in medical imaging.- Vision Transformer (ViT) [1] sử dụng kiến ​​trúc transformer để nâng cao phân loại hình ảnh,
+xử lý hình ảnh 224 × 224 pixel 2a thành các mảng (32 × 32) 2b được coi là các token, sau đó được
+chiếu vào chiều cao hơn với nhúng vị trí. Các mô hình vision transformer của chúng tôi bao gồm
+nhiều khối transformer với chuẩn hóa lớp để ổn định các đặc trưng đầu vào, cơ chế chú ý đa đầu
+để tập trung vào phân đoạn, các kết nối bỏ qua để hỗ trợ luồng gradient, một perceptron đa lớp (MLP) với chuỗi kích hoạt GELU
+để tăng cường khả năng học tập và chuẩn hóa lớp cuối cùng trước khi xuất ra MLP được tăng cường dropout thông qua lớp kích hoạt sigmoid để phân loại đa nhãn, tận dụng hiệu quả
+thế mạnh của transformer cho các hệ thống phân cấp không gian phức tạp trong hình ảnh y tế.''}
 \end{tcolorbox}
 
 \subsection{\textbf{So sánh CNN và Transformer: Thiên lệch quy nạp}}
@@ -1479,7 +1491,9 @@ Vision Transformer chuyển bài toán ảnh thành bài toán chuỗi:
 \paperref{Section 3.3 - Vision Transformer}
 
 \begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Paper Quote - Patch Embedding]
-\textit{``This involves dividing the image into fixed-size non-overlapping patches, which are then linearly embedded.''}
+\textit{``Vision Transformers (ViTs) [1] utilize transformer architecture to advance image classification,
+processing 224 × 224 pixel images 2a into (32 × 32) 2b patches considered as tokens, which are then
+projected into a higher dimension with positional embedding.''}
 \end{tcolorbox}
 
 \subsection{\textbf{Mathematical Formulation}}
@@ -1578,15 +1592,15 @@ x = torch.cat([cls_tokens, x], dim=1)  # (B, N+1, D)
 % SECTION 6: TRANSFORMER ENCODER
 % ============================================================
 \section{\textbf{Step 4: Transformer Encoder}}
-
+Transformer Encoder là khối lặp nhiều lần để học quan hệ giữa các patch và tạo đặc trưng toàn cục cho ảnh.
 \subsection{\textbf{Scaled Dot-Product Attention}}
-
+Transformer Encoder là khối lặp nhiều lần để học quan hệ giữa các patch và tạo đặc trưng toàn cục cho ảnh.
 \begin{equation}
 \mathrm{Attention}(Q,K,V) = \mathrm{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
 \end{equation}
 
 \subsection{\textbf{Multi-Head Self-Attention}}
-
+Multi-Head chạy nhiều attention song song trên các không gian khác nhau rồi ghép lại để bắt nhiều kiểu quan hệ cùng lúc.
 \begin{equation}
 \mathrm{MultiHead}(Q,K,V)=\mathrm{Concat}(head_1,\dots,head_h)W^O
 \end{equation}
@@ -1596,7 +1610,7 @@ head_i = \mathrm{Attention}(QW_i^Q, KW_i^K, VW_i^V)
 \end{equation}
 
 \subsection{\textbf{Transformer Encoder Block (Pre-LN)}}
-
+Pre-LN nghĩa là chuẩn hoá (LayerNorm) trước attention/MLP và dùng residual để giúp train ổn định hơn.
 \begin{align}
 z'_l &= z_{l-1} + \mathrm{MHSA}(\mathrm{LN}(z_{l-1}))\\
 z_l &= z'_l + \mathrm{MLP}(\mathrm{LN}(z'_l))
@@ -1606,7 +1620,7 @@ z_l &= z'_l + \mathrm{MLP}(\mathrm{LN}(z'_l))
 class TransformerEncoderBlock(nn.Module):
     def __init__(self, embed_dim, num_heads, mlp_ratio=4.0, dropout=0.1):
         super().__init__()
-        self.norm1 = nn.LayerNorm(embed_dim)
+        self.norm1 = nn.LayerNorm(embed_dim) 
         self.norm2 = nn.LayerNorm(embed_dim)
 
         self.attn = nn.MultiheadAttention(
@@ -1631,6 +1645,16 @@ class TransformerEncoderBlock(nn.Module):
         x = x + attn_out
         x = x + self.mlp(self.norm2(x))
         return x
+
+#   norm1, norm2: chuẩn hoá input trước MHSA và trước MLP.
+
+#nn.MultiheadAttention: tính self-attention với Q=K=V=x_norm.
+
+#mlp: mạng 2 Linear + GELU + Dropout để tăng khả năng biểu diễn phi tuyến.
+
+#x = x + attn_out: residual connection sau attention.
+
+#x = x + mlp(...): residual connection sau MLP.
 \end{lstlisting}
 
 % ============================================================
@@ -1683,7 +1707,7 @@ class VisionTransformer(nn.Module):
 \section{\textbf{Loss Function, Class Imbalance và Computational Complexity}}
 
 \subsection{\textbf{Multi-label BCEWithLogitsLoss}}
-
+BCEWithLogitsLoss tính loss độc lập cho từng nhãn (sigmoid từng lớp) nên phù hợp bài toán multi-label.
 \begin{equation}
 \mathcal{L}_{BCE} = - \frac{1}{C}\sum_{c=1}^{C}
 \left[y_c \log\sigma(\hat{y}_c) + (1-y_c)\log(1-\sigma(\hat{y}_c))\right]
@@ -1762,171 +1786,6 @@ Pretrained & Không & Không & ImageNet-21K \\
     \item ViT pretrained cho kết quả tốt nhất vì transfer learning cung cấp feature space mạnh.
 \end{itemize}
 
-% ============================================================
-% SECTION: PER-CLASS AUC ANALYSIS
-% ============================================================
-\section{\textbf{Per-Class Performance Analysis}}
-\label{sec:perclass_analysis}
-
-\subsection{\textbf{Động lực (Motivation)}}
-
-Macro-AUC chỉ cung cấp một con số tổng hợp, che giấu sự khác biệt lớn giữa các lớp bệnh. Phân tích per-class AUC giúp:
-\begin{itemize}[noitemsep]
-  \item Xác định lớp nào mô hình perform tốt/kém.
-  \item Hiểu tác động của class imbalance.
-  \item Hướng dẫn cải tiến (VD: focal loss cho lớp hiếm).
-  \item Đánh giá clinical utility thực tế.
-\end{itemize}
-
-\subsection{\textbf{Per-Class AUC: Best Model (ViT Final)}}
-
-\begin{table}[H]
-\centering
-\caption[Per-class AUC cho 15 bệnh lý với mô hình tốt nhất]{Per-class AUC breakdown cho 15 bệnh lý (Best Model: ViT Final, Patient-level split)}
-\label{tab:perclass_auc_full}
-\begin{tabular}{clcccp{4.5cm}}
-\toprule
-\textbf{ID} & \textbf{Bệnh lý} & \textbf{Tỷ lệ (\%)} & \textbf{Số mẫu} & \textbf{Test AUC} & \textbf{Nhận xét} \\
-\midrule
-\multicolumn{6}{l}{\textit{\textbf{Nhóm 1: Bệnh hiếm (< 2\%) -- Khó nhất}}} \\
-3 & Hernia & 0.20 & 227 & 0.689 & Rất hiếm, hard negative mining cần thiết \\
-13 & Pneumonia & 1.28 & 1,431 & 0.712 & Overlapping với Infiltration \\
-12 & Fibrosis & 1.50 & 1,686 & 0.734 & Đặc trưng tinh vi, cần high-res \\
-9 & Edema & 2.05 & 2,303 & 0.758 & Benefit from CLAHE augmentation \\
-1 & Emphysema & 2.24 & 2,516 & 0.771 & Clear hyperinflation pattern \\
-0 & Cardiomegaly & 2.48 & 2,782 & 0.803 & Large-scale, dễ detect hơn \\
-\midrule
-\multicolumn{6}{l}{\textit{\textbf{Nhóm 2: Bệnh trung bình (2-6\%)}}} \\
-7 & Pleural\_Thickening & 3.02 & 3,385 & 0.724 & Subtle, cần expert labels \\
-10 & Consolidation & 4.16 & 4,667 & 0.746 & Confuse với Infiltration \\
-5 & Pneumothorax & 4.73 & 5,302 & 0.782 & Sharp pleural line → good AUC \\
-8 & Mass & 5.16 & 5,782 & 0.761 & Medium-scale features \\
-4 & Nodule & 5.65 & 6,331 & 0.738 & Nhiễu do calcifications \\
-\midrule
-\multicolumn{6}{l}{\textit{\textbf{Nhóm 3: Bệnh phổ biến (> 10\%)}}} \\
-6 & Atelectasis & 10.31 & 11,559 & 0.801 & Volume loss pattern rõ \\
-2 & Effusion & 11.88 & 13,317 & 0.824 & Blunted costophrenic angle \\
-11 & Infiltration & 17.74 & 19,894 & 0.692 & Vague label, nhiều FP \\
-14 & No Finding & 53.84 & 60,361 & 0.856 & Dominant class, high accuracy \\
-\midrule
-\multicolumn{6}{l}{} \\
-\multicolumn{3}{l}{\textbf{Macro-AUC (trung bình)}} & & \textbf{0.7225} & Cân bằng mọi lớp \\
-\multicolumn{3}{l}{\textbf{Weighted-AUC (theo số mẫu)}} & & \textbf{0.7891} & Thiên về lớp phổ biến \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{\textbf{Phân tích chi tiết theo nhóm}}
-
-\subsubsection{\textbf{Nhóm 1: Bệnh hiếm (Rare Diseases)}}
-
-\textbf{Thách thức chính:}
-\begin{itemize}[noitemsep]
-  \item Số mẫu quá ít (227-2,782 ảnh) → overfitting dễ xảy ra.
-  \item Model bias về predict "No Finding" vì chiếm 53.84\%.
-  \item Weak labels từ NLP extraction có nhiễu cao hơn.
-\end{itemize}
-
-\textbf{Giải pháp đề xuất:}
-\begin{itemize}[noitemsep]
-  \item Focal Loss ($\gamma=2$, $\alpha=0.25$) tăng AUC Hernia từ 0.689 → 0.791.
-  \item Class-balanced sampling với oversample rare classes.
-  \item Transfer learning quan trọng: pretrained giúp tăng 8-12\% AUC cho nhóm này.
-\end{itemize}
-
-\subsubsection{\textbf{Nhóm 2: Bệnh trung bình}}
-
-\textbf{Đặc điểm:}
-\begin{itemize}[noitemsep]
-  \item AUC dao động 0.724-0.782, phụ thuộc vào độ rõ ràng của pattern.
-  \item Pneumothorax (0.782) cao nhất do sharp pleural line dễ detect.
-  \item Pleural Thickening (0.724) thấp nhất do subtle appearance.
-\end{itemize}
-
-\textbf{Confusion patterns:}
-\begin{itemize}[noitemsep]
-  \item Consolidation ↔ Infiltration: Cả hai đều là opacities, khó phân biệt.
-  \item Mass ↔ Nodule: Khác nhau chủ yếu về kích thước (3cm threshold).
-\end{itemize}
-
-\subsubsection{\textbf{Nhóm 3: Bệnh phổ biến}}
-
-\textbf{Kết quả tốt:}
-\begin{itemize}[noitemsep]
-  \item No Finding (0.856), Effusion (0.824), Atelectasis (0.801) đều > 0.80.
-  \item Đủ dữ liệu để học pattern tốt.
-  \item Clear radiological signs (blunted angles, volume loss).
-\end{itemize}
-
-\textbf{Ngoại lệ: Infiltration (0.692)}:
-\begin{itemize}[noitemsep]
-  \item Dù phổ biến (17.74\%) nhưng AUC thấp nhất nhóm.
-  \item Nguyên nhân: Label quá mơ hồ, nhiều false positives.
-  \item "Infiltration" trong radiology reports có thể chỉ nhiều patterns khác nhau.
-\end{itemize}
-
-\subsection{\textbf{So sánh với Literature}}
-
-\begin{table}[H]
-\centering
-\caption{So sánh per-class AUC với các công trình khác}
-\label{tab:perclass_comparison}
-\begin{tabular}{lcccc}
-\toprule
-\textbf{Bệnh lý} & \textbf{Wang 2017} & \textbf{CheXNet 2017} & \textbf{Paper gốc} & \textbf{Luận văn này} \\
-\midrule
-Cardiomegaly & 0.810 & 0.925 & -- & 0.803 \\
-Emphysema & 0.833 & 0.939 & -- & 0.771 \\
-Effusion & 0.784 & 0.864 & -- & 0.824 \\
-Hernia & 0.767 & 0.914 & -- & 0.689 \\
-Pneumonia & 0.633 & 0.768 & -- & 0.712 \\
-Atelectasis & 0.716 & 0.803 & -- & 0.801 \\
-No Finding & -- & -- & -- & 0.856 \\
-\midrule
-\textbf{Macro-AUC} & 0.745 & 0.841 & 0.850 & 0.7225 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textbf{Phân tích sự khác biệt:}
-\begin{enumerate}[noitemsep]
-  \item \textbf{CheXNet cao hơn} vì:
-     \begin{itemize}
-       \item DenseNet-121 (pretrained) vs ViT (scratch hoặc limited pretrain).
-       \item Có thể dùng image-level split (data leakage).
-       \item Expert re-labeling cho test set.
-     \end{itemize}
-  \item \textbf{Luận văn này thấp hơn} nhưng \textbf{đáng tin hơn} vì:
-     \begin{itemize}
-       \item Patient-level split (no leakage).
-       \item Weak labels gốc (không re-label).
-       \item Evaluation nghiêm ngặt hơn.
-     \end{itemize}
-\end{enumerate}
-
-\subsection{\textbf{Clinical Implications}}
-
-\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Khuyến nghị Triển khai Lâm sàng]
-\textbf{Dựa trên per-class AUC, đề xuất strategy cho deployment:}
-
-\textbf{Tier 1 -- High Confidence (AUC > 0.80):}
-\begin{itemize}[noitemsep]
-  \item No Finding, Effusion, Atelectasis, Cardiomegaly
-  \item → Model có thể hỗ trợ screening, flag negative cases
-\end{itemize}
-
-\textbf{Tier 2 -- Medium Confidence (AUC 0.70-0.80):}
-\begin{itemize}[noitemsep]
-  \item Pneumothorax, Mass, Edema, Emphysema, Fibrosis
-  \item → Model gợi ý, bác sĩ confirm
-\end{itemize}
-
-\textbf{Tier 3 -- Low Confidence (AUC < 0.70):}
-\begin{itemize}[noitemsep]
-  \item Hernia, Infiltration, Pneumonia
-  \item → Không nên rely on model, cần expert review
-\end{itemize}
-\end{tcolorbox}
 
 % ============================================================
 % SECTION 11: KEY TAKEAWAYS
@@ -1963,7 +1822,7 @@ Tất cả các thí nghiệm được thực hiện trên bộ dữ liệu \tex
 \begin{itemize}[noitemsep]
     \item Dữ liệu được chia theo \textbf{ID bệnh nhân}, không chia theo ảnh.
     \item Mục tiêu: tránh rò rỉ dữ liệu khi một bệnh nhân có nhiều ảnh.
-    \item Tỷ lệ chia: 80\% train – 20\% test, validation được tách từ train.
+    \item Tỷ lệ chia: 60\% train – 20\% test, 20\% validation.
 \end{itemize}
 
 Chiến lược này nghiêm ngặt hơn so với bài báo gốc và phản ánh đúng hơn khả năng tổng quát hóa trên bệnh nhân mới.
@@ -1978,11 +1837,13 @@ Chiến lược này nghiêm ngặt hơn so với bài báo gốc và phản án
 \toprule
 \textbf{Parameter} & \textbf{CNN} & \textbf{ResNet} & \textbf{ViT-v1} & \textbf{ViT-v2} & \textbf{ViT-ResNet} \\
 \midrule
-Learning Rate & 0.001 & 0.001 & 0.001 & 0.0001 & 0.0001 \\
-Batch Size & 32 & 32 & 32 & 64 & 64 \\
-Epochs & 30 & 30 & 30 & 60 & 60 \\
-Optimizer & Adam & Adam & Adam & Adam & Adam \\
+Learning Rate & 0.0001 & 0.0001 & 0.0001 & 0.0001 & 0.0001 \\
+Batch Size & 32 & 32 & 32 & 32 & 16 \\
+Epochs & 10 & 10 & 10 & 10 & 10 \\
+Optimizer & AdamW & AdamW & AdamW & AdamW & AdamW \\
 Loss Function & BCEWithLogitsLoss & BCEWithLogitsLoss & BCEWithLogitsLoss & BCEWithLogitsLoss & BCEWithLogitsLoss \\
+Dropout & - & - & 0.1 & 0.1 & 0.1 \\
+Weight Decay & 1e-6 & 1e-6 & 1e-6 & 1e-5 & 1e-5 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -2075,12 +1936,11 @@ Khác với bài báo gốc, dự án này:
 \toprule
 \textbf{Mô hình} & \textbf{Tham số} & \textbf{Best Val AUC} & \textbf{Test AUC} & \textbf{Test Acc (\%)} & \textbf{Ghi chú} \\
 \midrule
-CNN Baseline & 95M & 0.5998 & 0.58 & 89.0 & Quá khớp (Overfitting) nặng \\
+CNN Baseline & 95M & 0.5998 & 0.58 & 91.16.0 & Quá khớp (Overfitting) nặng \\
 ResNet-34 (scratch) & 21M & 0.5293 & 0.53 & 91.0 & Không dùng pretrain \\
 ViT-v1 (scratch) & 9M & 0.6431 & 0.5854 & 91.33 & Patch size 32 \\
 ViT-v2 (scratch) & 9M & 0.5947 & 0.6303 & 89.67 & Có dùng Scheduler \\
 ViT pretrained & 86M & -- & 0.6694 & 87.00 & Dùng ImageNet pretrain \\
-\textbf{ViT Final (scratch)} & \textbf{9M} & \textbf{0.7272} & \textbf{0.7225} & \textbf{92.91} & \textbf{Chia theo bệnh nhân} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -2088,7 +1948,6 @@ ViT pretrained & 86M & -- & 0.6694 & 87.00 & Dùng ImageNet pretrain \\
 \subsection{\textbf{Vì sao kết quả AUC lại thấp hơn so với bài báo gốc?}}
 
 \begin{enumerate}[noitemsep]
-    \item Việc chia theo ID bệnh nhân giúp loại bỏ hoàn toàn hiện tượng rò rỉ thông tin giữa các tập dữ liệu.
     \item Chỉ số Macro-AUC đánh giá khắt khe hơn đáng kể so với Accuracy đơn thuần.
     \item Các kết quả này phản ánh chân thực hơn khả năng tổng quát hóa trong thực tế lâm sàng.
 \end{enumerate}
@@ -2096,14 +1955,13 @@ ViT pretrained & 86M & -- & 0.6694 & 87.00 & Dùng ImageNet pretrain \\
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 % 6.5 Thảo luận
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
-\section{\textbf{Thảo luận (Discussion)}}
+\section{\textbf{Kết luận (Conclusion)}}
 
-\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Tóm tắt thảo luận (Discussion Summary)]
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!75!black,title=Tóm tắt thảo luận (Summary)]
 \begin{itemize}
     \item ResNet thể hiện thiên lệch quy nạp (inductive bias) mạnh mẽ cho ảnh y khoa.
     \item Kiến trúc ViT thuần túy cần lượng dữ liệu khổng lồ hoặc kỹ thuật pretraining tốt.
     \item Mô hình lai ViT-ResNet đạt hiệu quả tốt nhờ kết hợp được cả đặc trưng cục bộ (local) và toàn cục (global).
-    \item Kết quả của chúng tôi tuy thấp hơn nhưng đảm bảo độ tin cậy khoa học cao hơn.
 \end{itemize}
 \end{tcolorbox}
 
@@ -2431,74 +2289,7 @@ def plot_pr_curves(y_true, y_pred, class_names):
     plt.savefig('pr_curves_all_classes.png', dpi=300, bbox_inches='tight')
 \end{lstlisting}
 
-\subsection*{3. Qualitative Case Studies}
-\textbf{Cần 6-8 case studies với format:}
-\begin{itemize}[noitemsep]
-  \item \textbf{Input image} (ảnh X-quang gốc)
-  \item \textbf{Ground truth labels}
-  \item \textbf{Model predictions} (probabilities)
-  \item \textbf{Attention/Grad-CAM overlay}
-  \item \textbf{Analysis}: Tại sao đúng/sai?
-\end{itemize}
-
-\textbf{Các trường hợp nên bao gồm:}
-\begin{enumerate}[noitemsep]
-  \item True Positive: Pneumonia detected correctly
-  \item True Negative: No Finding correctly identified
-  \item False Positive: Model hallucinates Infiltration
-  \item False Negative: Missed Pneumothorax (subtle case)
-  \item Multi-label success: Effusion + Cardiomegaly both detected
-  \item Challenging case: Hernia (rare disease)
-\end{enumerate}
-
-\subsection*{4. Confusion Matrix (Multi-label adapted)}
-\textbf{Cho top 5 bệnh phổ biến:}
-\begin{itemize}[noitemsep]
-  \item Heatmap co-occurrence giữa predicted và true labels
-  \item Phát hiện confusion patterns: Consolidation ↔ Infiltration
-\end{itemize}
-
-\subsection*{5. Calibration Plots}
-\textbf{Kiểm tra xác suất dự đoán có đáng tin không:}
-\begin{itemize}[noitemsep]
-  \item Perfect calibration: predicted prob = actual frequency
-  \item Overconfident models cần calibration (Temperature Scaling)
-\end{itemize}
-
-\textbf{Code:}
-\begin{lstlisting}[language=Python,caption={Calibration curve}]
-from sklearn.calibration import calibration_curve
-
-def plot_calibration(y_true, y_pred, n_bins=10):
-    prob_true, prob_pred = calibration_curve(
-        y_true, y_pred, n_bins=n_bins, strategy='uniform'
-    )
-    
-    plt.plot([0, 1], [0, 1], 'k--', label='Perfect calibration')
-    plt.plot(prob_pred, prob_true, 's-', label='Model')
-    plt.xlabel('Mean predicted probability')
-    plt.ylabel('Fraction of positives')
-    plt.title('Calibration Curve')
-    plt.legend()
-    plt.grid(True, alpha=0.3)
-\end{lstlisting}
-
-\subsection{\textbf{Kế hoạch triển khai (Implementation Timeline)}}
-
-\textbf{Để hoàn thiện phần trực quan hóa kết quả, chúng tôi đề xuất lộ trình:}
-\begin{enumerate}
-  \item \textbf{Tuần 1}: Tạo Attention maps cho 3 trường hợp nghiên cứu điểm (Pneumonia, Cardiomegaly, Multi-label).
-  \item \textbf{Tuần 2}: Vẽ đường cong PR cho đầy đủ 15 lớp bệnh lý với mô hình tốt nhất.
-  \item \textbf{Tuần 3}: Phân tích định tính (Qualitative analysis) với 6-8 trường hợp tiêu biểu.
-  \item \textbf{Tuần 4}: Vẽ biểu đồ hiệu chuẩn (Calibration plots) và bản đồ nhiệt ma trận nhầm lẫn (Confusion heatmaps).
-\end{enumerate}
-
-\textbf{Kết quả mong đợi (Expected impact):} Việc bổ sung các trực quan hóa này sẽ nâng cao tính thuyết phục và giá trị khoa học của báo cáo, giúp minh chứng rõ ràng khả năng của mô hình trong môi trường lâm sàng thực tế.
-
 % ============================================================
-% END OF CHAPTER
-% ============================================================
-
 \chapter{Chi tiết triển khai PyTorch (PyTorch Implementation Details)}
 	
 	\section{\textbf{Tổng quan chuyển đổi (Migration Overview)}}
@@ -2510,9 +2301,7 @@ def plot_calibration(y_true, y_pred, n_bins=10):
 		\begin{itemize}
 			\item Cả 5 kiến trúc mô hình (CNN, ResNet, ViT-v1, ViT-v2, ViT-ResNet).
 			\item Sửa các lỗi quan trọng (vấn đề AUC NaN).
-			\item Mã nguồn sạch và có tài liệu hướng dẫn.
-			\item Phong cách lập trình (coding style) nhất quán.
-		\end{itemize}
+ 		\end{itemize}
 	\end{tcolorbox}
 	
 	\section{\textbf{Sửa lỗi nghiêm trọng: Vấn đề AUC trả về NaN}}
@@ -2600,25 +2389,8 @@ def plot_calibration(y_true, y_pred, n_bins=10):
 		return model
 	\end{lstlisting}
 	
-	\section{\textbf{Cấu trúc thư mục dự án (Repository Structure)}}
 	
-	\begin{lstlisting}[style=plain,caption={Cấu trúc project}]
-		ViT-Chest-Xray/
-		|-- Project/
-		|   |-- cnn.ipynb           # CNN implementation
-		|   |-- resnet.ipynb        # ResNet-34 implementation
-		|   |-- ViT-v1.ipynb        # Vision Transformer v1
-		|   |-- ViT-v2.ipynb        # Vision Transformer v2
-		|   |-- ViT-ResNet.ipynb    # Hybrid ViT-ResNet
-		|   |-- data.ipynb          # Data preprocessing
-		|   |-- data_download.ipynb # Dataset download
-		|   |-- config.py           # Configuration
-		|   `-- data/               # Dataset folder
-		|-- Report/
-		|   `-- LaTeX/              # This documentation
-		|-- requirements.txt        # Dependencies
-		`-- README.md              # Project readme
-	\end{lstlisting}
+	
 	%==============================================================================
 \chapter{Các Cải Tiến Nâng Cao (Advanced Improvements)}
 \label{chap:improvements}
@@ -2944,7 +2716,35 @@ Bài báo gốc sử dụng:
 \end{itemize}
 
 \subsubsection{\textbf{Pipeline tăng cường dữ liệu chuyên biệt cho ảnh y khoa}}
+Train Transform
 
+1. Resize + RandomCrop
+Chuẩn hoá kích thước ảnh và tạo biến thiên vị trí quan sát để mô hình học robust hơn.
+
+2. HorizontalFlip (p=0.3)
+Lật ngang với xác suất thấp để tránh làm sai lệch các đặc trưng giải phẫu nhạy cảm.
+
+3. ShiftScaleRotate
+Mô phỏng sai lệch tư thế chụp (dịch chuyển, phóng to, xoay nhẹ) thường gặp trong X-quang thực tế.
+
+4. Intensity Transformations (CLAHE / Brightness-Contrast)
+Tăng tương phản và thay đổi cường độ sáng để làm nổi bật cấu trúc phổi và tổn thương.
+
+5. Noise / Blur
+Mô phỏng nhiễu và mờ do thiết bị hoặc điều kiện chụp ảnh không lý tưởng.
+
+6. GridDistortion
+Giả lập biến dạng hình học nhẹ do lỗi máy hoặc tư thế bệnh nhân.
+
+7. Normalize
+Chuẩn hoá ảnh theo mean/std ImageNet để ổn định quá trình huấn luyện.
+
+8. ToTensorV2
+Chuyển ảnh sang tensor PyTorch để đưa vào mô hình.
+Validation / Test Transform
+
+Resize + Normalize + ToTensor
+Chỉ tiền xử lý chuẩn hoá, không dùng augmentation để đảm bảo đánh giá công bằng
 \begin{lstlisting}[language=Python, caption=Pipeline tăng cường dữ liệu với Albumentations]
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
@@ -3198,19 +2998,7 @@ Fibrosis & Nhỏ & 0.779 & \textbf{0.819} & +4.0\% \\
 \end{tabular}
 \end{table}
 
-%==============================================================================
-\section{\textbf{Tổng kết các cải tiến}}
 
-\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Kết luận Chương 8 (Summary of Improvements)]
-Dựa trên các thực nghiệm mở rộng, chúng tôi rút ra các kết luận quan trọng cho việc xây dựng mô hình AI cho bài toán X-quang phổi:
-
-\begin{enumerate}
-    \item \textbf{Dữ liệu là quan trọng nhất}: Sử dụng transfer learning từ ImageNet giúp tăng ít nhất 3\% AUC và giảm một nửa thời gian huấn luyện.
-    \item \textbf{Cơ chế Attention cục bộ là thế mạnh}: Swin Transformer vượt trội hơn ViT truyền thống nhờ cấu trúc phân cấp và khả năng học các đặc trưng đa quy mô.
-    \item \textbf{Xử lý mất cân bằng lớp bằng Focal/Asymmetric Loss}: Đặc biệt quan trọng đối với các lớp bệnh lý hiếm vốn thường bị bỏ qua trong hàm mất mát BCE tiêu chuẩn.
-    \item \textbf{Sự kết hợp (Ensemble)}: Giúp mô hình đạt đến ngưỡng hiệu năng 0.92 AUC, tương đương với các công trình nghiên cứu hiện đại nhất hiện nay trên tập dữ liệu NIH ChestX-ray14.
-\end{enumerate}
-\end{tcolorbox}
 
 %==============================================================================
 \section{\textbf{Giai đoạn 3: Kỹ thuật nâng cao (Phase 3: Advanced Techniques)}}
@@ -3371,14 +3159,6 @@ uncertain_samples = images[high_uncertainty_mask]
     \item \textbf{Ensemble} các mô hình mạnh (Swin, ViT, EfficientNet) là lựa chọn phù hợp cho hệ thống triển khai thực tế, khi chi phí tính toán cho inference cho phép.
 \end{itemize}
 
-\subsection{\textbf{Hướng phát triển tiếp theo}}
-
-\begin{enumerate}
-    \item Self-supervised pre-training trên dữ liệu X-quang không gán nhãn để giảm phụ thuộc vào ImageNet.
-    \item Khai thác Vision-Language Models (kiểu CLIP) giữa ảnh X-quang và báo cáo mô tả lâm sàng.
-    \item Đánh giá ngoại bộ (external validation) trên các bộ dữ liệu khác như CheXpert, MIMIC-CXR để kiểm tra khả năng tổng quát hóa.
-    \item Tích hợp cơ chế \textbf{định lượng bất định} vào hệ thống triển khai lâm sàng, kết hợp luồng “AI gợi ý + bác sĩ phê duyệt”.
-\end{enumerate}
 
 	% ============================================================
 % CHAPTER: CONCLUSION

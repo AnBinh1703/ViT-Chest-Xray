@@ -1,12 +1,234 @@
-# 🔬 ViT-Chest-Xray: Deep Learning Multi-Label Classification
+# 🔬 ViT-Chest-Xray: Clean Architecture Implementation
 
-[![Paper](https://img.shields.io/badge/arXiv-2406.00237-b31b1b.svg)](https://arxiv.org/abs/2406.00237)
-[![Original Repo](https://img.shields.io/badge/GitHub-Original%20Repo-blue)](https://github.com/Aviral-03/ViT-Chest-Xray)
 [![Framework](https://img.shields.io/badge/PyTorch-2.x-orange)](https://pytorch.org/)
 [![Python](https://img.shields.io/badge/Python-3.10+-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-> **Research-Grade PyTorch Implementation** | **NIH ChestX-ray14 Dataset** | **5 Model Architectures** | **Comprehensive Documentation**
+**Clean Architecture | Modular Design | Research-Grade PyTorch Implementation**
+
+---
+
+## 📁 Clean Project Structure
+
+```
+ViT-Chest-Xray/
+│
+├── 📁 src/                          # Source code package
+│   ├── __init__.py
+│   ├── 📁 models/                   # Model architectures
+│   │   ├── cnn.py                   # CNN baseline (~95M params)
+│   │   ├── resnet.py                # ResNet-18/34/50/101 (~21M params)
+│   │   └── vit.py                   # Vision Transformer (~9M params)
+│   ├── 📁 data/                     # Data processing
+│   │   └── dataset.py               # Dataset classes & utilities
+│   ├── 📁 utils/                    # Utilities
+│   │   ├── config.py                # Configuration
+│   │   ├── training.py              # Training utilities
+│   │   └── comparator.py            # Model comparison tools
+│   └── 📁 losses/                   # Custom loss functions
+│       ├── focal_loss.py            # Focal Loss
+│       ├── weighted_loss.py         # Weighted BCE
+│       ├── asymmetric_loss.py       # Asymmetric Loss
+│       ├── dice_loss.py             # Dice Loss
+│       └── combined_loss.py         # Multi-component Loss
+│
+├── 📁 notebooks/                    # Jupyter notebooks
+│   ├── 📁 experiments/              # Training experiments
+│   └── 📁 analysis/                 # Data analysis & exploration
+│
+├── 📁 data/                         # Data directory
+│   ├── 📁 raw/                      # Raw NIH dataset (CSV, metadata)
+│   └── 📁 processed/                # Processed/cached data
+│
+├── 📁 models/                       # Saved models & checkpoints
+│   └── 📁 checkpoints/              # Model weights (.pth files)
+│
+├── 📁 config/                       # Configuration files
+│   └── main_config.py               # Main project configuration
+│
+├── 📁 scripts/                      # Command-line scripts
+│   ├── train.py                     # Training script
+│   └── demo.py                      # Demo inference
+│
+├── 📁 tests/                        # Unit tests
+│   └── test_models.py               # Model tests
+│
+├── 📁 docs/                         # Documentation
+├── 📁 results/                      # Experiment results
+└── 📁 Project/                      # Legacy notebooks (archived)
+```
+
+---
+
+## 🚀 Quick Start
+
+### 1. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 2. Configure Environment
+```python
+from config.main_config import config
+config.print_full_config()
+```
+
+### 3. Train a Model
+```bash
+# Train CNN with basic configuration
+python scripts/train.py --model cnn --config default
+
+# Train with advanced augmentation
+python scripts/train.py --model cnn --config improved --augmentation advanced
+```
+
+### 4. Use in Notebooks
+```python
+from src.models.cnn import create_cnn_model
+from src.data.dataset import DatasetParser, create_data_loaders
+from src.utils.training import Trainer
+
+# Your training code here
+```
+
+---
+
+## 🏗️ Architecture Benefits
+
+### ✅ **Separation of Concerns**
+- **Models**: Pure architecture implementations
+- **Data**: Data loading and preprocessing
+- **Utils**: Training and evaluation utilities
+- **Config**: Centralized configuration management
+
+### ✅ **Modularity**
+- Easy to add new models, losses, or data processing methods
+- Clear import structure with `__init__.py` files
+- Reusable components across experiments
+
+### ✅ **Reproducibility**
+- Configuration-driven training
+- Standardized evaluation metrics
+- Checkpoint management
+
+### ✅ **Maintainability**
+- Clean code organization
+- Type hints and documentation
+- Unit test support
+
+---
+
+## 📊 Available Components
+
+### Models
+- **CNN**: Baseline convolutional network
+- *ResNet, ViT*: Coming soon (extract from notebooks)
+
+### Data Processing
+- **DatasetParser**: NIH dataset parsing and analysis
+- **ChestXrayDataset**: PyTorch dataset with augmentations
+- **DataLoaders**: Configurable batch loading
+
+### Training Utilities
+- **Trainer**: Complete training loop with validation
+- **Metrics**: AUC, accuracy, precision/recall
+- **Visualization**: Training history plots
+
+### Loss Functions
+- **BCE, Focal, Weighted**: Standard losses
+- **Combined, Dice, Asymmetric**: Advanced losses
+- *Knowledge Distillation*: Coming soon
+
+---
+
+## 🔧 Configuration System
+
+```python
+from config.main_config import config
+
+# Access paths
+data_dir = config.data_root
+checkpoints_dir = config.checkpoints_dir
+
+# Training configurations
+train_config = config.TRAINING_CONFIGS['improved']
+
+# Model specifications
+model_info = config.MODELS['cnn']
+```
+
+---
+
+## 📈 Training Examples
+
+### Basic Training
+```python
+from src import models, data, utils
+
+# Load data
+parser = data.DatasetParser(data_root, labels_csv, labels)
+transforms = data.create_data_transforms('basic')
+loaders = data.create_data_loaders(train_dataset, val_dataset)
+
+# Create model
+model = models.create_cnn_model(num_classes=15)
+
+# Train
+trainer = utils.Trainer(model, device, criterion, optimizer)
+history = trainer.train(train_loader, val_loader, num_epochs=10)
+```
+
+### Advanced Training
+```python
+# With custom loss and scheduler
+from src.losses.focal_loss import FocalLoss
+from src.utils.training import create_optimizer_scheduler
+
+criterion = FocalLoss(alpha=0.25, gamma=2.0)
+optimizer, scheduler = create_optimizer_scheduler(model, train_config)
+```
+
+---
+
+## 🧪 Testing
+
+Run unit tests:
+```bash
+python -m pytest tests/
+```
+
+Test individual components:
+```bash
+python -c "from src.models.cnn import create_cnn_model; print('Models OK')"
+python -c "from src.data.dataset import DatasetParser; print('Data OK')"
+```
+
+---
+
+## 📚 Documentation
+
+- **API Docs**: See docstrings in source code
+- **Examples**: Check `notebooks/experiments/`
+- **Configuration**: See `config/main_config.py`
+
+---
+
+## 🔄 Migration from Old Structure
+
+The old `Project/` folder has been restructured:
+
+| Old Location | New Location | Notes |
+|-------------|--------------|-------|
+| `Project/config.py` | `src/utils/config.py` | Updated paths |
+| `Project/cnn.ipynb` | `notebooks/experiments/cnn.ipynb` | Training code → `scripts/train.py` |
+| `Project/improve/*.py` | `src/losses/*.py` | Modular loss functions |
+| `Project/files/` | `models/checkpoints/` | Renamed for clarity |
+| `Project/input/` | `data/raw/` | Data organization |
+| `Project/data/` | `data/processed/` | Data organization |
+
+---
+
+*This clean architecture makes the codebase more maintainable, reproducible, and extensible for future research.*
 
 ---
 

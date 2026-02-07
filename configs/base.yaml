@@ -1,0 +1,108 @@
+# ============================================
+# Base Configuration for Chest X-ray Project
+# ============================================
+# All model-specific configs inherit from this
+
+# Experiment Settings
+experiment:
+  name: chestxray_baseline
+  seed: 42
+  output_dir: outputs
+  log_dir: logs
+  checkpoint_dir: checkpoints
+  deterministic: false  # Set true for reproducibility (slower)
+
+# Dataset Configuration
+data:
+  # Paths (can use environment variables)
+  root_dir: ${DATA_ROOT:Project/data}
+  labels_file: Project/input/Data_Entry_2017_v2020.csv
+  
+  # Processing
+  image_size: 224
+  batch_size: 32
+  num_workers: 4
+  pin_memory: true
+  
+  # Splitting (PATIENT-LEVEL for proper validation)
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  split_by_patient: true  # CRITICAL: prevents data leakage
+  
+  # Augmentation
+  augmentation: standard  # none, basic, standard, advanced
+  normalize: imagenet     # imagenet, chestxray
+
+# Disease Classes
+classes:
+  - Atelectasis
+  - Cardiomegaly
+  - Effusion
+  - Infiltration
+  - Mass
+  - Nodule
+  - Pneumonia
+  - Pneumothorax
+  - Consolidation
+  - Edema
+  - Emphysema
+  - Fibrosis
+  - Pleural_Thickening
+  - Hernia
+  - No Finding
+
+# Training Configuration
+training:
+  epochs: 100
+  
+  # Optimizer
+  optimizer: adamw
+  lr: 1e-4
+  weight_decay: 1e-5
+  betas: [0.9, 0.999]
+  
+  # Learning Rate Scheduler
+  scheduler: cosine
+  warmup_epochs: 5
+  min_lr: 1e-6
+  
+  # Early Stopping
+  early_stopping: true
+  patience: 10
+  min_delta: 0.001
+  
+  # Checkpointing
+  save_best: true
+  save_every: 10
+  
+  # Gradient
+  gradient_clip: 1.0
+  accumulation_steps: 1
+
+# Loss Function Configuration
+loss:
+  name: focal
+  gamma: 2.0
+  alpha: null  # null = use class weights
+  reduction: mean
+
+# Evaluation Metrics
+evaluation:
+  metrics:
+    - auc_roc
+    - auc_pr
+    - f1_score
+    - accuracy
+  threshold: 0.5
+  per_class: true
+
+# Logging
+logging:
+  level: INFO
+  wandb:
+    enabled: false
+    project: chestxray-vit
+    entity: null
+  tensorboard:
+    enabled: true

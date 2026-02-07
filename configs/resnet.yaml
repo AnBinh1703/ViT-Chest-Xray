@@ -1,0 +1,39 @@
+# ============================================
+# ResNet Configuration
+# ============================================
+# Inherits from base.yaml
+
+_base_: base.yaml
+
+experiment:
+  name: resnet34_chestxray
+
+model:
+  name: resnet
+  variant: resnet34  # resnet18, resnet34, resnet50, resnet101
+  num_classes: 15
+  
+  # Pretrained ImageNet weights
+  pretrained: true
+  pretrained_weights: imagenet  # 'imagenet' or path to .pth file
+  
+  # Fine-tuning strategy
+  freeze_backbone: false      # Freeze early layers
+  freeze_until_layer: null    # e.g., 'layer2' to freeze early layers
+
+training:
+  epochs: 50  # ResNet converges faster with pretrained
+  lr: 1e-4
+  weight_decay: 1e-5
+  
+  scheduler: cosine
+  warmup_epochs: 3
+
+data:
+  image_size: 224
+  batch_size: 64  # ResNet handles larger batches
+  augmentation: standard
+
+loss:
+  name: focal
+  gamma: 2.0

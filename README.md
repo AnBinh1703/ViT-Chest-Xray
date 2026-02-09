@@ -1,426 +1,411 @@
-# 🔬 ViT-Chest-Xray: Clean Architecture Implementation
+# ViT-Chest-Xray
 
-[![Framework](https://img.shields.io/badge/PyTorch-2.x-orange)](https://pytorch.org/)
-[![Python](https://img.shields.io/badge/Python-3.10+-blue)](https://www.python.org/)
+**A Comparative Study of CNN, ResNet, and Vision Transformers for Multi-label Classification of Chest X-ray Diseases**
+
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.1.2-EE4C2C?logo=pytorch)](https://pytorch.org/)
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python)](https://www.python.org/)
+[![Dataset](https://img.shields.io/badge/Dataset-NIH%20ChestXray14-blue)](https://www.kaggle.com/datasets/nih-chest-xrays/data)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-
-**Clean Architecture | Modular Design | Research-Grade PyTorch Implementation**
 
 ---
 
-## 📁 Clean Project Structure
+## Overview
+
+This project implements and compares three deep learning architectures — **CNN**, **ResNet-34**, and **Vision Transformer (ViT)** — for multi-label chest X-ray disease classification on the **NIH ChestX-ray14** dataset (112,120 images, 15 classes including "No Finding").
+
+Key contributions:
+- From-scratch implementations of CNN, ResNet, and ViT in PyTorch
+- Patient-level data splitting to prevent data leakage
+- Transfer learning with pretrained ViT (timm `vit_base_patch16_224`)
+- 8 custom loss functions for handling class imbalance
+- YAML-based configuration system with inheritance
+- Modular callback-driven training pipeline
+
+---
+
+## Results
+
+| Model | Data Scale | Parameters | Test AUC | Test Accuracy | Epochs |
+|:------|:-----------|:-----------|:---------|:--------------|:-------|
+| CNN Baseline | 60 images | 95.6M | 0.5777 | — | 10 |
+| ResNet-34 | 60 images | 21.3M | 0.4462 | — | 10 |
+| ViT-v1 (scratch) | 60 images | 9.0M | 0.5854 | 91.33% | 10 |
+| ViT-v2 (SGD + Early Stop) | 60 images | 9.0M | 0.6303 | 89.67% | 9 |
+| ViT-ResNet (pretrained) | 60 images | 85.8M | 0.6694 | 87.00% | 10 |
+| **ViT Final (scratch)** | **112K images** | **9.0M** | **0.7225** | **92.91%** | **10** |
+
+### Key Findings
+
+1. **Data scale is decisive** — Same ViT architecture improved from AUC 0.5854 (60 images) to **0.7225** (112K images), a 23.4% gain.
+2. **Transfer learning excels on small data** — Pretrained ViT achieved 0.6694 AUC with only 60 training images.
+3. **CNN overfits severely** — 99.98% of parameters in FC layers cause train/test AUC gap of 0.33.
+4. **ViT achieves best overall performance** — Highest AUC and accuracy on the full dataset.
+
+### Per-class AUC (ViT Full-scale)
+
+| Disease | AUC | Disease | AUC |
+|:--------|:----|:--------|:----|
+| Edema | **0.8422** | Pleural Thickening | 0.6997 |
+| Cardiomegaly | 0.7996 | Fibrosis | 0.6977 |
+| Effusion | 0.7880 | Mass | 0.6762 |
+| Consolidation | 0.7615 | Pneumonia | 0.6710 |
+| Pneumothorax | 0.7540 | Infiltration | 0.6614 |
+| Hernia | 0.7460 | Nodule | 0.5747 |
+| Emphysema | 0.7375 | | |
+| Atelectasis | 0.7170 | **Macro Average** | **0.7225** |
+| No Finding | 0.7114 | | |
+
+---
+
+## Project Structure
 
 ```
 ViT-Chest-Xray/
+├── main.py                      # CLI entry point (train, evaluate, predict, verify)
+├── requirements.txt             # Python dependencies
+├── README.md
 │
-├── 📁 src/                          # Source code package
-│   ├── __init__.py
-│   ├── 📁 models/                   # Model architectures
-│   │   ├── cnn.py                   # CNN baseline (~95M params)
-│   │   ├── resnet.py                # ResNet-18/34/50/101 (~21M params)
-│   │   └── vit.py                   # Vision Transformer (~9M params)
-│   ├── 📁 data/                     # Data processing
-│   │   └── dataset.py               # Dataset classes & utilities
-│   ├── 📁 utils/                    # Utilities
-│   │   ├── config.py                # Configuration
-│   │   ├── training.py              # Training utilities
-│   │   └── comparator.py            # Model comparison tools
-│   └── 📁 losses/                   # Custom loss functions
-│       ├── focal_loss.py            # Focal Loss
-│       ├── weighted_loss.py         # Weighted BCE
-│       ├── asymmetric_loss.py       # Asymmetric Loss
-│       ├── dice_loss.py             # Dice Loss
-│       └── combined_loss.py         # Multi-component Loss
+├── src/                         # Core source package
+│   ├── models/
+│   │   ├── cnn.py               # CNN baseline (2 conv layers, ~95.6M params)
+│   │   ├── resnet.py            # ResNet-18/34/50/101 from scratch (~21.3M params)
+│   │   ├── vit.py               # Vision Transformer from scratch (~9M params)
+│   │   └── pretrained.py        # Pretrained model wrapper (timm/torchvision)
+│   ├── data/
+│   │   ├── dataset.py           # DatasetParser, ChestXrayDataset
+│   │   ├── splits.py            # Patient-level train/val/test splitting
+│   │   └── transforms.py        # 4 augmentation levels (none/basic/standard/advanced)
+│   ├── losses/
+│   │   ├── focal_loss.py        # Focal Loss
+│   │   ├── weighted_loss.py     # Weighted BCE Loss
+│   │   ├── asymmetric_loss.py   # Asymmetric Loss (ICCV 2021)
+│   │   ├── dice_loss.py         # Dice / Dice-BCE Loss
+│   │   ├── combined_loss.py     # Multi-component combined loss
+│   │   ├── smoothing_loss.py    # Label Smoothing BCE
+│   │   ├── distillation_loss.py # Knowledge Distillation Loss
+│   │   └── utils.py             # Class weight computation (4 methods)
+│   └── utils/
+│       ├── training.py          # Trainer class with training/eval loops
+│       ├── evaluation.py        # AUC, ROC curves, confusion matrices
+│       ├── callbacks.py         # EarlyStopping, ModelCheckpoint, MetricsHistory
+│       ├── config_loader.py     # YAML config with inheritance & env vars
+│       └── reproducibility.py   # Seed management (Python/NumPy/PyTorch/CUDA)
 │
-├── 📁 notebooks/                    # Jupyter notebooks
-│   ├── 📁 experiments/              # Training experiments
-│   └── 📁 analysis/                 # Data analysis & exploration
+├── configs/                     # YAML configuration files
+│   ├── base.yaml                # Base config (shared settings)
+│   ├── cnn.yaml                 # CNN-specific config
+│   ├── resnet.yaml              # ResNet-specific config
+│   └── vit_small.yaml           # ViT-Small config
 │
-├── 📁 data/                         # Data directory
-│   ├── 📁 raw/                      # Raw NIH dataset (CSV, metadata)
-│   └── 📁 processed/                # Processed/cached data
+├── scripts/
+│   ├── train.py                 # Full CLI training script
+│   └── demo.py                  # Demo inference script
 │
-├── 📁 models/                       # Saved models & checkpoints
-│   └── 📁 checkpoints/              # Model weights (.pth files)
+├── notebooks/
+│   ├── analysis/                # Data exploration & download
+│   │   ├── data_download.ipynb  # Download NIH dataset via Kaggle API
+│   │   └── data.ipynb           # EDA, preprocessing, DataLoaders
+│   └── experiments/             # Model training experiments
+│       ├── cnn.ipynb            # CNN training
+│       ├── resnet.ipynb         # ResNet-34 training
+│       ├── ViT-v1.ipynb         # ViT v1 (Adam, from scratch)
+│       ├── ViT-v2.ipynb         # ViT v2 (SGD + Early Stopping)
+│       ├── ViT-ResNet.ipynb     # Pretrained ViT (timm)
+│       ├── Final_ViT_ChestXray.ipynb  # Full-scale ViT experiment (112K images)
+│       └── 01-06_*.ipynb        # Improvement experiments (augmentation, losses, etc.)
 │
-├── 📁 config/                       # Configuration files
-│   └── main_config.py               # Main project configuration
+├── models/checkpoints/          # Trained model weights (Git LFS)
+│   ├── cnn_model.pth
+│   ├── resnet_model.pth
+│   ├── vit_best.pth             # Best ViT (full dataset)
+│   ├── vit_pretrained_best.pth
+│   ├── vit_v1_best.pth
+│   └── vit_v2_best.pth
 │
-├── 📁 scripts/                      # Command-line scripts
-│   ├── train.py                     # Training script
-│   └── demo.py                      # Demo inference
+├── assets/image/                # Figures for reports
+├── data/                        # Dataset directory (not tracked)
+│   ├── raw/                     # Raw CSV metadata
+│   └── processed/               # Processed images (~42GB)
 │
-├── 📁 tests/                        # Unit tests
-│   └── test_models.py               # Model tests
+├── docs/                        # LaTeX reports
+│   ├── report_vi.tex            # Vietnamese report
+│   ├── report_en.tex            # English report
+│   └── Proposal/                # Project proposal
 │
-├── 📁 docs/                         # Documentation
-├── 📁 results/                      # Experiment results
-└── 📁 Project/                      # Legacy notebooks (archived)
+├── tests/                       # Unit tests
+│   ├── test_models.py           # Model architecture tests
+│   └── test_refactor.py         # Refactoring validation tests
+│
+├── Project/                     # Legacy notebooks (archived)
+└── results/                     # Experiment outputs
 ```
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
-### 1. Install Dependencies
+### 1. Clone and Install
+
 ```bash
+git clone https://github.com/<your-username>/ViT-Chest-Xray.git
+cd ViT-Chest-Xray
+python -m venv .venv
+# Windows
+.venv\Scripts\activate
+# Linux/Mac
+source .venv/bin/activate
+
 pip install -r requirements.txt
 ```
 
-### 2. Configure Environment
-```python
-from config.main_config import config
-config.print_full_config()
-```
+### 2. Verify Installation
 
-### 3. Train a Model
 ```bash
-# Train CNN with basic configuration
-python scripts/train.py --model cnn --config default
-
-# Train with advanced augmentation
-python scripts/train.py --model cnn --config improved --augmentation advanced
+python main.py verify
 ```
 
-### 4. Use in Notebooks
-```python
-from src.models.cnn import create_cnn_model
-from src.data.dataset import DatasetParser, create_data_loaders
-from src.utils.training import Trainer
+This checks all imports, GPU availability, and module integrity.
 
-# Your training code here
-```
+### 3. Download Dataset
 
----
+Run the notebook `notebooks/analysis/data_download.ipynb` to download the NIH ChestX-ray14 dataset via Kaggle API. The dataset (~42GB) will be saved to `data/processed/`.
 
-## 🏗️ Architecture Benefits
+### 4. Train a Model
 
-### ✅ **Separation of Concerns**
-- **Models**: Pure architecture implementations
-- **Data**: Data loading and preprocessing
-- **Utils**: Training and evaluation utilities
-- **Config**: Centralized configuration management
-
-### ✅ **Modularity**
-- Easy to add new models, losses, or data processing methods
-- Clear import structure with `__init__.py` files
-- Reusable components across experiments
-
-### ✅ **Reproducibility**
-- Configuration-driven training
-- Standardized evaluation metrics
-- Checkpoint management
-
-### ✅ **Maintainability**
-- Clean code organization
-- Type hints and documentation
-- Unit test support
-
----
-
-## 📊 Available Components
-
-### Models
-- **CNN**: Baseline convolutional network
-- *ResNet, ViT*: Coming soon (extract from notebooks)
-
-### Data Processing
-- **DatasetParser**: NIH dataset parsing and analysis
-- **ChestXrayDataset**: PyTorch dataset with augmentations
-- **DataLoaders**: Configurable batch loading
-
-### Training Utilities
-- **Trainer**: Complete training loop with validation
-- **Metrics**: AUC, accuracy, precision/recall
-- **Visualization**: Training history plots
-
-### Loss Functions
-- **BCE, Focal, Weighted**: Standard losses
-- **Combined, Dice, Asymmetric**: Advanced losses
-- *Knowledge Distillation*: Coming soon
-
----
-
-## 🔧 Configuration System
-
-```python
-from config.main_config import config
-
-# Access paths
-data_dir = config.data_root
-checkpoints_dir = config.checkpoints_dir
-
-# Training configurations
-train_config = config.TRAINING_CONFIGS['improved']
-
-# Model specifications
-model_info = config.MODELS['cnn']
-```
-
----
-
-## 📈 Training Examples
-
-### Basic Training
-```python
-from src import models, data, utils
-
-# Load data
-parser = data.DatasetParser(data_root, labels_csv, labels)
-transforms = data.create_data_transforms('basic')
-loaders = data.create_data_loaders(train_dataset, val_dataset)
-
-# Create model
-model = models.create_cnn_model(num_classes=15)
-
-# Train
-trainer = utils.Trainer(model, device, criterion, optimizer)
-history = trainer.train(train_loader, val_loader, num_epochs=10)
-```
-
-### Advanced Training
-```python
-# With custom loss and scheduler
-from src.losses.focal_loss import FocalLoss
-from src.utils.training import create_optimizer_scheduler
-
-criterion = FocalLoss(alpha=0.25, gamma=2.0)
-optimizer, scheduler = create_optimizer_scheduler(model, train_config)
-```
-
----
-
-## 🧪 Testing
-
-Run unit tests:
+**Using CLI:**
 ```bash
-python -m pytest tests/
+# Train ViT with YAML config
+python main.py train --config configs/vit_small.yaml
+
+# Train CNN
+python main.py train --config configs/cnn.yaml
+
+# Train ResNet
+python main.py train --config configs/resnet.yaml
 ```
 
-Test individual components:
+**Using Notebooks:**
+Open any notebook in `notebooks/experiments/` for interactive training with visualization.
+
+### 5. Evaluate
+
 ```bash
-python -c "from src.models.cnn import create_cnn_model; print('Models OK')"
-python -c "from src.data.dataset import DatasetParser; print('Data OK')"
+python main.py evaluate --checkpoint models/checkpoints/vit_best.pth --data test
+```
+
+### 6. List Available Models
+
+```bash
+python main.py models --list
+python main.py models --test  # Run forward pass tests
 ```
 
 ---
 
-## 📚 Documentation
+## Dataset
 
-- **API Docs**: See docstrings in source code
-- **Examples**: Check `notebooks/experiments/`
-- **Configuration**: See `config/main_config.py`
+**NIH ChestX-ray14** — one of the largest publicly available chest X-ray datasets.
 
----
+| Attribute | Value |
+|:----------|:------|
+| Total images | 112,120 |
+| Unique patients | 30,805 |
+| Classes | 14 diseases + No Finding = 15 |
+| Resolution | 1024 × 1024 (resized to 224 × 224) |
+| Format | PNG (grayscale → RGB) |
+| Class imbalance | 269× ratio (No Finding 53.84% vs Hernia 0.20%) |
 
-## 🔄 Migration from Old Structure
+**15 Disease Classes:** Atelectasis, Cardiomegaly, Consolidation, Edema, Effusion, Emphysema, Fibrosis, Hernia, Infiltration, Mass, Nodule, Pleural Thickening, Pneumonia, Pneumothorax, No Finding
 
-The old `Project/` folder has been restructured:
+**Data Split (Full-scale):**
+- Train: 78,614 images (21,563 patients)
+- Validation: 11,212 images (3,081 patients)
+- Test: 22,294 images (6,161 patients)
 
-| Old Location | New Location | Notes |
-|-------------|--------------|-------|
-| `Project/config.py` | `src/utils/config.py` | Updated paths |
-| `Project/cnn.ipynb` | `notebooks/experiments/cnn.ipynb` | Training code → `scripts/train.py` |
-| `Project/improve/*.py` | `src/losses/*.py` | Modular loss functions |
-| `Project/files/` | `models/checkpoints/` | Renamed for clarity |
-| `Project/input/` | `data/raw/` | Data organization |
-| `Project/data/` | `data/processed/` | Data organization |
-
----
-
-*This clean architecture makes the codebase more maintainable, reproducible, and extensible for future research.*
+Patient-level splitting ensures no data leakage between sets.
 
 ---
 
-## 📋 Disclaimer - Academic Research & Review
+## Model Architectures
 
-> **⚠️ IMPORTANT NOTICE**
+### CNN Baseline
+- 2 convolutional layers (32 → 64 channels), MaxPool, FC 512, Dropout 0.5
+- **95.6M parameters** (99.98% in FC layers — severe overfitting)
+
+### ResNet-34
+- From-scratch implementation with BasicBlock and skip connections
+- Stages: [3, 4, 6, 3] blocks, adaptive average pooling
+- **21.3M parameters**, supports ResNet-18/50/101 variants
+
+### Vision Transformer (ViT)
+- Patch size 32×32, embedding dim 64, 8 encoder layers, 4 attention heads
+- [CLS] token + learnable positional embeddings
+- **9.0M parameters** — lightest model, best performance
+- Configurable: Small (384d/12L/6H), Base (768d/12L/12H), Large (1024d/24L/16H)
+
+### Pretrained ViT (Transfer Learning)
+- `vit_base_patch16_224` from timm library, pretrained on ImageNet
+- **85.8M parameters**, best AUC on small data (0.6694)
+
+---
+
+## Loss Functions
+
+| Loss | Description | Best For |
+|:-----|:------------|:---------|
+| `BCEWithLogitsLoss` | Standard binary cross-entropy | Baseline |
+| `FocalLoss` | Down-weights easy examples (α=0.25, γ=2.0) | Class imbalance |
+| `WeightedBCELoss` | Per-class weighted BCE | Known class frequencies |
+| `AsymmetricLoss` | Different γ for positives/negatives | Multi-label imbalance |
+| `DiceLoss` | Overlap-based loss | Segmentation-inspired |
+| `CombinedLoss` | Multi-component weighted combination | Advanced training |
+| `LabelSmoothingBCE` | Soft labels to prevent overconfidence | Regularization |
+| `DistillationLoss` | Knowledge distillation from teacher | Model compression |
+
+Class weight computation supports 4 strategies: `balanced`, `inverse_sqrt`, `effective`, `pos_neg_ratio`.
+
+---
+
+## Configuration System
+
+YAML-based configuration with inheritance:
+
+```yaml
+# configs/vit_small.yaml
+_base_: base.yaml
+
+model:
+  name: vit_small
+  embed_dim: 384
+  depth: 12
+  num_heads: 6
+
+training:
+  optimizer: adamw
+  lr: 0.0001
+  loss: combined
+  augmentation: advanced
+```
+
+Features:
+- Config inheritance via `_base_` key
+- Environment variable interpolation: `${ENV_VAR:default}`
+- CLI overrides: `--override training.lr=0.001`
+- Dotted attribute access: `config.training.lr`
+
+---
+
+## Training Configuration
+
+| Parameter | Value |
+|:----------|:------|
+| Image size | 224 × 224 |
+| Batch size | 32 (16 for pretrained ViT) |
+| Classes | 15 |
+| Loss | BCEWithLogitsLoss (baseline) |
+| Learning rate | 1 × 10⁻⁴ |
+| Optimizer | AdamW (SGD for ViT-v2) |
+| Epochs | 10 |
+| GPU | NVIDIA GeForce RTX 3060 Laptop (6GB) |
+| CUDA | 12.6 |
+
+---
+
+## Testing
+
+```bash
+# Run all tests
+python -m pytest tests/ -v
+
+# Test model architectures
+python -m pytest tests/test_models.py -v
+
+# Quick import verification
+python main.py verify
+```
+
+Tests cover:
+- CNN/ResNet/ViT model creation and forward pass
+- Gradient computation
+- ResNet variant parametrization (18/34/50/101)
+- ViT patch embedding dimensions
+
+---
+
+## Notebooks Guide
+
+### Analysis
+| Notebook | Description |
+|:---------|:------------|
+| `data_download.ipynb` | Download NIH ChestX-ray14 via Kaggle API |
+| `data.ipynb` | Exploratory data analysis, preprocessing |
+
+### Experiments
+| Notebook | Description |
+|:---------|:------------|
+| `cnn.ipynb` | CNN baseline training & evaluation |
+| `resnet.ipynb` | ResNet-34 from scratch |
+| `ViT-v1.ipynb` | ViT with Adam optimizer |
+| `ViT-v2.ipynb` | ViT with SGD + Early Stopping |
+| `ViT-ResNet.ipynb` | Pretrained ViT (timm) transfer learning |
+| `Final_ViT_ChestXray.ipynb` | Full-scale ViT on 112K images |
+
+### Improvement Experiments
+| Notebook | Topic |
+|:---------|:------|
+| `01_setup_and_config.ipynb` | Environment & configuration setup |
+| `01_transfer_learning.ipynb` | Transfer learning strategies |
+| `02_class_imbalance.ipynb` | Handling class imbalance |
+| `02_data_augmentation.ipynb` | Advanced augmentation techniques |
+| `03_loss_functions.ipynb` | Custom loss function experiments |
+| `03_comprehensive_improvements.ipynb` | Full pipeline improvements |
+| `04_model_architectures.ipynb` | Architecture ablation studies |
+| `05_data_loading.ipynb` | Optimized data pipeline |
+| `06_training_infrastructure.ipynb` | Training optimizations |
+
+---
+
+## Documentation
+
+LaTeX reports are available in both Vietnamese and English:
+
+- **Vietnamese**: `docs/report_vi.tex` — compile with `pdflatex`
+- **English**: `docs/report_en.tex`
+- **Project Proposal**: `docs/Proposal/`
+
+To compile:
+```bash
+cd docs
+pdflatex report_vi.tex
+pdflatex report_vi.tex  # Run twice for TOC/references
+```
+
+---
+
+## References
+
+1. Jain, A. et al. (2024). *A Comparative Study of CNN, ResNet, and Vision Transformers for Multi-Classification of Chest Diseases*. [arXiv:2406.00237](https://arxiv.org/abs/2406.00237)
+2. Wang, X. et al. (2017). *ChestX-ray8: Hospital-scale Chest X-ray Database and Benchmarks*. CVPR.
+3. Dosovitskiy, A. et al. (2020). *An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale*. ICLR.
+4. He, K. et al. (2016). *Deep Residual Learning for Image Recognition*. CVPR.
+5. Rajpurkar, P. et al. (2017). *CheXNet: Radiologist-Level Pneumonia Detection on Chest X-Rays*. [arXiv:1711.05225](https://arxiv.org/abs/1711.05225)
+6. Lin, T.-Y. et al. (2017). *Focal Loss for Dense Object Detection*. ICCV.
+7. Ridnik, T. et al. (2021). *Asymmetric Loss For Multi-Label Classification*. ICCV.
+8. Vaswani, A. et al. (2017). *Attention Is All You Need*. NeurIPS.
+
+---
+
+## Disclaimer
+
+> **Academic Research & Review**
 >
 > This repository is a **research review and academic study** of the original work:
->
-> - **Original Repository:** [https://github.com/Aviral-03/ViT-Chest-Xray](https://github.com/Aviral-03/ViT-Chest-Xray)
-> - **Original Paper:** [arXiv:2406.00237](https://arxiv.org/abs/2406.00237) - *"A Comparative Study of CNN, ResNet, and Vision Transformers for Multi-Classification of Chest Diseases"*
+> - **Original Repository:** [github.com/Aviral-03/ViT-Chest-Xray](https://github.com/Aviral-03/ViT-Chest-Xray)
+> - **Original Paper:** [arXiv:2406.00237](https://arxiv.org/abs/2406.00237) — *A Comparative Study of CNN, ResNet, and Vision Transformers for Multi-Classification of Chest Diseases*
 > - **Original Authors:** Ananya Jain, Aviral Bhardwaj, Kaushik Murali, Isha Surani (University of Toronto)
 >
-> **This work is conducted purely for academic purposes** as part of **Master's degree in Data Science at FPT School of Business (FSB)**. There is **no intention of plagiarism**. All credit for the original research goes to the original authors.
+> This work is conducted for academic purposes as part of the **Master of Software Engineering program at FPT Graduate School (FSB)**. All credit for the original research goes to the original authors.
 
 ---
 
-## 📊 Quick Results Summary
-
-| Model | Parameters | Val AUC | Test AUC | Test Acc | Status |
-|-------|------------|---------|----------|----------|--------|
-| **CNN Baseline** | ~95M | 0.60 | 0.58 | 89% | ✅ Baseline |
-| **ResNet-34** | ~21M | 0.53 | 0.53 | 91% | ✅ Working |
-| **ViT-v1 (scratch)** | ~9M | 0.64 | 0.59 | 91.3% | ✅ Working |
-| **ViT-v2 (scratch)** | ~9M | 0.59 | 0.63 | 89.7% | ✅ Working |
-| **ViT (Final, scratch)** | ~9M | **0.7272** | **0.7225** | **92.91%** | ✅ **Best** |
-| **ViT (pretrained)** | ~86M | 0.68 | 0.67 | 87% | ✅ Transfer Learning |
-
-**Dataset:** NIH ChestX-ray14 (112,120 images, 15 disease classes)  
-**Framework:** PyTorch 2.x with CUDA support  
-**Training:** Patient-level split (prevents data leakage)
-
----
-
-## 🗂️ Complete Repository Structure
-
-```
-ViT-Chest-Xray/                          # Project root
-│
-├── 📄 README.md                          # This comprehensive guide
-├── 📄 RESEARCH_AUDIT_REPORT.md           # Research-grade audit & analysis
-├── 📄 COMPLETE_DOCUMENTATION.md          # Detailed Vietnamese documentation
-├── 📄 IMPROVEMENT_PLAN.md                # Future enhancement roadmap
-├── 📄 FILE_REVIEWS.md                    # Per-file code reviews
-├── 📄 PROJECT_MAP.md                     # Detailed project mapping
-├── 📄 requirements.txt                   # Python dependencies
-├── 📄 install_packages.py                # Automated package installer
-├── 📄 2406.00237v1.pdf                   # Original paper (arXiv)
-│
-├── 📁 Project/                           # Main implementation folder
-│   │
-│   ├── 🎯 CORE NOTEBOOKS (Training & Evaluation)
-│   ├── 📓 Final_ViT_ChestXray.ipynb      # ⭐ CONSOLIDATED FINAL NOTEBOOK
-│   ├── 📓 data_download.ipynb            # Download NIH dataset via Kaggle API
-│   ├── 📓 data.ipynb                     # Data preprocessing, EDA, DataLoaders
-│   ├── 📓 cnn.ipynb                      # CNN baseline (2 conv layers)
-│   ├── 📓 resnet.ipynb                   # ResNet-34 from scratch
-│   ├── 📓 ViT-v1.ipynb                   # Vision Transformer v1 (basic)
-│   ├── 📓 ViT-v2.ipynb                   # Vision Transformer v2 (with scheduler)
-│   ├── 📓 ViT-ResNet.ipynb               # Pretrained ViT (timm library)
-│   │
-│   ├── 📄 config.py                      # Centralized hyperparameters
-│   ├── 📄 comprehensive_analysis.py      # Analysis utilities
-│   │
-│   ├── 📁 data/                          # Dataset storage (NOT in git)
-│   │   ├── images/                       # NIH ChestX-ray14 images (~42GB)
-│   │   ├── images_01/ ... images_12/     # Partitioned by Kaggle
-│   │   └── (Download via data_download.ipynb)
-│   │
-│   ├── 📁 input/                         # Metadata & annotations
-│   │   └── Data_Entry_2017_v2020.csv     # Image labels & patient IDs
-│   │
-│   ├── 📁 files/                         # Trained model checkpoints
-│   │   ├── cnn_model.pth                 # CNN weights
-│   │   ├── resnet_model.pth              # ResNet-34 weights
-│   │   ├── vit_v1_best.pth               # ViT-v1 best checkpoint
-│   │   ├── vit_v2_best.pth               # ViT-v2 best checkpoint
-│   │   ├── vit_best.pth                  # Final ViT scratch best
-│   │   └── vit_pretrained_best.pth       # Pretrained ViT best
-│   │
-│   ├── 📁 artifacts/                     # Exported configuration
-│   │   └── config.json                   # Reproducible config export
-│   │
-│   ├── 📁 analyst/                       # Per-notebook analysis files
-│   │   ├── cnn.md                        # CNN notebook review
-│   │   ├── resnet.md                     # ResNet notebook review
-│   │   ├── ViT-v1.md, ViT-v2.md         # ViT reviews
-│   │   └── data.md, data_download.md     # Data notebook reviews
-│   │
-│   └── 📁 improve/                       # 🚀 ADVANCED EXPERIMENTS
-│       │
-│       ├── 📓 01_setup_and_config.ipynb              # Environment setup
-│       ├── 📓 01_transfer_learning.ipynb             # Transfer learning experiments
-│       ├── 📓 02_class_imbalance.ipynb               # Handling class imbalance
-│       ├── 📓 02_data_augmentation.ipynb             # Advanced augmentations
-│       ├── 📓 03_comprehensive_improvements.ipynb    # Full pipeline improvements
-│       ├── 📓 03_loss_functions.ipynb                # Custom loss experiments
-│       ├── 📓 04_model_architectures.ipynb           # Architecture ablations
-│       ├── 📓 05_data_loading.ipynb                  # Optimized data pipeline
-│       ├── 📓 06_training_infrastructure.ipynb       # Training optimizations
-│       │
-│       ├── 📄 asymmetric_loss.py                     # Asymmetric Sigmoid Loss
-│       ├── 📄 focal_loss.py                          # Focal Loss for imbalance
-│       ├── 📄 dice_loss.py                           # Dice Loss implementation
-│       ├── 📄 combined_loss.py                       # Multi-component loss
-│       ├── 📄 weighted_loss.py                       # Class-weighted BCE
-│       ├── 📄 smoothing_loss.py                      # Label smoothing
-│       ├── 📄 distillation_loss.py                   # Knowledge distillation
-│       ├── 📄 loss_functions_complete.py             # All losses consolidated
-│       │
-│       ├── 📄 config.py                              # Improve-specific config
-│       ├── 📄 utils.py                               # Helper functions
-│       ├── 📄 comparator.py                          # Model comparison tools
-│       ├── 📄 demo.py                                # Demo inference script
-│       ├── 📄 test_refactor.py                       # Unit tests
-│       ├── 📄 README.md                              # Improve folder guide
-│       │
-│       └── 📁 results/                               # Experiment results
-│           ├── class_imbalance_summary.json
-│           ├── transfer_learning_efficiency.csv
-│           └── test.json
-│
-├── 📁 Report/                            # 📝 DOCUMENTATION & REPORTS
-│   │
-│   ├── 📄 Group1_Deeplearning.tex        # Main English research report
-│   ├── 📄 main_vn.tex                    # Main Vietnamese report (NEW)
-│   ├── 📄 model_documentation_vn.tex     # Monolithic Vietnamese doc
-│   ├── 📄 README.md                      # Report folder guide
-│   ├── 📄 STRUCTURE_OVERVIEW.md          # Report organization docs
-│   │
-│   ├── 📁 chapters/                      # Modular LaTeX chapters (NEW)
-│   │   ├── models/                       # Per-model documentation
-│   │   │   ├── cnn.tex                   # CNN chapter
-│   │   │   ├── resnet.tex                # ResNet chapter
-│   │   │   ├── vit_scratch.tex           # ViT scratch chapter
-│   │   │   └── vit_pretrained.tex        # ViT pretrained chapter
-│   │   ├── figures/                      # Figure assets (placeholder)
-│   │   └── tables/                       # Table assets (placeholder)
-│   │
-│   ├── 📁 backup/                        # Legacy LaTeX files (archived)
-│   │   ├── BaoCao_ChestXray_Classification.tex
-│   │   ├── Critical_Analysis_Report.tex
-│   │   ├── Critical_Analysis_Report_Extended.tex
-│   │   └── latex.tex
-│   │
-│   ├── 📁 LaTeX/                         # Vietnamese full report
-│   │   ├── main.tex                      # LaTeX entry point
-│   │   └── chapters/                     # Individual chapters
-│   │       ├── 01_introduction.tex
-│   │       ├── 02_related_work.tex
-│   │       ├── 03_methodology.tex
-│   │       ├── 04_implementation.tex
-│   │       ├── 05_experiments.tex
-│   │       └── ...
-│   │
-│   └── 📁 LaTeX_EN/                      # English full report
-│       ├── main.tex
-│       └── chapters/
-│           └── (English versions)
-│
-├── 📁 Proposal/                          # Initial project proposal
-│   └── Source File/
-│       ├── main.tex
-│       ├── references.bib
-│       └── neurips_2023.sty
-│
-├── 📁 results/                           # Top-level results (if any)
-│
-└── 📁 .github/                           # GitHub configuration
-    └── workflows/                        # CI/CD (optional)
-```
-
-### 📂 Folder Organization Highlights
-
-| Folder | Purpose | Key Files |
-|--------|---------|-----------|
-| **Project/** | Main implementation | `Final_ViT_ChestXray.ipynb` (consolidated), model notebooks |
-| **Project/improve/** | Advanced experiments | Custom losses, transfer learning, data improvements |
-| **Report/** | Documentation & LaTeX | Modular chapters, Vietnamese/English reports |
-| **Proposal/** | Initial proposal | LaTeX source for project proposal |
-| **Root/** | Project metadata | README, audit reports, requirements |
-
-**Repository Quality:** ✅ **Research-Grade** | **85% Ready for Submission**
-
----
-
-## 🚀 Quick Start Guide
-
-[Rest of the content from previous README sections continues here...]
-
----
-
-*For complete documentation, see [RESEARCH_AUDIT_REPORT.md](RESEARCH_AUDIT_REPORT.md) and [COMPLETE_DOCUMENTATION.md](COMPLETE_DOCUMENTATION.md).*
-
-*Last Updated: February 4, 2026*
+*Last Updated: February 9, 2026*

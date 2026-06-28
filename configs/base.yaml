@@ -15,8 +15,8 @@ experiment:
 # Dataset Configuration
 data:
   # Paths (can use environment variables)
-  root_dir: ${DATA_ROOT:Project/data}
-  labels_file: Project/input/Data_Entry_2017_v2020.csv
+  root_dir: ${DATA_ROOT:data/processed/data}
+  labels_file: ${LABELS_FILE:data/raw/Data_Entry_2017_v2020.csv}
   
   # Processing
   image_size: 224

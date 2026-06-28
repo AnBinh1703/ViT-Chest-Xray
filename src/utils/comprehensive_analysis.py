@@ -40,9 +40,10 @@ print(f"Analysis Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 print()
 
 # Configure paths
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-INPUT_DIR = os.path.join(PROJECT_ROOT, "input")
-CSV_PATH = os.path.join(INPUT_DIR, "Data_Entry_2017_v2020.csv")
+UTILS_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(os.path.dirname(UTILS_DIR))
+INPUT_DIR = os.path.join(PROJECT_ROOT, "data", "processed", "data")
+CSV_PATH = os.path.join(PROJECT_ROOT, "data", "raw", "Data_Entry_2017_v2020.csv")
 
 # ============================================================================
 # SECTION 2: DATA ANALYSIS

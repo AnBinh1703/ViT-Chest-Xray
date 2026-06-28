@@ -74,17 +74,6 @@ results/*.csv
 *.tmp
 *.bak
 
-# ---------- Large files ----------
-Project/data/*
-Project/input
-Project/files/*.pth
-Project/.venv*/
-
-# ---------- Archive / Legacy ----------
-Project/*.tex
-Project/*.py
-
 # ---------- Misc ----------
 .github/
 2406.00237v1.pdf
-Project/BAO_CAO_THAY_DOI.md

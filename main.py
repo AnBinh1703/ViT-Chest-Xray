@@ -57,24 +57,24 @@ def cmd_verify(args):
     
     # Check Python version
     import sys
-    print(f"\n✓ Python: {sys.version}")
+    print(f"\n[OK] Python: {sys.version}")
     
     # Check PyTorch
     try:
         import torch
-        print(f"✓ PyTorch: {torch.__version__}")
+        print(f"[OK] PyTorch: {torch.__version__}")
         print(f"  CUDA available: {torch.cuda.is_available()}")
         if torch.cuda.is_available():
             print(f"  GPU: {torch.cuda.get_device_name(0)}")
     except ImportError:
-        print("✗ PyTorch: NOT INSTALLED")
+        print("[MISSING] PyTorch: NOT INSTALLED")
     
     # Check NumPy
     try:
         import numpy as np
-        print(f"✓ NumPy: {np.__version__}")
+        print(f"[OK] NumPy: {np.__version__}")
     except ImportError:
-        print("✗ NumPy: NOT INSTALLED")
+        print("[MISSING] NumPy: NOT INSTALLED")
     
     # Check other dependencies
     deps = ['pandas', 'sklearn', 'PIL', 'yaml', 'tqdm']
@@ -82,41 +82,41 @@ def cmd_verify(args):
         try:
             module = __import__(dep)
             version = getattr(module, '__version__', 'installed')
-            print(f"✓ {dep}: {version}")
+            print(f"[OK] {dep}: {version}")
         except ImportError:
-            print(f"✗ {dep}: NOT INSTALLED")
+            print(f"[MISSING] {dep}: NOT INSTALLED")
     
     # Check project structure
     print("\n--- Project Structure ---")
     required_dirs = ['src', 'configs', 'scripts', 'notebooks']
     for d in required_dirs:
         path = PROJECT_ROOT / d
-        status = "✓" if path.exists() else "✗"
+        status = "[OK]" if path.exists() else "[MISSING]"
         print(f"{status} {d}/")
     
     # Check models import
     print("\n--- Model Imports ---")
     try:
         from src.models import create_cnn_model, create_resnet_model, create_vit_model
-        print("✓ All model factories importable")
+        print("[OK] All model factories importable")
     except ImportError as e:
-        print(f"✗ Import error: {e}")
+        print(f"[ERROR] Import error: {e}")
     
     # Check data imports
     print("\n--- Data Imports ---")
     try:
         from src.data import patient_level_split, ChestXrayTransform
-        print("✓ Data modules importable")
+        print("[OK] Data modules importable")
     except ImportError as e:
-        print(f"✗ Import error: {e}")
+        print(f"[ERROR] Import error: {e}")
     
     # Check utils imports
     print("\n--- Utils Imports ---")
     try:
         from src.utils import set_seed, load_config, EarlyStopping
-        print("✓ Utils modules importable")
+        print("[OK] Utils modules importable")
     except ImportError as e:
-        print(f"✗ Import error: {e}")
+        print(f"[ERROR] Import error: {e}")
     
     print("\n" + "=" * 60)
     print("Verification complete!")
@@ -152,9 +152,9 @@ def cmd_models(args):
                 with torch.no_grad():
                     out = model(x)
                 params = sum(p.numel() for p in model.parameters())
-                print(f"✓ {name:15} | Params: {params:>12,} | Output: {tuple(out.shape)}")
+                print(f"[OK] {name:15} | Params: {params:>12,} | Output: {tuple(out.shape)}")
             except Exception as e:
-                print(f"✗ {name:15} | Error: {e}")
+                print(f"[ERROR] {name:15} | Error: {e}")
     else:
         print("\nBuilt-in models:")
         for name in models.keys():
